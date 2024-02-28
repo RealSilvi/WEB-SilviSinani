@@ -5,12 +5,11 @@
         @include('partials.navbar.navbar')
     </header>
 
- <main>
-     Main
- </main>
+    <main>
+        Main
+    </main>
 
     <footer>
         @include('partials.footer.footer')
     </footer>
 @endsection
-

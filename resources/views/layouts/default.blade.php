@@ -1,9 +1,5 @@
-{{--@include('stacks.seo')--}}
 @include('stacks.favicon')
 @include('stacks.assets')
-{{--@include('stacks.maps')--}}
-{{--@include('stacks.tagmanager')--}}
-{{--@include('stacks.cookie')--}}
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -16,16 +12,11 @@
 </head>
 
 <body class="bg-white font-sans antialiased">
-@stack('body-start')
+    @stack('body-start')
 
-@yield('main')
+    @yield('main')
 
-{{--@include('partials.polyglot')--}}
-{{--@include('partials.toast')--}}
-{{--@include('partials.whatsapp-button')--}}
-
-@stack('body-end')
+    @stack('body-end')
 </body>
 
 </html>
-
