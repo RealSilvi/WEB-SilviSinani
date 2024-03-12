@@ -11,7 +11,7 @@
     @stack('head')
 </head>
 
-<body class="bg-white font-sans antialiased">
+<body class="flex min-h-screen flex-col bg-white">
     @stack('body-start')
 
     @yield('main')

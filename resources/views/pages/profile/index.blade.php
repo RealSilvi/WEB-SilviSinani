@@ -5,7 +5,7 @@
         @include('partials.navbar.navbar')
     </header>
 
-    <main class="mx-auto w-full max-w-screen-2xl flex-1">
+    <main class="flex-1 w-full max-w-screen-2xl mx-auto ">
         Main
     </main>
 
