@@ -18,4 +18,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('chat',\App\Http\Controllers\Api\ChatController::class)->only('index');
+Route::apiResource('user.accounts',\App\Http\Controllers\Api\AccountController::class);
