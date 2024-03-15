@@ -24,7 +24,7 @@ class Chat extends Model
      */
     public function members(): HasMany
     {
-        return $this->hasMany(ChatMember::class);
+        return $this->hasMany(ChatMember::class,'chat_members');
     }
 
     /**
@@ -32,6 +32,6 @@ class Chat extends Model
      */
     public function messages(): HasMany
     {
-        return $this->hasMany(ChatMember::class);
+        return $this->hasMany(Message::class);
     }
 }

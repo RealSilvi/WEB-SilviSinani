@@ -18,9 +18,9 @@ class ChatMemberFactory extends Factory
     public function definition(): array
     {
         return [
-            'chat_id' => Chat::factory(),
+            'chat_id' => null,
             'name'=> fake()->name,
-            'slug'=>fake()->slug,
+            'slug'=>fake()->word,
             'created_at' => now(),
             'updated_at' => now(),
         ];

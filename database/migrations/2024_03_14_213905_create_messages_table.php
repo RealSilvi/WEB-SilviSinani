@@ -20,8 +20,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('sender_id');
             $table->timestamps();
 
-            $table->foreign('chat_id')->references('id')->on('chats')->nullOnDelete();
-            $table->foreign('sender_id')->references('id')->on('chat_members')->nullOnDelete();
+            $table->foreign('chat_id')->references('id')->on('chats')->cascadeOnDelete();
+            $table->foreign('sender_id')->references('id')->on('chat_members')->cascadeOnDelete();
 
         });
     }

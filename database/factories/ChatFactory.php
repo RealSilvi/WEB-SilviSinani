@@ -18,9 +18,11 @@ class ChatFactory extends Factory
     {
         return [
             'name'=> fake()->name,
-            'slug'=>fake()->slug,
+            'slug'=>fake()->word,
             'created_at' => now(),
             'updated_at' => now(),
         ];
     }
+
+
 }

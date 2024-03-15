@@ -30,4 +30,5 @@ class MessageFactory extends Factory
             'updated_at' => now(),
         ];
     }
+
 }

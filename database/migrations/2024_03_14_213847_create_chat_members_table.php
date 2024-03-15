@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('slug');
-            $table->unsignedBigInteger('chat_id');
+            $table->unsignedBigInteger('chat_id')->nullable();
             $table->timestamps();
 
             $table->foreign('chat_id')->references('id')->on('chats')->nullOnDelete();
