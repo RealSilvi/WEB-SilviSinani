@@ -19,6 +19,8 @@ class ChatMemberFactory extends Factory
     {
         return [
             'chat_id' => Chat::factory(),
+            'name'=> fake()->name,
+            'slug'=>fake()->slug,
             'created_at' => now(),
             'updated_at' => now(),
         ];

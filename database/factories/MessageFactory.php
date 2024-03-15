@@ -23,6 +23,7 @@ class MessageFactory extends Factory
             'type' => MessageType::TEXTUAL,
             'body' => fake()->sentence,
             'seen' => false,
+            'deleted' => false,
             'chat_id' => Chat::factory(),
             'sender_id' => ChatMember::factory(),
             'created_at' => now(),
