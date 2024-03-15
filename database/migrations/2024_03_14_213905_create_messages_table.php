@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->timestamps();
 
             $table->foreign('chat_id')->references('id')->on('chats')->cascadeOnDelete();
-            $table->foreign('sender_id')->references('id')->on('chat_members')->cascadeOnDelete();
+            $table->foreign('sender_id')->references('id')->on('accounts')->cascadeOnDelete();
 
         });
     }

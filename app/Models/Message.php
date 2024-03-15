@@ -41,10 +41,10 @@ class Message extends Model
     }
 
     /**
-     * @return BelongsTo<ChatMember,Message>
+     * @return BelongsTo<Account,Message>
      */
     public function sender(): BelongsTo
     {
-        return $this->belongsTo(ChatMember::class,'sender_id');
+        return $this->belongsTo(Account::class,'sender_id');
     }
 }

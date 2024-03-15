@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -19,12 +20,14 @@ class Chat extends Model
 {
     use HasFactory;
 
+    protected $guarded=[];
+
     /**
-     * @return HasMany<ChatMember>
+     * @return BelongsToMany<Account,Chat>
      */
-    public function members(): HasMany
+    public function members(): BelongsToMany
     {
-        return $this->hasMany(ChatMember::class,'chat_members');
+        return $this->belongsToMany(Account::class,'chat_account','chat_id');
     }
 
     /**

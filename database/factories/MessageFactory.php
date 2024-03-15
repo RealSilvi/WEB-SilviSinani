@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Enums\MessageType;
+use App\Models\Account;
 use App\Models\Chat;
-use App\Models\ChatMember;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,7 +25,7 @@ class MessageFactory extends Factory
             'seen' => false,
             'deleted' => false,
             'chat_id' => Chat::factory(),
-            'sender_id' => ChatMember::factory(),
+            'sender_id' => Account::factory(),
             'created_at' => now(),
             'updated_at' => now(),
         ];

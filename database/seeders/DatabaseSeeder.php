@@ -2,12 +2,10 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Account;
 use App\Models\Chat;
-use App\Models\ChatMember;
 use App\Models\Message;
-use Database\Factories\MessageFactory;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,34 +15,36 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory(10)->create();
 
-        \App\Models\User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => 'password'
         ]);
 
+        User::factory(100)
+            ->has(
+                Account::factory()
+                    ->count(2)
+            )
+            ->create();
 
-        $members = ChatMember::factory(100)->create();
+        $accounts = Account::query()->get();
 
-        for ($i = 0; $i < 50; $i++) {
-            $group = Chat::factory()->create();
-            /**@var Collection $members */
-            $members
-                ->slice(rand(0, 40), rand(2, 10))
-                ->each(function (ChatMember $sender) use ($group) {
-                    $sender->chat()->associate($group)->save();
-                    Message::factory()->for($sender, 'sender')->for($group, 'chat')->create();
-                });
+        $chats = Chat::factory()->count(100)->create();
 
-            $chat = Chat::factory()->create();
-            /**@var Collection $members */
-            $members
-                ->slice(rand(51, 98), 2)
-                ->each(function (ChatMember $sender) use ($chat) {
-                    $sender->chat()->associate($chat)->save();
-                    Message::factory()->for($sender, 'sender')->for($chat, 'chat')->create();
-                });
+        foreach ($chats as $chat) {
+            /**@var Chat $chat */
+            $chat->members()->attach($accounts->random(rand(2, 10)));
+        }
+
+        for ($i = 0; $i < 500; $i++) {
+            $chat = $chats->random(1)->first();
+            $sender = $chat->members->random(1)->first();
+            Message::factory()
+                ->for($sender, 'sender')
+                ->for($chat, 'chat')
+                ->create();
         }
 
     }
