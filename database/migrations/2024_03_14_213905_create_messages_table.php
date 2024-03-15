@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('type');
             $table->string('body');
             $table->boolean('seen');
+            $table->boolean('deleted');
             $table->unsignedBigInteger('chat_id');
             $table->unsignedBigInteger('sender_id');
             $table->timestamps();

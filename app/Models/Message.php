@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\MessageType;
+use App\Http\Resources\MessageResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,9 +12,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  *
  * @property int $id
- * @property string $type
+ * @property MessageType $type
  * @property string $body
- * @property int $seen
+ * @property boolean $seen
+ * @property boolean $deleted
  * @property int $chat_id
  * @property int $sender_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -21,6 +24,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Message extends Model
 {
     use HasFactory;
+
+    protected $guarded=[];
+
+    protected $casts = [
+        'type' => MessageType::class,
+        'seen' => 'boolean'
+    ];
 
     /**
      * @return BelongsTo<Chat,Message>
