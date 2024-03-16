@@ -20,9 +20,11 @@ class AccountController extends BaseController
     {
         $members = QueryBuilder::for(Account::class, $request)
             ->where('user_id',$user->id)
-            ->allowedIncludes(['messages', 'chats','user'])
+            ->allowedIncludes(['chats.messages'])
             ->defaultSort('name')
+            ->allowedSorts('id')
             ->paginate($request->get('perPage', 15));
+
 
         return AccountResource::collection($members);
     }

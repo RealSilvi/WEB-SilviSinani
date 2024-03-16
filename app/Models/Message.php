@@ -29,7 +29,8 @@ class Message extends Model
 
     protected $casts = [
         'type' => MessageType::class,
-        'seen' => 'boolean'
+        'seen' => 'boolean',
+        'deleted' => 'boolean'
     ];
 
     /**

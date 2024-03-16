@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Models\Chat;
-use App\Models\ChatMember;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,7 +21,7 @@ class ChatResource extends JsonResource
             'slug' => $this->resource->slug,
             'createdAt' => $this->resource->created_at,
             'updatedAt' => $this->resource->updated_at,
-            'members' => ChatMember::collection($this->whenLoaded('members')),
+            'members' => AccountResource::collection($this->whenLoaded('members')),
             'membersCount' => $this->whenCounted('members'),
             'messages' => MessageResource::collection($this->whenLoaded('messages')),
             'messagesCount' => $this->whenCounted('messages'),

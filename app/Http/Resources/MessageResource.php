@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Models\Chat;
-use App\Models\ChatMember;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -28,7 +27,7 @@ class MessageResource extends JsonResource
             'createdAt' => $this->resource->created_at,
             'updatedAt' => $this->resource->updated_at,
             'chat' => ChatResource::make($this->whenLoaded('chat')),
-            'sender' => ChatMemberResource::make($this->whenLoaded('sender')),
+            'sender' => AccountResource::make($this->whenLoaded('sender')),
         ];
     }
 }
