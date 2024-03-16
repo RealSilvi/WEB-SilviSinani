@@ -18,15 +18,27 @@ class AccountController extends BaseController
 
     public function index(Request $request, User $user): AnonymousResourceCollection
     {
-        $members = QueryBuilder::for(Account::class, $request)
-            ->where('user_id',$user->id)
+        $accounts = QueryBuilder::for(Account::class, $request)
+            ->where('user_id', $user->id)
             ->allowedIncludes(['chats.messages'])
             ->defaultSort('name')
             ->allowedSorts('id')
             ->paginate($request->get('perPage', 15));
 
 
-        return AccountResource::collection($members);
+        return AccountResource::collection($accounts);
+    }
+
+    public function show(Request $request, User $user, Account $account): AccountResource
+    {
+        $member = QueryBuilder::for(Account::class, $request)
+            ->where('user_id', $user->id)
+            ->allowedIncludes(['chats.messages'])
+            ->findOrFail($account->id);
+
+        assert($member instanceof Account);
+
+        return AccountResource::make($member);
     }
 
 }
