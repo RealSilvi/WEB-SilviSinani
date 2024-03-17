@@ -26,7 +26,6 @@ return [
     ],
 
     'forgot_password' => [
-        'title' => 'Recupero <b>password</b>',
         'message' => 'Ti invieremo una mail per resettare la tua password',
         'email' => 'Mail',
         'submit_button' => 'Recupera',

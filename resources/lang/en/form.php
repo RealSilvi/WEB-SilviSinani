@@ -26,10 +26,9 @@ return [
     ],
 
     'forgot_password' => [
-        'title' => 'Password recovery',
         'message' => 'We will send you an email to reset your password',
         'email' => 'Email',
-        'submit_button' => 'Send emai',
+        'submit_button' => 'Send email',
     ],
 
     'reset_password' => [

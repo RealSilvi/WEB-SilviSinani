@@ -8,7 +8,7 @@ return [
         'title' => 'Registration',
     ],
     'forgot_password' => [
-        'title' => 'Forgot password',
+        'title' => 'Password recovery',
     ],
     'reset_password' => [
         'title' => 'Reset password',
