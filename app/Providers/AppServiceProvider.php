@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laravel\Fortify\Fortify;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Fortify::loginView(function(){
+            return view('pages.auth.login');
+        });
+
+        Fortify::registerView(function(){
+            return view('pages.auth.register');
+        });
     }
 }
