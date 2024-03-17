@@ -11,6 +11,6 @@ return [
         'title' => 'Recupera password',
     ],
     'reset_password' => [
-        'title' => 'Reset password',
+        'title' => 'Reimpostare password',
     ],
 ];

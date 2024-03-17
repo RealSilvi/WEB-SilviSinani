@@ -31,5 +31,9 @@ class AppServiceProvider extends ServiceProvider
         Fortify::requestPasswordResetLinkView(function(){
             return view('pages.auth.forgot-password');
         });
+
+        Fortify::resetPasswordView(function(){
+            return view('pages.auth.reset-password._token',['token'=>'test']);
+        });
     }
 }

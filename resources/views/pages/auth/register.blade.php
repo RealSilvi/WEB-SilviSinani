@@ -5,9 +5,9 @@
 @section('content')
     <section class="w-full mx-auto max-w-screen-2xl flex flex-1 items-center justify-center">
         <div class="p-10 lg:px-20 xl:pb-20 w-full">
-            <div class="flex flex-col items-center justify-center gap-5">
+            <div class="flex flex-col items-center justify-center gap-10">
                 <x-image class="h-12 w-12 lg:h-20 lg:w-20 object-cover rounded-full" filter="logo green" />
-                <div class="lg:px-10 xl:px-20 text-3xl w-full font-medium">
+                <div class="text-center lg:text-start lg:px-10 xl:px-20 text-3xl xl:text-4xl w-full font-medium">
                     {{ __('pages.register.title') }}
                 </div>
             </div>
@@ -16,7 +16,7 @@
                 class="mt-10 lg:mt-15 xl:mt-20 flex flex-col">
                 <form action="/auth/register" method="post" class="lg:px-10 xl:px-20">
                     @csrf
-                    <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-10">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-10 xl:gap-x-40 gap-y-3">
 
                         <x-form.group name="first_name">
                             <x-form.label sr-only>
