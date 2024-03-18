@@ -2,6 +2,7 @@
     <div>{{svg('conversations','h-6 w-6')}}</div>
     <div class="w-1/5 rounded-full p-2 bg-white flex items-center justify-center gap-2 ">{{svg('search','h-6 w-6')}} cerca</div>
     <div>{{svg('menu-toogle','h-6 w-6')}}</div>
+    <form action="auth/logout" method="POST">@csrf <button>esci</button></form>
 
     <div x-show="showMenu" @click="showMenu=false" class="absolute inset-0 h-screen w-full bg-black/25">
         <div class="flex justify-end">

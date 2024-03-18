@@ -20,20 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Fortify::loginView(function(){
-            return view('pages.auth.login');
-        });
 
-        Fortify::registerView(function(){
-            return view('pages.auth.register');
-        });
-
-        Fortify::requestPasswordResetLinkView(function(){
-            return view('pages.auth.forgot-password');
-        });
-
-        Fortify::resetPasswordView(function(){
-            return view('pages.auth.reset-password._token',['token'=>'test']);
-        });
     }
 }

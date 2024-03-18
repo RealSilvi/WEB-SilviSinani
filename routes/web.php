@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::get('/', function () {
-    return view('pages/index');
-})->middleware('auth');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', function () {
+        return view('pages/index');
+    });
+});

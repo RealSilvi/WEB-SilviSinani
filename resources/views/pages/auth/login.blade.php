@@ -37,6 +37,14 @@
                         />
                     </x-form.group>
 
+                    <x-form.group name="remember" type="checkbox" class="mt-6 flex items-center">
+                        <x-form.checkbox :checked="old('remember')" />
+                        <x-form.label class="text-sm xl:text-lg font-light">
+                            {{ __('form.login.remember') }}
+                        </x-form.label>
+                    </x-form.group>
+
+
                     <div class="mt-11 lg:mt-15 xl:mt-20">
                         <div class="flex flex-col items-center justify-center">
                             <x-form.submit class="w-full rounded-full font-black text-sm ">

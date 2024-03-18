@@ -2,6 +2,9 @@
     'title' => __('pages.reset_password.title'),
 ])
 
+{{--{{ dd(get_defined_vars()) }}--}}
+{{ dd(request()->token) }}
+
 @section('content')
     <section class="w-full mx-auto max-w-screen-2xl flex flex-1 items-center justify-center">
         <div class="p-10 lg:px-20 xl:pb-20 w-full">

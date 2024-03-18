@@ -4,7 +4,7 @@ return [
     'login' => [
         'email' => 'mail',
         'password' => 'Password',
-//        'remember' => 'Remember me',
+        'remember' => 'Remember me',
         'submit_button' => 'Login',
         'not_registered_link' => 'Sign up now',
         'forgot_password_link' => 'Recover password',
