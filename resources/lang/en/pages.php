@@ -13,5 +13,8 @@ return [
     'reset_password' => [
         'title' => 'Reset password',
     ],
+    'verify_email' => [
+        'title' => 'Verify email',
+    ],
 ];
 

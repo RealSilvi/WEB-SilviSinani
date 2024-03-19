@@ -18,3 +18,7 @@ Route::middleware(['auth'])->group(function () {
         return view('pages/index');
     });
 });
+
+Route::middleware(['auth','verified'])->group(function () {
+
+});

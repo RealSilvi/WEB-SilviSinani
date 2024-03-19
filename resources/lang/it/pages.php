@@ -13,4 +13,7 @@ return [
     'reset_password' => [
         'title' => 'Reimpostare password',
     ],
+    'verify_email' => [
+        'title' => 'Verifica mail',
+    ],
 ];

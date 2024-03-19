@@ -18,23 +18,28 @@ return [
         'password' => 'Password',
         'date_of_birth' => 'Data di nascita',
         'password_confirmation' => 'Ripeti password',
-        'tax_code' => 'Codice fiscale',
-        'privacy' => 'Accetto il trattamento dei dati personali',
         'submit_button' => 'Registrati',
-        'already_registered_message' => 'Hai già un account?',
-        'already_registered_link' => 'Login',
+        'already_registered_link' => 'Hai già un account?',
     ],
 
     'forgot_password' => [
         'message' => 'Ti invieremo una mail per resettare la tua password',
         'email' => 'Mail',
         'submit_button' => 'Recupera',
+        'already_registered_link' => 'Hai già un account?',
     ],
 
     'reset_password' => [
         'password' => 'password',
         'password_confirmation' => 'ripeti password',
         'submit_button' => 'Reset password',
+    ],
+
+    'verify_email' => [
+        'message' => 'La tua mail non risulta ancora verificata. Ti abbiamo inviato una mail per verificare la tua identita',
+        'email' => 'Mail',
+        'submit_button' => 'Reinvia',
+        'onsuccess' => 'Mail inviata nuovamente!',
     ],
 
     'profile_details' => [

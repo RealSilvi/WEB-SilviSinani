@@ -21,20 +21,27 @@ return [
         'tax_code' => 'Tax code',
         'privacy' => 'Accept our privacy policy',
         'submit_button' => 'Sign up',
-        'already_registered_message' => 'Already have an account?',
-        'already_registered_link' => 'Login',
+        'already_registered_link' => 'Already have an account?',
     ],
 
     'forgot_password' => [
         'message' => 'We will send you an email to reset your password',
         'email' => 'Email',
         'submit_button' => 'Send email',
+        'already_registered_link' => 'Already have an account?',
     ],
 
     'reset_password' => [
         'password' => 'Password',
         'password_confirmation' => 'Repeat password',
         'submit_button' => 'Reset password',
+    ],
+
+    'verify_email' => [
+        'message' => 'Your email is not yet verified. We have sent you an email to verify your identity',
+        'email' => 'Email',
+        'submit_button' => 'Resend email',
+        'onsuccess' => 'New email resented successfully ',
     ],
 
     'profile_details' => [

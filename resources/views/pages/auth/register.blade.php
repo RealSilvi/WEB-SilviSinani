@@ -83,7 +83,7 @@
 
                                 <div class="mt-3 text-xs  lg::mt-6 xl:text-base">
                                     <a href="{{ url('/auth/login') }}" class="font-black">
-                                        {{ __('form.register.already_registered_message') }}
+                                        {{ __('form.register.already_registered_link') }}
                                     </a>
                                 </div>
                             </div>
