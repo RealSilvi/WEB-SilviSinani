@@ -1,5 +1,5 @@
 @extends('layouts.auth', [
-    'title' => __('pages.login.title'),
+    'title' => __('pages.auth.login.title'),
 ])
 @section('content')
     <section class="w-full mx-auto max-w-screen-2xl flex flex-1 items-center justify-center">

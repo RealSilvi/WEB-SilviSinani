@@ -29,6 +29,6 @@ class EnsureUserHasProfile
             return $response;
         }
 
-        return redirect('/profile/first-login');
+        return redirect('/profile/new');
     }
 }

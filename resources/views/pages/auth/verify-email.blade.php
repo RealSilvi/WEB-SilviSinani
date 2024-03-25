@@ -1,5 +1,5 @@
 @extends('layouts.auth', [
-    'title' => __('pages.forgot_password.title'),
+    'title' => __('pages.auth.forgot_password.title'),
 ])
 
 @section('content')
@@ -13,7 +13,7 @@
 
                 <div class="w-full lg:order-first flex flex-col gap-10">
                     <div class="text-center lg:text-start text-3xl xl:text-4xl font-medium">
-                        {{ __('pages.verify_email.title') }}
+                        {{ __('pages.auth.verify_email.title') }}
                     </div>
                     <div class="text-lg text-center">
                         {{ __('form.verify_email.message') }}
@@ -23,7 +23,7 @@
             </div>
 
             <div class="mt-10 lg:mt-15 xl:mt-20">
-                <form action="/auth/email/verification-notification" method="post" class="lg:px-10 xl:px-20">
+                <form action="{{route(' verification.send')}}" method="post" class="lg:px-10 xl:px-20">
                     @csrf
                     <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-10 xl:gap-40">
 

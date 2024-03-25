@@ -42,40 +42,13 @@ return [
         'onsuccess' => 'Mail inviata nuovamente!',
     ],
 
-    'profile_details' => [
-        'submit' => 'Salva',
+    'profile_create'=>[
+        'nickname' => 'Nickname',
+        'bio' => 'Bio',
+        'main_image' => 'Immagine di profilo',
+        'date_of_birth' => 'Data di nascita',
+        'submit_button' => 'Crea',
     ],
 
-    'profile_address' => [
-        'country' => 'Nazione',
-        'state' => 'Provincia',
-        'city' => 'Città',
-        'street' => 'Via',
-        'zip_code' => 'CAP',
-        'first_name' => 'Nome',
-        'last_name' => 'Cognome',
-
-        'state_placeholder' => 'Seleziona una provincia',
-
-        'use_same_as_billing' => 'Come fatturazione',
-        'same_as_billing_true' => 'Si',
-        'same_as_billing_false' => 'No',
-        'billing_address_title' => 'Indirizzo di fatturazione',
-        'shipping_address_title' => 'Indirizzo di spedizione',
-
-        'submit' => 'Salva',
-    ],
-
-    'profile_change_password' => [
-        'password_old' => 'Password vecchia',
-        'password' => 'Password nuova',
-        'password_confirmation' => 'Ripeti nuova password',
-
-        'submit' => 'Modifica password',
-    ],
-
-    'newsletter' => [
-        'submit' => 'Iscriviti',
-    ],
 ];
 

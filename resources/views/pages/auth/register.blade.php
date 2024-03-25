@@ -1,5 +1,5 @@
 @extends('layouts.auth', [
-    'title' => __('pages.register.title'),
+    'title' => __('pages.auth.register.title'),
 ])
 
 @section('content')
@@ -8,7 +8,7 @@
             <div class="flex flex-col items-center justify-center gap-10">
                 <x-image class="h-12 w-12 lg:h-20 lg:w-20 object-cover rounded-full" filter="logo green" />
                 <div class="text-center lg:text-start lg:px-10 xl:px-20 text-3xl xl:text-4xl w-full font-medium">
-                    {{ __('pages.register.title') }}
+                    {{ __('pages.auth.register.title') }}
                 </div>
             </div>
 
@@ -49,7 +49,7 @@
                             <x-form.label sr-only>
                                 {{ __('form.register.date_of_birth') }}
                             </x-form.label>
-                            <x-form.input-date required value="{{ old('date_of_birth') }}"
+                            <x-form.date required value="{{ old('date_of_birth') }}"
                                                placeholder="  {{ __('form.register.date_of_birth') }}" autocomplete="bday"
                                                class="placeholder-primary placeholder:font-light text-sm xl:text-lg" />
                         </x-form.group>
