@@ -9657,7 +9657,7 @@ function fromQueryString(search) {
         insertDotNotatedValueIntoData([second, ...rest].join('.'), value, data2[first2]);
     };
     let entries = search.split('&').map((i) => i.split('='));
-    let data = {};
+    let data = /* @__PURE__ */ Object.create(null);
     entries.forEach(([key, value]) => {
         value = decodeURIComponent(value.replaceAll('+', '%20'));
         if (!key.includes('[')) {
@@ -10415,7 +10415,7 @@ directive('confirm', ({ el, directive: directive2 }) => {
 function toggleBooleanStateDirective(el, directive2, isTruthy, cachedDisplay = null) {
     isTruthy = directive2.modifiers.includes('remove') ? !isTruthy : isTruthy;
     if (directive2.modifiers.includes('class')) {
-        let classes = directive2.expression.split(' ');
+        let classes = directive2.expression.split(' ').filter(String);
         if (isTruthy) {
             el.classList.add(...classes);
         } else {
@@ -10456,9 +10456,9 @@ directive('offline', ({ el, directive: directive2, cleanup: cleanup2 }) => {
 
 // js/directives/wire-loading.js
 directive('loading', ({ el, directive: directive2, component }) => {
-    let targets = getTargets(el);
+    let { targets, inverted } = getTargets(el);
     let [delay, abortDelay] = applyDelay(directive2);
-    whenTargetsArePartOfRequest(component, targets, [
+    whenTargetsArePartOfRequest(component, targets, inverted, [
         () => delay(() => toggleBooleanStateDirective(el, directive2, true)),
         () => abortDelay(() => toggleBooleanStateDirective(el, directive2, false)),
     ]);
@@ -10505,10 +10505,10 @@ function applyDelay(directive2) {
         },
     ];
 }
-function whenTargetsArePartOfRequest(component, targets, [startLoading, endLoading]) {
+function whenTargetsArePartOfRequest(component, targets, inverted, [startLoading, endLoading]) {
     on('commit', ({ component: iComponent, commit: payload, respond }) => {
         if (iComponent !== component) return;
-        if (targets.length > 0 && !containsTargets(payload, targets)) return;
+        if (targets.length > 0 && containsTargets(payload, targets) === inverted) return;
         startLoading();
         respond(() => {
             endLoading();
@@ -10557,9 +10557,11 @@ function containsTargets(payload, targets) {
 function getTargets(el) {
     let directives = getDirectives(el);
     let targets = [];
+    let inverted = false;
     if (directives.has('target')) {
         let directive2 = directives.get('target');
         let raw = directive2.expression;
+        if (directive2.modifiers.includes('except')) inverted = true;
         if (raw.includes('(') && raw.includes(')')) {
             targets.push({ target: directive2.method, params: quickHash(JSON.stringify(directive2.params)) });
         } else if (raw.includes(',')) {
@@ -10589,7 +10591,7 @@ function getTargets(el) {
             .map((i) => i.expression.split('(')[0])
             .forEach((target) => targets.push({ target }));
     }
-    return targets;
+    return { targets, inverted };
 }
 function quickHash(subject) {
     return btoa(encodeURIComponent(subject));
