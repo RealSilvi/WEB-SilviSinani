@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enum\ProfileType;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Profile>
@@ -17,7 +19,14 @@ class ProfileFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nickname' => fake()->name,
+            'bio' => fake()->text,
+            'main_image' => fake()->url,
+            'secondary_image' => fake()->url,
+            'date_of_birth' => fake()->date,
+            'default' => false,
+            'type' => Arr::random(ProfileType::cases()) ,
+            'breed' => fake()->name,
         ];
     }
 }

@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->string('nickname');
-            $table->text('bio');
+            $table->text('bio')->nullable();
             $table->string('main_image')->nullable();
-            $table->string('date_of_birth');
+            $table->string('secondary_image')->nullable();
+            $table->string('date_of_birth')->nullable();
             $table->boolean('default');
             $table->unsignedBigInteger('user_id');
 

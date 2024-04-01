@@ -17,7 +17,7 @@ class CreateProfileAction
     public function execute(CreateProfileInput $input): Profile
     {
         return DB::transaction(function () use ($input): Profile {
-            return  $this->createProfile($input);
+            return $this->createProfile($input);
         });
     }
 
@@ -31,9 +31,14 @@ class CreateProfileAction
     public function createProfile(CreateProfileInput $input): Profile
     {
         $profile = new Profile([
-            'user_id' => $input->userId,
             'nickname' => $input->nickname,
+            'main_image' => $input->mainImage,
+            'secondary_image' => $input->secondaryImage,
             'date_of_birth' => $input->dateOfBirth,
+            'default' => $input->default,
+            'user_id' => $input->userId,
+            'type' => $input->type,
+            'breed' => $input->breed,
             'bio' => $input->bio,
         ]);
 

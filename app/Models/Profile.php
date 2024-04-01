@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ *
+ *
  * @property int $id
  * @property string $nickname
  * @property string|null $main_image
+ * @property string|null $secondary_image
  * @property string $date_of_birth
  * @property int $default
  * @property int $user_id
@@ -29,6 +32,7 @@ class Profile extends Model
 
     protected $casts = [
         'type' => ProfileType::class,
+        'default' => 'bool'
     ];
 
     /**
