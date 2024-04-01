@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Actions\Profile;
 
 use App\Actions\Data\CreateProfileInput;
+use App\Exceptions\NicknameAlreadyExistsException;
 use App\Models\Profile;
+use Cassandra\Exception\AlreadyExistsException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -16,6 +19,8 @@ class CreateProfileAction
      */
     public function execute(CreateProfileInput $input): Profile
     {
+        $this->validateNickname($input);
+
         return DB::transaction(function () use ($input): Profile {
             return $this->createProfile($input);
         });
@@ -46,5 +51,17 @@ class CreateProfileAction
 
         return $profile;
     }
+
+    /**
+     * @throws NicknameAlreadyExistsException
+     */
+    protected function validateNickname(CreateProfileInput $input): void
+    {
+        if (Profile::query()->where('nickname', $input->nickname)->exists()) {
+            throw new NicknameAlreadyExistsException('Nickname already exists');
+        }
+
+    }
+
 
 }

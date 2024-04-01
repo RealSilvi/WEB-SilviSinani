@@ -3,6 +3,7 @@
 use App\Enum\ProfileBreedDog;
 use App\Enum\ProfileType;
 use App\Http\Controllers\ProfileController;
+use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
@@ -12,7 +13,6 @@ it('can create a basic profile', function () {
     $user = User::factory()->create();
     Sanctum::actingAs($user);
 
-    $date = now();
     $response = postJson(action([ProfileController::class, 'store']), [
         'userId' => $user->id,
         'default' => true,
@@ -83,5 +83,25 @@ it('can create a full profile', function () {
             ->etc()
         )
     );
+
+});
+
+it('can not create a profile with the same nickname', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    Profile::factory()->for($user)->create(['nickname'=>'Scott']);
+    $response = postJson(action([ProfileController::class, 'store']), [
+        'userId' => $user->id,
+        'default' => true,
+        'nickname' => 'Scott',
+        'type' => ProfileType::DOG,
+    ]);
+
+    $response->assertNotAcceptable();
+
+    expect($response->json())
+        ->error->toBe(true)
+        ->message->toBe('Nickname already exists');
 
 });
