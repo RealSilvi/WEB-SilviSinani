@@ -13,12 +13,12 @@ it('can create a basic profile', function () {
     $user = User::factory()->create();
     Sanctum::actingAs($user);
 
-    $response = postJson(action([ProfileController::class, 'store']), [
-        'userId' => $user->id,
+    $response = postJson(action([ProfileController::class, 'store'], ['user' => $user->id]), [
         'default' => true,
         'nickname' => 'Scott',
         'type' => ProfileType::DOG,
     ]);
+
 
     $response->assertCreated();
 
@@ -52,13 +52,12 @@ it('can create a full profile', function () {
     Sanctum::actingAs($user);
 
     $date = fake()->date();
-    $mainUrl=fake()->url;
-    $secondaryUrl=fake()->url;
+    $mainUrl = fake()->url;
+    $secondaryUrl = fake()->url;
 
-    $response = postJson(action([ProfileController::class, 'store']), [
+    $response = postJson(action([ProfileController::class, 'store'], ['user' => $user->id]), [
         'nickname' => 'Scott',
         'default' => true,
-        'userId' => $user->id,
         'type' => ProfileType::DOG,
         'dateOfBirth' => $date,
         'breed' => ProfileBreedDog::GOLDEN_RETRIEVER,
@@ -90,9 +89,8 @@ it('can not create a profile with the same nickname', function () {
     $user = User::factory()->create();
     Sanctum::actingAs($user);
 
-    Profile::factory()->for($user)->create(['nickname'=>'Scott']);
-    $response = postJson(action([ProfileController::class, 'store']), [
-        'userId' => $user->id,
+    Profile::factory()->for($user)->create(['nickname' => 'Scott']);
+    $response = postJson(action([ProfileController::class, 'store'], ['user' => $user->id]), [
         'default' => true,
         'nickname' => 'Scott',
         'type' => ProfileType::DOG,
@@ -103,5 +101,4 @@ it('can not create a profile with the same nickname', function () {
     expect($response->json())
         ->error->toBe(true)
         ->message->toBe('Nickname already exists');
-
 });

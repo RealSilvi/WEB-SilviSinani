@@ -14,7 +14,6 @@ class CreateProfileInput extends Data
     public function __construct(
         public string      $nickname,
         public bool        $default,
-        public int         $userId,
         public ProfileType $type,
         public ?string     $dateOfBirth = null,
         public ?string     $breed = null,
@@ -28,7 +27,6 @@ class CreateProfileInput extends Data
     public static function rules(ValidationContext $context): array
     {
         return [
-            'userId' => ['required'],
             'nickname' => ['required', 'string', 'max:255'],
             'default' => ['required', 'bool'],
             'dateOfBirth' => ['nullable', 'date'],

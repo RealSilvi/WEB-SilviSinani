@@ -7,8 +7,7 @@ namespace App\Actions\Profile;
 use App\Actions\Data\CreateProfileInput;
 use App\Exceptions\NicknameAlreadyExistsException;
 use App\Models\Profile;
-use Cassandra\Exception\AlreadyExistsException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -17,12 +16,12 @@ class CreateProfileAction
     /**
      * @throws Throwable
      */
-    public function execute(CreateProfileInput $input): Profile
+    public function execute(User $user, CreateProfileInput $input): Profile
     {
         $this->validateNickname($input);
 
-        return DB::transaction(function () use ($input): Profile {
-            return $this->createProfile($input);
+        return DB::transaction(function () use ($user, $input): Profile {
+            return $this->createProfile($user, $input);
         });
     }
 
@@ -33,7 +32,7 @@ class CreateProfileAction
      * @param CreateProfileInput $input
      * @return Profile
      */
-    public function createProfile(CreateProfileInput $input): Profile
+    public function createProfile(User $user, CreateProfileInput $input): Profile
     {
         $profile = new Profile([
             'nickname' => $input->nickname,
@@ -41,7 +40,7 @@ class CreateProfileAction
             'secondary_image' => $input->secondaryImage,
             'date_of_birth' => $input->dateOfBirth,
             'default' => $input->default,
-            'user_id' => $input->userId,
+            'user_id' => $user->id,
             'type' => $input->type,
             'breed' => $input->breed,
             'bio' => $input->bio,
@@ -62,6 +61,4 @@ class CreateProfileAction
         }
 
     }
-
-
 }
