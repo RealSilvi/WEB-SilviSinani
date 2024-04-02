@@ -16,10 +16,22 @@ class DeleteProfileAction
 
     public function execute(User $user, Profile $profile): void
     {
-        DB::transaction(function () use ($profile): void {
+        DB::transaction(function () use ($user, $profile): void {
+            $this->checkAndRestoreDefaults($user,$profile);
             $profile->user()->dissociate();
 
             $profile->delete();
         });
+    }
+
+    protected function checkAndRestoreDefaults(User $user, Profile $profile): void
+    {
+        if (!$profile->default) {
+            return;
+        }
+        $newDefaultProfile = $user->profiles()->firstWhere('id', '!=', $profile->id);
+        $newDefaultProfile->default = true;
+        $newDefaultProfile->save();
+
     }
 }

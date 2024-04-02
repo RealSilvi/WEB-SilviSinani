@@ -13,8 +13,8 @@ class CreateProfileInput extends Data
 {
     public function __construct(
         public string      $nickname,
-        public bool        $default,
         public ProfileType $type,
+        public ?bool       $default = false,
         public ?string     $dateOfBirth = null,
         public ?string     $breed = null,
         public ?string     $mainImage = null,

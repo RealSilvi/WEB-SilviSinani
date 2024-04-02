@@ -14,11 +14,9 @@ it('can create a basic profile', function () {
     Sanctum::actingAs($user);
 
     $response = postJson(action([ProfileController::class, 'store'], ['user' => $user->id]), [
-        'default' => true,
         'nickname' => 'Scott',
         'type' => ProfileType::DOG,
     ]);
-
 
     $response->assertCreated();
 
@@ -91,7 +89,6 @@ it('can not create a profile with the same nickname', function () {
 
     Profile::factory()->for($user)->create(['nickname' => 'Scott']);
     $response = postJson(action([ProfileController::class, 'store'], ['user' => $user->id]), [
-        'default' => true,
         'nickname' => 'Scott',
         'type' => ProfileType::DOG,
     ]);
@@ -102,3 +99,73 @@ it('can not create a profile with the same nickname', function () {
         ->error->toBe(true)
         ->message->toBe('Nickname already exists');
 });
+
+it('can not create a profile when already 4 existing', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    Profile::factory()->for($user)->create(['nickname' => 'Buddy']);
+    Profile::factory()->for($user)->create(['nickname' => 'Roxie']);
+    Profile::factory()->for($user)->create(['nickname' => 'Charlie']);
+    Profile::factory()->for($user)->create(['nickname' => 'Lily']);
+    $response = postJson(action([ProfileController::class, 'store'], ['user' => $user->id]), [
+        'nickname' => 'Scott',
+        'type' => ProfileType::DOG,
+    ]);
+
+
+    $response->assertMethodNotAllowed();
+
+    expect($response->json())
+        ->error->toBe(true)
+        ->message->toBe('Already 4 profiles existing for this user. Delete one of them before storing a new one');
+});
+
+it('first profile is default', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    $profileA = Profile::factory()->make(['nickname' => 'Buddy']);
+    $profileB = Profile::factory()->make(['nickname' => 'Roxie']);
+    $profileC = Profile::factory()->make(['nickname' => 'Charlie']);
+
+    postJson(action([ProfileController::class, 'store'], ['user' => $user->id]), $profileA->toArray());
+    postJson(action([ProfileController::class, 'store'], ['user' => $user->id]), $profileB->toArray());
+    postJson(action([ProfileController::class, 'store'], ['user' => $user->id]), $profileC->toArray());
+
+    $response = postJson(action([ProfileController::class, 'store'], ['user' => $user->id]), [
+        'nickname' => 'Scott',
+        'type' => ProfileType::DOG,
+    ]);
+
+
+    $response->assertCreated();
+
+    $user->fresh();
+    expect($user->profiles()->where('default', true)->count())->toBe(1);
+    expect($user->profiles()->where('default', true)->first()->nickname)->toBe($profileA->nickname);
+});
+
+it('changes default correctly', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    $profileA = Profile::factory()->make(['nickname' => 'Buddy']);
+    $profileB = Profile::factory()->make(['nickname' => 'Roxie']);
+    $profileC = Profile::factory()->make(['nickname' => 'Charlie', 'default' => true]);
+
+    postJson(action([ProfileController::class, 'store'], ['user' => $user->id]), $profileA->toArray());
+    postJson(action([ProfileController::class, 'store'], ['user' => $user->id]), $profileB->toArray());
+    postJson(action([ProfileController::class, 'store'], ['user' => $user->id]), $profileC->toArray());
+
+    $response = postJson(action([ProfileController::class, 'store'], ['user' => $user->id]), [
+        'nickname' => 'Scott',
+        'type' => ProfileType::DOG,
+    ]);
+    $response->assertCreated();
+
+    $user->fresh();
+    expect($user->profiles()->where('default', true)->count())->toBe(1);
+    expect($user->profiles()->where('default', true)->first()->nickname)->toBe($profileC->nickname);
+});
+

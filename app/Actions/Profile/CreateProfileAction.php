@@ -34,6 +34,9 @@ class CreateProfileAction
      */
     public function createProfile(User $user, CreateProfileInput $input): Profile
     {
+        $this->checkAndRestoreDefaults($user, $input);
+
+
         $profile = new Profile([
             'nickname' => $input->nickname,
             'main_image' => $input->mainImage,
@@ -60,5 +63,20 @@ class CreateProfileAction
             throw new NicknameAlreadyExistsException('Nickname already exists');
         }
 
+    }
+
+    protected function checkAndRestoreDefaults(User $user, CreateProfileInput $input): void
+    {
+        /** First profile */
+        if ($user->profiles()->count() == 0) {
+            $input->default = true;
+            return;
+        }
+        /** New default profile */
+        if ($input->default) {
+            $oldDefaultProfile = $user->profiles()->where('default', true)->first();
+            $oldDefaultProfile->default = false;
+            $oldDefaultProfile->save();
+        }
     }
 }
