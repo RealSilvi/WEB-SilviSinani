@@ -25,10 +25,10 @@ it('can delete a profile', function () {
 
     $response->assertNoContent();
 
-    $user->fresh();
-    $profileA->fresh();
+    $user = $user->fresh();
+    $profileA = $profileA->fresh();
 
-    expect($profileA->fresh())->toBeNull();
+    expect($profileA)->toBeNull();
     expect($user->profiles()->get())->not()->toBeEmpty();
     expect($user->profiles()->where('id', $profileA)->get())->toBeEmpty();
     expect(Profile::query()->where('id', $profileA)->get())->toBeEmpty();
@@ -50,7 +50,7 @@ it('restore casual default profile when you are deleting a default profile', fun
 
     $response->assertNoContent();
 
-    $user->fresh();
+    $user = $user->fresh();
 
     expect($user->profiles()->where('default', true)->count())->toBe(1);
     expect($user->profiles()->where('default', true)->first()->nickname)->not()->toBe($profileA->nickname);
@@ -72,4 +72,23 @@ it('can not delete last profile', function () {
     expect($response->json())
         ->error->toBe(true)
         ->message->toBe('Cannot delete your last profile. If you want you can delete the user.');
+});
+
+it('can not delete profile when does not match user profiles', function () {
+    $user = User::factory()->create();
+    $userA = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    $profileA = Profile::factory()->for($user)->create(['nickname' => 'Scott']);
+
+    $response = deleteJson(action([ProfileController::class, 'destroy'], [
+        'user' => $userA->id,
+        'profile' => ($profileA->id)
+    ]));
+
+    $response->assertNotAcceptable();
+
+    expect($response->json())
+        ->error->toBe(true)
+        ->message->toBe('Profile does not match any of the user profiles.');
 });

@@ -17,7 +17,7 @@ class DeleteProfileAction
     public function execute(User $user, Profile $profile): void
     {
         DB::transaction(function () use ($user, $profile): void {
-            $this->checkAndRestoreDefaults($user,$profile);
+            $this->checkAndRestoreDefaults($user, $profile);
             $profile->user()->dissociate();
 
             $profile->delete();

@@ -30,7 +30,7 @@ it('can create a basic profile', function () {
         )
     );
 
-    $user->fresh();
+    $user = $user->fresh();
     expect($user)
         ->not()->toBeNull()
         ->profiles->not()->toBeNull();
@@ -141,7 +141,7 @@ it('first profile is default', function () {
 
     $response->assertCreated();
 
-    $user->fresh();
+    $user = $user->fresh();
     expect($user->profiles()->where('default', true)->count())->toBe(1);
     expect($user->profiles()->where('default', true)->first()->nickname)->toBe($profileA->nickname);
 });
@@ -164,7 +164,8 @@ it('changes default correctly', function () {
     ]);
     $response->assertCreated();
 
-    $user->fresh();
+
+    $user = $user->fresh();
     expect($user->profiles()->where('default', true)->count())->toBe(1);
     expect($user->profiles()->where('default', true)->first()->nickname)->toBe($profileC->nickname);
 });

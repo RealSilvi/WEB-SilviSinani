@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Data\CreateProfileInput;
+use App\Actions\Data\UpdateProfileInput;
 use App\Actions\Profile\CreateProfileAction;
 use App\Actions\Profile\DeleteProfileAction;
+use App\Actions\Profile\UpdateProfileAction;
 use App\Exceptions\CannotDeleteDefaultProfileException;
+use App\Exceptions\NicknameAlreadyExistsException;
+use App\Exceptions\ProfileIsNotAUserProfileException;
 use App\Exceptions\ToManyProfilesException;
 use App\Http\Resources\ProfileResource;
 use App\Models\Profile;
@@ -31,15 +35,33 @@ class ProfileController
 
     /**
      * @throws CannotDeleteDefaultProfileException
+     * @throws ProfileIsNotAUserProfileException
      */
     public function destroy(User $user, Profile $profile, DeleteProfileAction $action): Response
     {
+        if ($user->id != $profile->user_id) {
+            throw new ProfileIsNotAUserProfileException('Profile does not match any of the user profiles.');
+        }
         if ($user->profiles()->count() < 2) {
             throw new CannotDeleteDefaultProfileException('Cannot delete your last profile. If you want you can delete the user.');
         }
         $action->execute($user, $profile);
 
         return response()->noContent();
+    }
+
+    /**
+     * @throws Throwable
+     * @throws NicknameAlreadyExistsException
+     */
+    public function update(User $user, Profile $profile, UpdateProfileInput $input, UpdateProfileAction $action): ProfileResource
+    {
+        if ($user->id != $profile->user_id) {
+            throw new ProfileIsNotAUserProfileException('Profile does not match any of the user profiles.');
+        }
+        $updatedVariant = $action->execute($user, $profile, $input);
+
+        return new ProfileResource($updatedVariant);
     }
 
 
