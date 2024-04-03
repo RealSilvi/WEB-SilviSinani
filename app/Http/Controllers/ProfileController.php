@@ -11,6 +11,7 @@ use App\Exceptions\CannotDeleteDefaultProfileException;
 use App\Exceptions\NicknameAlreadyExistsException;
 use App\Exceptions\ProfileIsNotAUserProfileException;
 use App\Exceptions\ToManyProfilesException;
+use App\Exceptions\UserHasNotProfilesException;
 use App\Http\Resources\ProfileResource;
 use App\Models\Profile;
 use App\Models\User;
@@ -85,5 +86,26 @@ class ProfileController
 
         return new ProfileResource($profile);
     }
+
+    /**
+     * @throws ProfileIsNotAUserProfileException
+     */
+    public function index(Request $request, User $user): AnonymousResourceCollection
+    {
+
+        $profiles = QueryBuilder::for(Profile::class, $request)
+            ->allowedIncludes([
+                'user',
+            ])
+            ->where('user_id', $user->id)
+            ->get();
+
+        if ($profiles->count() == 0) {
+            throw new UserHasNotProfilesException('The user does not have profiles yet.');
+        }
+
+        return ProfileResource::collection($profiles);
+    }
+
 
 }

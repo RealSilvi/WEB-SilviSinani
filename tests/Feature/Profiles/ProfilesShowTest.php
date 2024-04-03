@@ -43,6 +43,7 @@ it('can fetch a single profile', function () {
         ->etc()
     );
 });
+
 it('can fetch a single profile full', function () {
     $user = User::factory()->create();
     Sanctum::actingAs($user);
