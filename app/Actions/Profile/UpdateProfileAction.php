@@ -25,7 +25,7 @@ class UpdateProfileAction
         $this->validateNickname($profile, $input);
 
         return DB::transaction(function () use ($user, $profile, $input): Profile {
-            return $this->createProfile($user, $profile, $input);
+            return $this->updateProfile($user, $profile, $input);
         });
     }
 
@@ -33,7 +33,7 @@ class UpdateProfileAction
     /**
      * @throws CannotChangeDefaultProfileException
      */
-    public function createProfile(User $user, Profile $profile, UpdateProfileInput $input): Profile
+    public function updateProfile(User $user, Profile $profile, UpdateProfileInput $input): Profile
     {
         $this->checkAndRestoreDefaults($user, $profile, $input);
 
@@ -46,7 +46,6 @@ class UpdateProfileAction
             'default' => $input->default ?? $profile->default,
             'breed' => $input->breed ?? $profile->breed,
         ]);
-//        $profile->save();
 
         return $profile;
     }
@@ -73,7 +72,7 @@ class UpdateProfileAction
         }
 
         if ($user->profiles()->count() == 1 && !$input->default) {
-            throw  new CannotChangeDefaultProfileException('Cannot change te default status of your last profile');
+            throw  new CannotChangeDefaultProfileException('Cannot change the default status of your last profile');
         }
 
         if (!$profile->default && $input->default) {
