@@ -26,7 +26,7 @@ test('new users can register', function () {
         'first_name' => 'Name',
         'last_name' => 'Surname',
         'email' => 'test@example.com',
-        'date_of_birth' => Date::create(2001,03,12)->toDateString(),
+        'date_of_birth' => Date::create(2001,03,12),
     ]);
 
 });

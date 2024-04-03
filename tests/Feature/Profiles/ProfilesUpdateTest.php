@@ -7,9 +7,7 @@ use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
-use function Pest\Laravel\patch;
 use function Pest\Laravel\patchJson;
-use function Pest\Laravel\postJson;
 
 it('can update a profile', function () {
     $user = User::factory()->create();
@@ -21,7 +19,7 @@ it('can update a profile', function () {
     $mainUrl = fake()->url;
     $secondaryUrl = fake()->url;
 
-    $response = patch(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profile->id)]), [
+    $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profile->id)]), [
         'nickname' => 'Scott',
         'dateOfBirth' => $date,
         'breed' => ProfileBreedDog::GOLDEN_RETRIEVER->value,
@@ -68,7 +66,7 @@ it('can not update profile when does not match user profiles', function () {
 
     $profile = Profile::factory()->for($user)->create(['nickname' => 'Scott']);
 
-    $response = patch(action([ProfileController::class, 'update'], ['user' => $userA->id, 'profile' => ($profile->id)]), [
+    $response = patchJson(action([ProfileController::class, 'update'], ['user' => $userA->id, 'profile' => ($profile->id)]), [
         'bio' => 'Scott it is an awesome dog.',
     ]);
 
@@ -90,7 +88,7 @@ it('can not update a profile with the a nickname that already exists', function 
     $mainUrl = fake()->url;
     $secondaryUrl = fake()->url;
 
-    $response = patch(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileB->id)]), [
+    $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileB->id)]), [
         'nickname' => $profileA->nickname,
         'dateOfBirth' => $date,
         'breed' => ProfileBreedDog::GOLDEN_RETRIEVER->value,
@@ -113,7 +111,7 @@ it('can manage default updates, false to false', function () {
     $profileA = Profile::factory()->for($user)->create(['default'=>true]);
     $profileB = Profile::factory()->for($user)->create();
 
-    $response = patch(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileB->id)]), [
+    $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileB->id)]), [
         'default' => false
     ]);
 
@@ -143,7 +141,7 @@ it('can manage default updates, true to true', function () {
     $profileA = Profile::factory()->for($user)->create(['default'=>true]);
     $profileB = Profile::factory()->for($user)->create();
 
-    $response = patch(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileA->id)]), [
+    $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileA->id)]), [
         'default' => true
     ]);
 
@@ -173,7 +171,7 @@ it('can manage default updates, false to true', function () {
     $profileA = Profile::factory()->for($user)->create(['default'=>true]);
     $profileB = Profile::factory()->for($user)->create();
 
-    $response = patch(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileB->id)]), [
+    $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileB->id)]), [
         'default' => true
     ]);
 
@@ -203,7 +201,7 @@ it('can manage default updates, true to false', function () {
     $profileA = Profile::factory()->for($user)->create(['default'=>true]);
     $profileB = Profile::factory()->for($user)->create();
 
-    $response = patch(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileA->id)]), [
+    $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileA->id)]), [
         'default' => false
     ]);
 
@@ -232,7 +230,7 @@ it('can not update default of last profile', function () {
 
     $profileA = Profile::factory()->for($user)->create(['default'=>true]);
 
-    $response = patch(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileA->id)]), [
+    $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileA->id)]), [
         'default' => false
     ]);
 

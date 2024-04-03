@@ -20,5 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::resource('users.profiles', ProfileController::class)->only('store', 'destroy', 'update');
+    Route::resource('users.profiles', ProfileController::class)->only('store', 'destroy', 'update','show');
 });

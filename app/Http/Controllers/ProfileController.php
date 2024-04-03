@@ -14,7 +14,10 @@ use App\Exceptions\ToManyProfilesException;
 use App\Http\Resources\ProfileResource;
 use App\Models\Profile;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Spatie\QueryBuilder\QueryBuilder;
 use Throwable;
 
 class ProfileController
@@ -64,5 +67,23 @@ class ProfileController
         return new ProfileResource($updatedVariant);
     }
 
+    /**
+     * @throws Throwable
+     */
+    public function show(Request $request, User $user, int $profile): ProfileResource
+    {
+
+        $profile = QueryBuilder::for(Profile::class, $request)
+            ->allowedIncludes([
+                'user',
+            ])
+            ->findOrFail($profile);
+
+        if ($user->id != $profile->user_id) {
+            throw new ProfileIsNotAUserProfileException('Profile does not match any of the user profiles.');
+        }
+
+        return new ProfileResource($profile);
+    }
 
 }
