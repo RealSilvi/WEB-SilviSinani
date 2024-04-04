@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Profile;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
@@ -30,5 +31,12 @@ class EnsureUserHasProfile
         }
 
         return redirect('/profile/new');
+
+
+//        if (! Profile::query()->firstWhere('brand_id', auth()->id()) ) {
+//            return redirect('/profile/new');
+//        }
+//
+//        return $next($request);
     }
 }
