@@ -14,7 +14,7 @@
 
             <div
                 class="mt-10 lg:mt-15 xl:mt-20 flex flex-col">
-                <form action="/auth/register" method="post" class="lg:px-10 xl:px-20">
+                <form action="{{route('register')}}" method="post" class="lg:px-10 xl:px-20">
                     @csrf
                     <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-10 xl:gap-x-40 gap-y-3">
 
@@ -81,7 +81,7 @@
                                     {{ __('form.register.submit_button') }}
                                 </x-form.submit>
 
-                                <div class="mt-3 text-xs  lg::mt-6 xl:text-base">
+                                <div class="mt-3 text-xs lg:mt-6 xl:text-base">
                                     <a href="{{ url('/auth/login') }}" class="font-black">
                                         {{ __('form.register.already_registered_link') }}
                                     </a>

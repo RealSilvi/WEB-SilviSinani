@@ -13,17 +13,19 @@
     'defaultUrlStorage'=>asset('/storage/utilities/image-placeholder.png'),
 ])
 
-<div x-cloak x-data="imagePreview({ defaultUrl:@js($defaultUrlStorage) })">
-    <div @click="$refs.imageFile.click()" class="flex items-center justify-center">
-        <img :src="imageUrl" alt="Preview Uploaded Image" class="aspect-[1/1] object-contain rounded-full w-1/2">
+<div x-cloak x-data="imagePreview({ defaultUrl:@js($defaultUrlStorage) })" class="overflow-hidden">
+
+    <div @click="$refs.imageFile.click()" class="w-full flex items-center justify-center ">
+        <img :src="imageUrl" alt="Preview Uploaded Image" class=" aspect-[1/1] object-cover rounded-full w-1/2">
     </div>
+
     <input
         x-ref="imageFile" @change="previewFile"
         name="{{ $name }}"
         type="{{ $type }}"
         accept="{{ $accept }}"
         {{ $attributes->class([
-            'w-full h-fit bg-transparent px-0 py-2 text-base font-normal',
+            'mx-auto w-fit h-fit bg-transparent px-0 py-2 text-sm font-normal flex items-center justify-center',
             'text-gray-50 placeholder-white/70 ' => $reverse,
             'text-primary placeholder-primary' => !$reverse,
         ]) }}>

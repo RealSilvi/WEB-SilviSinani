@@ -17,26 +17,11 @@ class EnsureUserHasProfile
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $response = $next($request);
-        /**
-         * @var User $user
-         */
-        $user = auth()->user();
-        if($user == null){
-            return $response;
+
+        if (! Profile::query()->firstWhere('user_id', auth()->id()) ) {
+            return redirect('/profile/new');
         }
 
-        if ($user->profiles()->exists()) {
-            return $response;
-        }
-
-        return redirect('/profile/new');
-
-
-//        if (! Profile::query()->firstWhere('brand_id', auth()->id()) ) {
-//            return redirect('/profile/new');
-//        }
-//
-//        return $next($request);
+        return $next($request);
     }
 }

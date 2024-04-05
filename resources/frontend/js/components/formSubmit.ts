@@ -56,7 +56,7 @@ Alpine.data('formSubmit', (props: FormSubmitProps = {}) => {
                         type: 'error',
                         message: apiErrorMessage(
                             e?.response?.data,
-                            props.messageError ?? window.polyglot.t('messages.contact_form_error'),
+                            props.messageError ?? 'messages.contact_form_error', //window.polyglot.t('messages.contact_form_error'),
                         ),
                     });
                 }

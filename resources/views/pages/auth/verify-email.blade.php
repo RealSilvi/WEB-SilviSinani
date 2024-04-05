@@ -3,7 +3,7 @@
 ])
 
 @section('content')
-    <section class="w-full mx-auto max-w-screen-2xl flex flex-1 items-center justify-center">
+    <section class="w-full mx-auto max-w-screen-2xl flex-1 flex flex-col items-center justify-center relative">
         <div class="p-10 lg:px-20 xl:pb-20 w-full">
             <div
                 class="flex flex-col lg:grid lg:grid-cols-2 xl:gap-40 items-center justify-center gap-10 lg:px-10 xl:px-20">
@@ -23,7 +23,7 @@
             </div>
 
             <div class="mt-10 lg:mt-15 xl:mt-20">
-                <form action="{{route(' verification.send')}}" method="post" class="lg:px-10 xl:px-20">
+                <form action="{{route('verification.send')}}" method="post" class="lg:px-10 xl:px-20">
                     @csrf
                     <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-10 xl:gap-40">
 
@@ -36,12 +36,18 @@
                         </div>
                     </div>
                     @if (session('status') == 'verification-link-sent')
-                        <div class="mt-5 text-center">
+                        <div class="mt-5 text-center lg:grid lg:grid-cols-2">
                             {{ __('form.verify_email.onsuccess') }}
                         </div>
                     @endif
                 </form>
             </div>
+        </div>
+        <div class="absolute right-10 lg:right-20 bottom-10">
+            <form action="{{route('logout')}}" method="POST">
+                @csrf
+                <button class="font-medium"> {{ __('Logout') }}</button>
+            </form>
         </div>
     </section>
 @endsection

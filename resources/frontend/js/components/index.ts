@@ -1,1 +1,2 @@
 import './imagePreview';
+import './formSubmit';
