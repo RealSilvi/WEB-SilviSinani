@@ -43,40 +43,12 @@ return [
         'submit_button' => 'Resend email',
         'onsuccess' => 'New email resented successfully ',
     ],
-
-    'profile_details' => [
-        'submit' => 'Save',
-    ],
-
-    'profile_address' => [
-        'country' => 'Country',
-        'state' => 'State',
-        'city' => 'City',
-        'street' => 'Street',
-        'zip_code' => 'ZIP code',
-        'first_name' => 'Name',
-        'last_name' => 'Surname',
-
-        'state_placeholder' => 'Select a state',
-
-        'use_same_as_billing' => 'Use same address as billing',
-        'same_as_billing_true' => 'Yes',
-        'same_as_billing_false' => 'No',
-        'billing_address_title' => 'Billing address',
-        'shipping_address_title' => 'Shipping address',
-
-        'submit' => 'Save',
-    ],
-
-    'profile_change_password' => [
-        'password_old' => 'Old password',
-        'password' => 'New password',
-        'password_confirmation' => 'Confirm new password',
-
-        'submit' => 'Change password',
-    ],
-
-    'newsletter' => [
-        'submit' => 'Subscribe',
+    'profile_create'=>[
+        'choose_animal_type' => 'Choose your animal',
+        'nickname' => 'Nickname',
+        'bio' => 'Bio',
+        'main_image' => 'Profile image',
+        'date_of_birth' => 'Birthday',
+        'submit_button' => 'Sign up',
     ],
 ];

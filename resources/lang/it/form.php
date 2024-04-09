@@ -43,6 +43,7 @@ return [
     ],
 
     'profile_create'=>[
+        'choose_animal_type' => 'Scegli il tuo animale',
         'nickname' => 'Nickname',
         'bio' => 'Bio',
         'main_image' => 'Immagine di profilo',

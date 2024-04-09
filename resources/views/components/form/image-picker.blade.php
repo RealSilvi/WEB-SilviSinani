@@ -15,8 +15,8 @@
 
 <div x-cloak x-data="imagePreview({ defaultUrl:@js($defaultUrlStorage) })" class="overflow-hidden">
 
-    <div @click="$refs.imageFile.click()" class="w-full flex items-center justify-center ">
-        <img :src="imageUrl" alt="Preview Uploaded Image" class=" aspect-[1/1] object-cover rounded-full w-1/2">
+    <div class="w-full flex items-center justify-center pb-2">
+        <img @click="$refs.imageFile.click()" :src="imageUrl" alt="Preview Uploaded Image" class="cursor-pointer aspect-[1/1] object-cover rounded-full w-1/2">
     </div>
 
     <input
