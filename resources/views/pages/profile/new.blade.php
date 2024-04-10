@@ -84,6 +84,7 @@
 
                                                     <x-form.radio
                                                         id="{{ $profileType->value }}"
+                                                        value="{{ $profileType->value }}"
                                                         class="hidden peer/type" />
 
                                                     <x-form.label
