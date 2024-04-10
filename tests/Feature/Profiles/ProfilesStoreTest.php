@@ -5,6 +5,7 @@ use App\Enum\ProfileType;
 use App\Http\Controllers\ProfileController;
 use App\Models\Profile;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
 use function Pest\Laravel\postJson;
@@ -17,7 +18,6 @@ it('can create a basic profile', function () {
         'nickname' => 'Scott',
         'type' => ProfileType::DOG,
     ]);
-
     $response->assertCreated();
 
     $response->assertJson(fn(AssertableJson $json) => $json
@@ -50,9 +50,8 @@ it('can create a full profile', function () {
     Sanctum::actingAs($user);
 
     $date = fake()->date();
-    $mainUrl = fake()->url;
-    $secondaryUrl = fake()->url;
-
+    $mainUrl = UploadedFile::fake()->image(storage_path('/test/test.png'));
+    $secondaryUrl =  UploadedFile::fake()->image(storage_path('/test/test.png'));
     $response = postJson(action([ProfileController::class, 'store'], ['user' => $user->id]), [
         'nickname' => 'Scott',
         'default' => true,
@@ -66,6 +65,7 @@ it('can create a full profile', function () {
 
     $response->assertCreated();
 
+
     $response->assertJson(fn(AssertableJson $json) => $json
         ->has('data', fn(AssertableJson $json) => $json
             ->where('nickname', 'Scott')
@@ -74,12 +74,15 @@ it('can create a full profile', function () {
             ->where('type', ProfileType::DOG->value)
             ->where('dateOfBirth', $date)
             ->where('breed', ProfileBreedDog::GOLDEN_RETRIEVER->value)
-            ->where('mainImage', $mainUrl)
-            ->where('secondaryImage', $secondaryUrl)
+            ->where('mainImage', 'profiles/'.$mainUrl->hashName())
+            ->where('secondaryImage', 'backgrounds/'.$secondaryUrl->hashName())
             ->where('bio', 'Scott it is an awesome dog.')
             ->etc()
         )
     );
+
+    Storage::disk('public')->delete($response->json('data.mainImage'));
+    Storage::disk('public')->delete($response->json('data.secondaryImage'));
 
 });
 

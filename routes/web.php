@@ -20,8 +20,13 @@ Route::middleware(['auth','verified','defaultProfile'])->group(function () {
 });
 
 Route::middleware(['auth','verified'])->group(function () {
+
     Route::get('/profile/new', function () {
         return view('pages/profile/new');
+    });
+
+    Route::get('/profile/edit', function () {
+        return view('pages/profile/edit');
     });
 });
 

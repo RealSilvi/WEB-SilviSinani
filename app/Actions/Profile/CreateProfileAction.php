@@ -8,7 +8,10 @@ use App\Actions\Data\CreateProfileInput;
 use App\Exceptions\NicknameAlreadyExistsException;
 use App\Models\Profile;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rules\ImageFile;
+use Nette\Utils\Image;
 use Throwable;
 
 class CreateProfileAction
@@ -36,11 +39,13 @@ class CreateProfileAction
     {
         $this->checkAndRestoreDefaults($user, $input);
 
+        $mainImage = $input->mainImage?->store('profiles', 'public') ?? null;
+        $secondaryImage = $input->secondaryImage?->store('backgrounds', 'public') ?? null;
 
         $profile = new Profile([
             'nickname' => $input->nickname,
-            'main_image' => $input->mainImage,
-            'secondary_image' => $input->secondaryImage,
+            'main_image' => $mainImage,
+            'secondary_image' => $secondaryImage,
             'date_of_birth' => $input->dateOfBirth,
             'default' => $input->default,
             'user_id' => $user->id,

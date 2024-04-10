@@ -11,10 +11,9 @@ class Navbar extends Component
     public function render(): View|Closure|string
     {
         $menu = [
-            ['label' => 'Profilo', 'url' => url('#')],
-            ['label' => 'Home', 'url' => url('#')],
+            ['label' => 'Profilo', 'url' => url('/profile/edit')],
+            ['label' => 'Home', 'url' => url('/')],
             ['label' => 'Impostazioni', 'url' => url('#')],
-            ['label' => 'Esci', 'url' => url('#')],
         ];
 
 

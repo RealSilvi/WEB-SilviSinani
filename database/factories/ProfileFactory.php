@@ -22,8 +22,8 @@ class ProfileFactory extends Factory
         return [
             'nickname' => fake()->name,
             'bio' => fake()->text,
-            'main_image' => fake()->url,
-            'secondary_image' => fake()->url,
+            'main_image' => null,
+            'secondary_image' => null,
             'date_of_birth' => fake()->date,
             'default' => false,
             'type' => Arr::random(ProfileType::cases()) ,

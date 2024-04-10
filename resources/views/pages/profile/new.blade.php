@@ -74,19 +74,23 @@
                                 </x-form.group>
 
                                 <div class="lg:order-first mt-10 lg:mt-0 lg:pb-10">
+
+
                                     <x-form.group name="type">
                                         <div
                                             class="flex flex-row items-center justify-center w-full gap-2 lg:gap-4 flex-wrap ">
                                             @foreach(\App\Enum\ProfileType::cases() as $profileType)
-                                                <div class=" w-1/4 ">
-                                                    <x-form.label for="{{$profileType}}"
-                                                                  class="flex items-center justify-center p-2 lg:py-3 lg:px-5 bg-primary rounded-xl text-white text-sm w-full h-full cursor-pointer ">
-                                                        {{ $profileType }}
-                                                    </x-form.label>
+                                                <div class="w-1/4">
+
                                                     <x-form.radio
-                                                        id="{{$profileType}}"
-                                                        value="{{ $profileType }}"
-                                                        class="hidden" />
+                                                        id="{{ $profileType->value }}"
+                                                        class="hidden peer/type" />
+
+                                                    <x-form.label
+                                                        for="{{ $profileType->value }}"
+                                                        class="flex items-center justify-center p-2 lg:py-3 lg:px-5 rounded-xl text-primary w-full h-full cursor-pointer text-sm bg-primary/50 peer-checked/type:bg-primary peer-checked/type:text-white">
+                                                        {{ $profileType->value }}
+                                                    </x-form.label>
                                                 </div>
                                             @endforeach
                                         </div>

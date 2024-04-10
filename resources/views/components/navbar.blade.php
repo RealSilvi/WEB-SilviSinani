@@ -12,5 +12,11 @@
                 </a>
             </li>
         @endforeach
+        <li>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button>{{ __('Logout') }}</button>
+            </form>
+        </li>
     </ul>
 </div>

@@ -11,6 +11,7 @@ use App\Exceptions\NicknameAlreadyExistsException;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Storage;
 use Throwable;
 
 class UpdateProfileAction
@@ -37,11 +38,21 @@ class UpdateProfileAction
     {
         $this->checkAndRestoreDefaults($user, $profile, $input);
 
+        if ($input->mainImage && $profile->main_image) {
+            Storage::disk('public')->delete($profile->main_image);
+        }
+        if ($input->secondaryImage && $profile->secondary_image) {
+            Storage::disk('public')->delete($profile->secondary_image);
+        }
+
+        $mainImage = $input->mainImage?->store('profiles', 'public') ?? null;
+        $secondaryImage = $input->secondaryImage?->store('backgrounds', 'public') ?? null;
+
         $profile->update([
             'nickname' => $input->nickname ?? $profile->nickname,
             'bio' => $input->bio ?? $profile->bio,
-            'main_image' => $input->mainImage ?? $profile->main_image,
-            'secondary_image' => $input->secondaryImage ?? $profile->secondary_image,
+            'main_image' => $mainImage ?? $profile->main_image,
+            'secondary_image' => $secondaryImage ?? $profile->secondary_image,
             'date_of_birth' => $input->dateOfBirth ?? $profile->date_of_birth,
             'default' => $input->default ?? $profile->default,
             'breed' => $input->breed ?? $profile->breed,
