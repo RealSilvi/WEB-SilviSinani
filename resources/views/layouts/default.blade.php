@@ -14,7 +14,11 @@
 <body class="flex min-h-screen flex-col bg-white">
     @stack('body-start')
 
-    @yield('main')
+    <div class="flex flex-1 overflow-hidden px-2 pb-15 lg:pb-2 lg:pr-20">
+        <div class="mt-20 flex flex-1 flex-col rounded-xl bg-primary/10 p-5 lg:p-10">
+            @yield('main')
+        </div>
+    </div>
 
     @stack('body-end')
 </body>

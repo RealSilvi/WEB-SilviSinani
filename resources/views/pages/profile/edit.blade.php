@@ -13,7 +13,4 @@
        Edit
     </main>
 
-    <footer>
-        @include('partials.footer.footer')
-    </footer>
 @endsection

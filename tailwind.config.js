@@ -61,7 +61,8 @@ module.exports = {
                 sans: ['MavenPro', ...defaultTheme.fontFamily.sans]
             },
             spacing: {
-                15: '3.75rem',
+                15: '3.75rem',//60px
+                17: '4.25rem',//68px
                 22: '5.5rem',
                 30: '7.5rem',
                 112: '28rem'
