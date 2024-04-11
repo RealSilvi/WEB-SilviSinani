@@ -2,7 +2,7 @@
     'title' => __('pages.auth.forgot_password.title'),
 ])
 
-@section('content')
+@section('main')
     <section class="w-full mx-auto max-w-screen-2xl flex-1 flex flex-col items-center justify-center relative">
         <div class="p-10 lg:px-20 xl:pb-20 w-full">
             <div

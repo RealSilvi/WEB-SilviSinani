@@ -2,7 +2,7 @@
     'title' => __('pages.auth.register.title'),
 ])
 
-@section('content')
+@section('main')
     <section class="w-full mx-auto max-w-screen-2xl flex flex-1 items-center justify-center">
         <div class="p-10 lg:px-20 xl:pb-20 w-full">
             <div class="flex flex-col items-center justify-center gap-10">
