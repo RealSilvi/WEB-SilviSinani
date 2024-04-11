@@ -19,3 +19,6 @@ export function apiErrorMessage(response: Record<string, any>, fallback = ''): s
 
     return response.data.message;
 }
+
+export const STORAGE_PATH__IMAGE_PLACEHOLDER = () => '/storage/utilities/image-placeholder.png';
+export const STORAGE_PATH__PROFILE_IMAGE_PLACEHOLDER = () => '/storage/utilities/pet-placeholder.png';

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
-import { apiValidationErrors } from '../utils';
+import { apiValidationErrors, STORAGE_PATH__PROFILE_IMAGE_PLACEHOLDER } from '../utils';
 import { Profile, ProfileLink } from '../models';
 import { API_USERS__PROFILES_INDEX } from '../api';
 
@@ -67,7 +67,7 @@ Alpine.data('sidebar', (props: NavbarProps) => {
             if (this.profileLinks.length < 4) {
                 this.profileLinks = [...this.profileLinks, {
                     profileId: null,
-                    src: '/storage/utilities/image-placeholder.png',
+                    src: STORAGE_PATH__PROFILE_IMAGE_PLACEHOLDER(),
                     alt: 'Add new profile Image',
                     href: '#'
                 } as ProfileLink];
