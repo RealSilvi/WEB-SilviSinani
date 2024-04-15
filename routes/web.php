@@ -13,20 +13,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth','verified','defaultProfile'])->group(function () {
-    Route::get('/', function () {
-        return view('pages/index');
-    });
+Route::middleware(['auth', 'verified', 'defaultProfile'])->group(function () {
+
+    Route::view(
+        '/',
+        'pages/index'
+    );
+
+    Route::view(
+        '/profile/edit',
+        'pages/profile/edit'
+    );
+
+    Route::view(
+        '/profile/new',
+        'pages/profile/new'
+    );
+
 });
 
-Route::middleware(['auth','verified'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 
-    Route::get('/profile/new', function () {
-        return view('pages/profile/new');
-    });
+    Route::view(
+        '/profile/create-first-profile',
+        'pages/profile/create-first-profile'
+    )->name('createFirstProfile');
 
-    Route::get('/profile/edit', function () {
-        return view('pages/profile/edit');
-    });
 });
 

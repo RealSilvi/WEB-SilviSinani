@@ -19,7 +19,7 @@ class EnsureUserHasProfile
     {
 
         if (! Profile::query()->firstWhere('user_id', auth()->id()) ) {
-            return redirect('/profile/new');
+            return redirect(route('createFirstProfile'));
         }
 
         return $next($request);
