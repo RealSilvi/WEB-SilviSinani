@@ -9,7 +9,6 @@ interface NavbarProps {
 }
 
 Alpine.data('sidebar', (props: NavbarProps) => {
-
     return {
         saving: false,
         profiles: [] as Profile[],
@@ -21,7 +20,6 @@ Alpine.data('sidebar', (props: NavbarProps) => {
         },
 
         async fetch() {
-
             if (!props.userId) {
                 console.error('[sidebar] userId is required');
                 return;
@@ -35,15 +33,11 @@ Alpine.data('sidebar', (props: NavbarProps) => {
             this.errors = {};
 
             try {
+                const { data } = await axios.request<{ data: Profile[] }>(API_USERS__PROFILES_INDEX(props.userId));
 
-                const { data } = await axios.request<{ data: Profile[] }>(
-                    API_USERS__PROFILES_INDEX(props.userId)
-                );
-
-                this.profiles = data?.data ?? [] as Profile [];
+                this.profiles = data?.data ?? ([] as Profile[]);
 
                 this.buildLinks();
-
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.errors = apiValidationErrors(e?.response?.data);
@@ -60,18 +54,21 @@ Alpine.data('sidebar', (props: NavbarProps) => {
                     profileId: profile.id,
                     src: profile.mainImage,
                     alt: `Profile image ${profile.nickname}`,
-                    href: '#'
+                    href: '#',
                 } as ProfileLink;
             });
 
             if (this.profileLinks.length < 4) {
-                this.profileLinks = [...this.profileLinks, {
-                    profileId: null,
-                    src: STORAGE_PATH__PROFILE_IMAGE_PLACEHOLDER(),
-                    alt: 'Add new profile Image',
-                    href: '#'
-                } as ProfileLink];
+                this.profileLinks = [
+                    ...this.profileLinks,
+                    {
+                        profileId: null,
+                        src: STORAGE_PATH__PROFILE_IMAGE_PLACEHOLDER(),
+                        alt: 'Add new profile Image',
+                        href: '#',
+                    } as ProfileLink,
+                ];
             }
-        }
+        },
     };
 });

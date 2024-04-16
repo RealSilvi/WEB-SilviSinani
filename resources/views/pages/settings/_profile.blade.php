@@ -9,7 +9,9 @@
         @include('partials.sidebar.sidebar')
     </aside>
 
-    <main class="mx-auto flex h-full w-full max-w-screen-2xl flex-col">
-
+    <main class="mx-auto w-full max-w-screen-2xl flex-1">
+        User: {{auth()->user()}}<br>
+        Profile: {{}}
     </main>
+
 @endsection

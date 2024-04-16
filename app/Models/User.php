@@ -73,8 +73,17 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * @return HasMany<Profile>
      */
-    public function profiles():HasMany
+    public function profiles(): HasMany
     {
         return $this->hasMany(Profile::class)->limit(4);
+    }
+
+    public function getDefaultProfile(): Profile
+    {
+        $profile = $this->profiles()->where('default', 1)->first();
+
+        assert($profile instanceof Profile);
+
+        return $profile;
     }
 }

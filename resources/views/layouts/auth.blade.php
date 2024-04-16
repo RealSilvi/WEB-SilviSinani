@@ -12,22 +12,22 @@
 </head>
 
 <body class="flex min-h-screen flex-col bg-white">
-@stack('body-start')
+    @stack('body-start')
 
-<div class="flex min-h-screen flex-col">
+    <div class="flex min-h-screen flex-col">
 
-    <main class="flex flex-1 flex-col text-primary">
-        @yield('main')
-    </main>
+        <main class="flex flex-1 flex-col text-primary">
+            @yield('main')
+        </main>
 
-    <footer>
-        <div class="flex h-10 items-center justify-center bg-primary/20 text-xs text-primary">
-            {{ env('APP_NAME') }}
-        </div>
-    </footer>
-</div>
+        <footer>
+            <div class="flex h-10 items-center justify-center bg-primary/20 text-xs text-primary">
+                {{ env('APP_NAME') }}
+            </div>
+        </footer>
+    </div>
 
-@stack('body-end')
+    @stack('body-end')
 </body>
 
 </html>

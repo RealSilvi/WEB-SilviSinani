@@ -20,15 +20,8 @@ Route::middleware(['auth', 'verified', 'defaultProfile'])->group(function () {
         'pages/index'
     );
 
-    Route::view(
-        '/profile/edit',
-        'pages/profile/edit'
-    );
-
-    Route::view(
-        '/profile/new',
-        'pages/profile/new'
-    );
+    Route::get('/dashboard/{profile}', \App\Http\Controllers\DashboardController::class);
+    Route::get('/dashboard', \App\Http\Controllers\DashboardController::class);
 
 });
 
