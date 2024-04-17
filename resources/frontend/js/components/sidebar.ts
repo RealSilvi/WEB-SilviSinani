@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
-import { apiValidationErrors, STORAGE_PATH__PROFILE_IMAGE_PLACEHOLDER } from '../utils';
+import { apiValidationErrors, STORAGE_PATH, STORAGE_PATH__PROFILE_PLACEHOLDER_IMAGE } from '../utils';
 import { Profile, ProfileLink } from '../models';
 import { API_USERS__PROFILES_INDEX } from '../api';
+import { ROUTE_PROFILE_EDIT, ROUTE_PROFILE_NEW } from '../routes';
 
 interface NavbarProps {
     userId?: number;
@@ -52,9 +53,9 @@ Alpine.data('sidebar', (props: NavbarProps) => {
             this.profileLinks = this.profiles.map((profile: Profile) => {
                 return {
                     profileId: profile.id,
-                    src: profile.mainImage,
+                    src: STORAGE_PATH(profile.mainImage),
                     alt: `Profile image ${profile.nickname}`,
-                    href: '#',
+                    href: ROUTE_PROFILE_EDIT(profile.nickname),
                 } as ProfileLink;
             });
 
@@ -63,9 +64,9 @@ Alpine.data('sidebar', (props: NavbarProps) => {
                     ...this.profileLinks,
                     {
                         profileId: null,
-                        src: STORAGE_PATH__PROFILE_IMAGE_PLACEHOLDER(),
+                        src: STORAGE_PATH__PROFILE_PLACEHOLDER_IMAGE(),
                         alt: 'Add new profile Image',
-                        href: '#',
+                        href: ROUTE_PROFILE_NEW(),
                     } as ProfileLink,
                 ];
             }

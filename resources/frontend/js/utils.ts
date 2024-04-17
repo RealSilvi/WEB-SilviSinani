@@ -20,5 +20,7 @@ export function apiErrorMessage(response: Record<string, any>, fallback = ''): s
     return response.data.message;
 }
 
-export const STORAGE_PATH__IMAGE_PLACEHOLDER = () => '/storage/utilities/image-placeholder.png';
-export const STORAGE_PATH__PROFILE_IMAGE_PLACEHOLDER = () => '/storage/utilities/pet-placeholder.png';
+export const STORAGE_PATH = (imagePath?: string) => `/storage/${imagePath}`;
+export const STORAGE_PATH___BACKGROUND_IMAGE = () => '/storage/profiles/image-placeholder.png';
+export const STORAGE_PATH___PLACEHOLDER_IMAGE = () => '/storage/utilities/image-placeholder.png';
+export const STORAGE_PATH__PROFILE_PLACEHOLDER_IMAGE = () => '/storage/utilities/pet-placeholder.png';

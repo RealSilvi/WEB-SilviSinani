@@ -4,12 +4,12 @@
     <div class="z-30 fixed inset-0 w-full h-20 p-2 lg:pr-22">
         <div class="w-full h-full rounded-full bg-white">
             <div class="h-full w-full flex items-center justify-between bg-primary/90 px-5 lg:px-10 rounded-full">
-                <a href="/">{{svg('other-logo','h-6 w-6 lg:h-7 lg:w-7')}}</a>
+                <a href="{{route('home')}}">{{svg('other-logo','h-6 w-6 lg:h-7 lg:w-7')}}</a>
                 <div
                         class="w-3/5 lg:w-1/4 rounded-full p-2 bg-white flex items-center justify-center gap-2 ">{{svg('search','h-6 w-6')}}
                     cerca
                 </div>
-                <a href="/" class="hidden lg:block">
+                <a href="#" class="hidden lg:block">
                     {{svg('settings','lg:h-7 lg:w-7')}}
                 </a>
                 <div @click="showMenu=!showMenu" x-transition.duration.300ms class="lg:hidden cursor-pointer">

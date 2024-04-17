@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 use App\Models\Profile;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
-use function PHPUnit\Framework\stringContains;
 
 class DashboardController extends Controller
 {
@@ -14,11 +13,15 @@ class DashboardController extends Controller
     {
         $user = $request->user();
 
+        if ($profile && $profile->user_id !== $user->id) {
+            abort(404);
+        }
+
         $profile = $profile ?? $user->getDefaultProfile();
 
         return view('pages.dashboard._profile', [
             'user' => $user,
-            'profile' => $profile ?? $user
+            'profile' => $profile,
         ]);
     }
 

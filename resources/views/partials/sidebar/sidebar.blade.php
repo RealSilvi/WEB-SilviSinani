@@ -14,7 +14,7 @@
                 <template x-for="profileLink in profileLinks">
                     <a :href="profileLink.href">
                         <img :src="profileLink.src" :alt="profileLink.alt"
-                             class="h-7 w-7 lg:h-10 lg:w-10 rounded-full object-cover"></img>
+                             class="h-7 w-7 lg:h-10 lg:w-10 rounded-full object-cover"/>
                     </a>
                 </template>
             </div>

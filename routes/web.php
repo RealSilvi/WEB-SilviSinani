@@ -13,24 +13,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth', 'verified', 'defaultProfile'])->group(function () {
-
-    Route::view(
-        '/',
-        'pages/index'
-    );
-
-    Route::get('/dashboard/{profile}', \App\Http\Controllers\DashboardController::class);
-    Route::get('/dashboard', \App\Http\Controllers\DashboardController::class);
-
-});
-
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::view(
-        '/profile/create-first-profile',
-        'pages/profile/create-first-profile'
+        '/profiles/create-first-profile',
+        'pages/profiles/create-first-profile'
     )->name('createFirstProfile');
 
+    Route::view(
+        '/profiles/new',
+        'pages/profiles/new'
+    )->name('createNewProfile');
+
 });
+
+Route::middleware(['auth', 'verified', 'userHasProfile'])->group(function () {
+
+    Route::redirect('/', '/dashboard')->name('home');
+
+    Route::get('/dashboard/{profile:nickname?}', \App\Http\Controllers\DashboardController::class)->name('dashboard');
+    Route::get('/profiles/{profile:nickname?}', \App\Http\Controllers\DashboardController::class);
+//    Route::get('/settings/{profile:nickname?}', \App\Http\Controllers\DashboardController::class);
+//    Route::get('/chats/{profile:nickname?}', \App\Http\Controllers\DashboardController::class);
+});
+
 
