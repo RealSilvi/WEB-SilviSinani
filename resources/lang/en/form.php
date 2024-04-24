@@ -47,8 +47,10 @@ return [
         'choose_animal_type' => 'Choose your animal',
         'nickname' => 'Nickname',
         'bio' => 'Bio',
+        'breed' => 'Breed',
         'main_image' => 'Profile image',
         'date_of_birth' => 'Birthday',
+        'default' => 'Sign as main profile',
         'submit_button' => 'Sign up',
     ],
 ];

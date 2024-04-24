@@ -1,16 +1,11 @@
 <?php
 
-use App\Enum\ProfileBreedDog;
-use App\Enum\ProfileType;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
 use function Pest\Laravel\getJson;
-use function Pest\Laravel\patch;
-use function Pest\Laravel\patchJson;
-use function Pest\Laravel\postJson;
 
 it('can fetch a single profile', function () {
     $user = User::factory()->create();

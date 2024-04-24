@@ -12,7 +12,7 @@
 
 <div {{$attributes->class([
     'flex gap-2',
-    'items-start' => $horizontal,
+    'items-center justify-start' => $horizontal,
     'flex-col' => !$horizontal,
 ])}}>
     {{ $slot }}

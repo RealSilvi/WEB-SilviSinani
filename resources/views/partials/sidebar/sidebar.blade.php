@@ -17,6 +17,11 @@
                              class="h-7 w-7 lg:h-10 lg:w-10 rounded-full object-cover"/>
                     </a>
                 </template>
+                <template x-if="canAddProfile">
+                    <a href="{{route('createNewProfile')}}">
+                        {{svg('add-profile','h-6 w-6 lg:h-7 lg:w-7')}}
+                    </a>
+                </template>
             </div>
         </div>
         <div class="hidden lg:block w-full pb-2 h-22">

@@ -2,7 +2,7 @@
 
 use App\Enum\ProfileBreedDog;
 use App\Enum\ProfileType;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;

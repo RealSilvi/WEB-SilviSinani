@@ -45,9 +45,11 @@ return [
     'profile_create'=>[
         'choose_animal_type' => 'Scegli il tuo animale',
         'nickname' => 'Nickname',
+        'breed' => 'Razza',
         'bio' => 'Bio',
         'main_image' => 'Immagine di profilo',
         'date_of_birth' => 'Data di nascita',
+        'default' => 'Segna come profilo principale',
         'submit_button' => 'Crea',
     ],
 

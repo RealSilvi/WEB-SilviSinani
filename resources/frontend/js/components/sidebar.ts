@@ -12,6 +12,7 @@ interface NavbarProps {
 Alpine.data('sidebar', (props: NavbarProps) => {
     return {
         saving: false,
+        canAddProfile: false,
         profiles: [] as Profile[],
         profileLinks: [] as ProfileLink[],
         errors: {},
@@ -59,17 +60,7 @@ Alpine.data('sidebar', (props: NavbarProps) => {
                 } as ProfileLink;
             });
 
-            if (this.profileLinks.length < 4) {
-                this.profileLinks = [
-                    ...this.profileLinks,
-                    {
-                        profileId: null,
-                        src: STORAGE_PATH__PROFILE_PLACEHOLDER_IMAGE(),
-                        alt: 'Add new profile Image',
-                        href: ROUTE_PROFILE_NEW(),
-                    } as ProfileLink,
-                ];
-            }
+            this.canAddProfile = this.profileLinks.length < 4;
         },
     };
 });

@@ -2,110 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Data\CreateProfileInput;
-use App\Actions\Data\UpdateProfileInput;
-use App\Actions\Profile\CreateProfileAction;
-use App\Actions\Profile\DeleteProfileAction;
-use App\Actions\Profile\UpdateProfileAction;
-use App\Exceptions\CannotDeleteDefaultProfileException;
-use App\Exceptions\NicknameAlreadyExistsException;
-use App\Exceptions\ProfileIsNotAUserProfileException;
-use App\Exceptions\ToManyProfilesException;
-use App\Exceptions\UserHasNotProfilesException;
-use App\Http\Resources\ProfileResource;
+
 use App\Models\Profile;
-use App\Models\User;
+use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Response;
-use Spatie\QueryBuilder\QueryBuilder;
-use Throwable;
 
-class ProfileController
+class ProfileController extends Controller
 {
-    /**
-     * @throws ToManyProfilesException|Throwable
-     */
-    public function store(User $user, CreateProfileInput $input, CreateProfileAction $action): ProfileResource
+    public function __invoke(Request $request, ?Profile $profile = null): mixed
     {
-        if ($user->profiles()->count() > 3) {
-            throw new ToManyProfilesException('Already 4 profiles existing for this user. Delete one of them before storing a new one');
+        $user = $request->user();
+
+        if ($profile && $profile->user_id !== $user->id) {
+            abort(404);
         }
 
-        $profile = $action->execute($user, $input);
+        $profile = $profile ?? $user->getDefaultProfile();
 
-        return new ProfileResource($profile);
+        return view('pages.profiles._profile', [
+            'user' => $user,
+            'profile' => $profile,
+        ]);
     }
-
-    /**
-     * @throws CannotDeleteDefaultProfileException
-     * @throws ProfileIsNotAUserProfileException
-     */
-    public function destroy(User $user, Profile $profile, DeleteProfileAction $action): Response
-    {
-        if ($user->id != $profile->user_id) {
-            throw new ProfileIsNotAUserProfileException('Profile does not match any of the user profiles.');
-        }
-        if ($user->profiles()->count() < 2) {
-            throw new CannotDeleteDefaultProfileException('Cannot delete your last profile. If you want you can delete the user.');
-        }
-        $action->execute($user, $profile);
-
-        return response()->noContent();
-    }
-
-    /**
-     * @throws Throwable
-     * @throws NicknameAlreadyExistsException
-     */
-    public function update(User $user, Profile $profile, UpdateProfileInput $input, UpdateProfileAction $action): ProfileResource
-    {
-        if ($user->id != $profile->user_id) {
-            throw new ProfileIsNotAUserProfileException('Profile does not match any of the user profiles.');
-        }
-        $updatedVariant = $action->execute($user, $profile, $input);
-
-        return new ProfileResource($updatedVariant);
-    }
-
-    /**
-     * @throws Throwable
-     */
-    public function show(Request $request, User $user, int $profile): ProfileResource
-    {
-
-        $profile = QueryBuilder::for(Profile::class, $request)
-            ->allowedIncludes([
-                'user',
-            ])
-            ->findOrFail($profile);
-
-        if ($user->id != $profile->user_id) {
-            throw new ProfileIsNotAUserProfileException('Profile does not match any of the user profiles.');
-        }
-
-        return new ProfileResource($profile);
-    }
-
-    /**
-     * @throws ProfileIsNotAUserProfileException
-     */
-    public function index(Request $request, User $user): AnonymousResourceCollection
-    {
-
-        $profiles = QueryBuilder::for(Profile::class, $request)
-            ->allowedIncludes([
-                'user',
-            ])
-            ->where('user_id', $user->id)
-            ->get();
-
-        if ($profiles->count() == 0) {
-            throw new UserHasNotProfilesException('The user does not have profiles yet.');
-        }
-
-        return ProfileResource::collection($profiles);
-    }
-
 
 }
