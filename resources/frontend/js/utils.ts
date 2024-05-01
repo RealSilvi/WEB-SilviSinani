@@ -19,5 +19,3 @@ export function apiErrorMessage(response: Record<string, any>, fallback = ''): s
 
     return response.data.message;
 }
-
-export const STORAGE_PATH = (imagePath?: string) => `/storage/${imagePath}`;

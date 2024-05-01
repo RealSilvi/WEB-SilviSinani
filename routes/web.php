@@ -32,7 +32,7 @@ Route::middleware(['auth', 'verified', 'userHasProfile'])->group(function () {
     Route::redirect('/', '/dashboard')->name('home');
 
     Route::get('/dashboard/{profile:nickname?}', \App\Http\Controllers\DashboardController::class)->name('dashboard');
-    Route::get('/profiles/{profile:nickname?}', \App\Http\Controllers\DashboardController::class);
+    Route::get('/profiles/{profile:nickname?}', \App\Http\Controllers\ProfileController::class);
 //    Route::get('/settings/{profile:nickname?}', \App\Http\Controllers\DashboardController::class);
 //    Route::get('/chats/{profile:nickname?}', \App\Http\Controllers\DashboardController::class);
 });

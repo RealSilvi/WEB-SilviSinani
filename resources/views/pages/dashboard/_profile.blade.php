@@ -1,3 +1,10 @@
+@php
+    /**
+     * @var \App\Models\Profile $profile
+     * @var \App\Models\User $user
+     */
+@endphp
+
 @extends('layouts.default')
 
 @section('main')

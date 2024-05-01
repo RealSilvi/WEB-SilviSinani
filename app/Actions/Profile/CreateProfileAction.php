@@ -39,13 +39,13 @@ class CreateProfileAction
     {
         $this->checkAndRestoreDefaults($user, $input);
 
-        $mainImage = $input->mainImage?->store('profiles', 'public') ?? 'profiles/default.png';
-        $secondaryImage = $input->secondaryImage?->store('backgrounds', 'public') ?? 'background/default.png';
+        $mainImage = $input->mainImage?->store('profiles', 'public') ??'profiles/default.png';
+        $secondaryImage = $input->secondaryImage?->store('backgrounds', 'public') ?? 'backgrounds/default.png';
 
         $profile = new Profile([
             'nickname' => $input->nickname,
-            'main_image' => $mainImage,
-            'secondary_image' => $secondaryImage,
+            'main_image' => asset($mainImage),
+            'secondary_image' => asset($secondaryImage),
             'date_of_birth' => $input->dateOfBirth,
             'default' => $input->default,
             'user_id' => $user->id,
