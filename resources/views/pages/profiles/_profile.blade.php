@@ -3,7 +3,6 @@
      * @var \App\Models\Profile $profile
      * @var \App\Models\User $user
      */
-//    dd($profile)
 @endphp
 
 @extends('layouts.default')
@@ -17,8 +16,8 @@
         @include('partials.sidebar.sidebar')
     </aside>
 
-    <main class="mx-auto w-full max-w-screen-2xl flex-1">
-        <section class="mt-5">
+    <main class="mx-auto w-full max-w-screen-2xl flex-1 pt-5 pb-10 lg:pt-20 lg:pb-32 px-5 lg:px-20">
+        <section>
             <img src="{{$profile->secondary_image}}" alt="{{$profile->nickname.' secondary image'}}"
                  class="object-cover aspect-[7/3] w-full rounded-xl" />
 

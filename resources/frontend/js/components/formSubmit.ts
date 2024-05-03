@@ -5,6 +5,19 @@ import { apiErrorMessage, apiValidationErrors } from '../utils';
 interface FormSubmitProps {
     formId?: string;
     url?: string;
+    method?:
+        | 'get'
+        | 'GET'
+        | 'delete'
+        | 'DELETE'
+        | 'head'
+        | 'HEAD'
+        | 'post'
+        | 'POST'
+        | 'put'
+        | 'PUT'
+        | 'patch'
+        | 'PATCH';
     onSuccessRedirectUrl?: string;
     messageSuccess?: string;
     messageError?: string;
@@ -24,6 +37,10 @@ Alpine.data('formSubmit', (props: FormSubmitProps = {}) => {
                 console.error('[formSubmit] url is required');
                 return;
             }
+            if (!props.method && !event.target.method) {
+                console.error('[formSubmit] method is required');
+                return;
+            }
 
             if (this.saving) {
                 return;
@@ -35,8 +52,13 @@ Alpine.data('formSubmit', (props: FormSubmitProps = {}) => {
             try {
                 const url = props.url ?? event.target.action;
                 const data = new FormData(event.target);
+                let method = props.method ?? event.target.method;
+                if (method == 'PATCH' || method == 'patch') {
+                    method = 'POST';
+                    data.append('_method', 'PATCH');
+                }
 
-                const response = await axios.post(url, data);
+                const response = await axios.request({ url: url, data: data, method: method });
                 //TODO fix toasts
                 // this.$dispatch('toast', {
                 //     type: 'success',
@@ -47,6 +69,8 @@ Alpine.data('formSubmit', (props: FormSubmitProps = {}) => {
 
                 if (props.onSuccessRedirectUrl) {
                     window.location.replace(props.onSuccessRedirectUrl);
+                } else {
+                    window.location.reload();
                 }
 
                 // this.$dispatch('submitted', {

@@ -30,4 +30,5 @@ export interface ProfileLink {
     src: string;
     alt: string;
     href: string;
+    nickname: string;
 }

@@ -45,14 +45,14 @@ class UpdateProfileAction
             Storage::disk('public')->delete($profile->secondary_image);
         }
 
-        $mainImage = $input->mainImage?->store('profiles', 'public') ?? null;
-        $secondaryImage = $input->secondaryImage?->store('backgrounds', 'public') ?? null;
+        $mainImage = $input->mainImage?->store('profiles', 'public') ?? $profile->main_image;
+        $secondaryImage = $input->secondaryImage?->store('backgrounds', 'public') ?? $profile->secondary_image;
 
         $profile->update([
             'nickname' => $input->nickname ?? $profile->nickname,
             'bio' => $input->bio ?? $profile->bio,
-            'main_image' => $mainImage ?? $profile->main_image,
-            'secondary_image' => $secondaryImage ?? $profile->secondary_image,
+            'main_image' => asset($mainImage),
+            'secondary_image' => asset($secondaryImage),
             'date_of_birth' => $input->dateOfBirth ?? $profile->date_of_birth,
             'default' => $input->default ?? $profile->default,
             'breed' => $input->breed ?? $profile->breed,

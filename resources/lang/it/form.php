@@ -52,6 +52,19 @@ return [
         'default' => 'Segna come profilo principale',
         'submit_button' => 'Crea',
     ],
+    'profile_edit'=>[
+        'choose_animal_type' => 'Scegli il tuo animale',
+        'nickname' => 'Nickname',
+        'animal' => 'Animale',
+        'breed' => 'Razza',
+        'bio' => 'Bio',
+        'main_image' => 'Immagine di profilo',
+        'secondary_image' => 'Immagine secondaria',
+        'date_of_birth' => 'Data di nascita',
+        'default' => 'Segna come profilo principale',
+        'submit_button' => 'Salva',
+        'delete_button' => 'Elimina profilo',
+    ],
 
 ];
 

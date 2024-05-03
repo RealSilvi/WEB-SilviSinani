@@ -12,8 +12,8 @@
 ])
 
 <input name="{{ $name }}" type="{{ $type }}"
-    {{ $attributes->class([
-        'w-full bg-transparent px-0 py-2 text-base font-normal border-0 border-b focus:ring-0 focus:outline-0 focus:outline-offset-0',
-        'text-gray-50 placeholder-white/70 border-white/50 focus:border-white focus:outline-white' => $reverse,
-        'text-primary placeholder-primary border-primary focus:border-primary' => !$reverse,
-    ]) }}>
+        {{ $attributes->class([
+            'w-full bg-transparent px-0 py-2 text-sm font-normal border-0 border-b focus:ring-0 focus:outline-0 focus:outline-offset-0',
+           'text-white placeholder-white border-white focus:border-white focus:outline-white' => $reverse,
+            'text-black placeholder-gray-700 border-black focus:border-black focus:outline-black' => !$reverse,
+        ]) }}>

@@ -23,6 +23,9 @@ return [
         'new' => [
             'title' => 'Crea profilo'
         ],
+        'edit' => [
+            'title' => 'Modifica profilo'
+        ],
     ],
 
 ];

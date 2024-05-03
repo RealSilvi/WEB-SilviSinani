@@ -10,7 +10,7 @@
 
 @section('main')
     <main class="mx-auto w-full max-w-screen-2xl flex-1">
-        <section class="w-full mx-auto max-w-screen-2xl flex flex-1 items-center justify-center">
+        <section class="w-full h-screen flex items-center justify-center">
             <div class="p-10 lg:px-20 xl:pb-20 w-full">
                 <div class="flex items-center justify-center">
                     <x-image class="h-12 w-12 lg:h-20 lg:w-20 object-cover rounded-full" filter="logo green" />
@@ -18,14 +18,13 @@
 
                 <div class="mt-10 lg:mt-15  flex flex-col">
                     <form action="{{$actionUrl}}"
-                          method="post"
+                          method="POST"
                           x-data="formSubmit({
                             formId: '{{ $formId }}',
                             url: '{{ $actionUrl }}',
                             onSuccessRedirectUrl: '{{ $onSuccessRedirect }}',
                           })"
-                          @submit.prevent="submit"
-                          class="lg:px-10 xl:px-20">
+                          @submit.prevent="submit">
                         @csrf
                         <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-10 xl:gap-x-40 gap-y-3">
                             <div class="flex flex-col gap-7 lg:gap-10">
@@ -111,10 +110,4 @@
             </div>
         </section>
     </main>
-
-    <footer>
-        <div class="flex h-10 items-center justify-center bg-primary/20 text-xs text-primary">
-            {{ env('APP_NAME') }}
-        </div>
-    </footer>
 @endsection
