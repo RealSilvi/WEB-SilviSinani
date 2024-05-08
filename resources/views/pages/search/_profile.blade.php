@@ -30,13 +30,12 @@
             </section>
         @endif
 
-        <section class="mt-10 px-18 lg:px-5 xl:mt-20 xl:px-21">
-            <div
-                class="flex flex-col items-center justify-center gap-11 lg:grid lg:grid-cols-4 lg:items-start lg:gap-x-6 xl:gap-y-20">
-                @foreach ($profiles as $profile)
-                    {{$profile->nickname }}
-                @endforeach
-            </div>
+        <section class="flex flex-col lg:flex-row w-full justify-center gap-10">
+            @foreach ($profiles as $profile)
+                <div class="lg:w-1/3">
+                    <x-search-profile-item :profile="$profile"></x-search-profile-item>
+                </div>
+            @endforeach
         </section>
 
     </main>

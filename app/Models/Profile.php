@@ -11,7 +11,6 @@ use Laravel\Scout\Searchable;
 
 /**
  *
- *
  * @property int $id
  * @property string $nickname
  * @property string|null $main_image
@@ -54,6 +53,8 @@ class Profile extends Model
             'id' => $this->id,
             'nickname' => $this->nickname,
             'bio' => $this->bio,
+            'type' => $this->type,
+            'breed' => $this->breed,
         ];
     }
 

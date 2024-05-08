@@ -16,17 +16,15 @@
                 <form method="get" action="{{ route('search',['profile'=>$profile->nickname]) }}"
                       x-data
                       @submit="if($refs.input.value.trim() === '') {$event.preventDefault(); $refs.input.focus()}"
-                      class="flex items-center gap-3 group  border-primary py-1 transition-all duration-300">
+                      class="flex items-center relative">
                     <input type="text" name="search" x-ref="input"
                            class="bg-white rounded-full placeholder-black font-medium focus:outline-0 focus:ring-0"
                            placeholder="{{ __('search') }}"
                     >
-                    <button type="submit" class="text-primary hover:text-exhibitors">
-                        {{ svg('search', 'w-6 h-6 text-white') }}
+                    <button type="submit" class="text-primary hover:text-exhibitors absolute right-3">
+                        {{ svg('search', 'w-6 h-6 text-black') }}
                     </button>
                 </form>
-
-
                 <a href="{{route('settings',['profile'=>$profile->nickname])}}" class="hidden lg:block">
                     {{svg('settings','lg:h-7 lg:w-7')}}
                 </a>
