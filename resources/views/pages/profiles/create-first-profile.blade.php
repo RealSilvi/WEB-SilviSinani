@@ -36,7 +36,7 @@
                                         <x-form.label sr-only>
                                             {{ __('form.profile_create.main_image') }}
                                         </x-form.label>
-                                        <x-form.image-picker
+                                        <x-form.image-picker-preview
                                             defaultUrlStorage="{{asset('/storage/utilities/pet-placeholder.png')}}"
                                             class="h-20" />
                                     </x-form.group>

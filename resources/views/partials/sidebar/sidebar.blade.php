@@ -20,7 +20,7 @@
             <div
                     class="w-full h-full rounded-full bg-primary/90 flex flex-row lg:flex-col items-center justify-around px-5 lg:px-0 lg:py-20">
                 <template x-for="profileLink in profileLinks">
-                    <a :href="profileLink.href" :class=" window.location.pathname.includes(profileLink.nickname) ? 'p-1 border-2 border-white rounded-full': 'border-0 p-0'">
+                    <a :href="profileLink.href" :class="window.location.pathname.includes(profileLink.nickname) ? 'p-1 border-2 border-white rounded-full': 'border-0 p-0'">
                         <img :src="profileLink.src" :alt="profileLink.alt"
                              class="h-7 w-7 lg:h-10 lg:w-10 rounded-full object-cover" />
                     </a>

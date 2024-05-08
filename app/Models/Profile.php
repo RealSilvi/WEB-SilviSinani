@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laravel\Scout\Searchable;
 
 /**
  *
@@ -28,6 +29,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Profile extends Model
 {
     use HasFactory;
+    use Searchable;
+
     protected $guarded = [];
 
     protected $casts = [
@@ -44,4 +47,14 @@ class Profile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'nickname' => $this->nickname,
+            'bio' => $this->bio,
+        ];
+    }
+
 }
