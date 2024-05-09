@@ -9,6 +9,7 @@ use App\Exceptions\NicknameAlreadyExistsException;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Throwable;
 
 class DeleteProfileAction
@@ -19,6 +20,7 @@ class DeleteProfileAction
         DB::transaction(function () use ($user, $profile): void {
             $this->checkAndRestoreDefaults($user, $profile);
             $profile->user()->dissociate();
+            Storage::disk('public')->delete('profiles/' . $profile->nickname);
 
             $profile->delete();
         });

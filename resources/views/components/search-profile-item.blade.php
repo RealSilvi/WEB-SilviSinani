@@ -3,7 +3,7 @@
      * @var \App\Models\Profile $profile
      */
 @endphp
-<div class="h-full w-full border-b-4 p-2 lg:hover:bg-primary/50 lg:rounded-full lg:border-4">
+<div class="h-full w-full border-b-4 p-2 lg:rounded-full lg:border-4 lg:hover:bg-primary/50">
     <a href="{{ route('profile', ['profile' => $profile->nickname]) }}"
         class="grid grid-cols-3 items-center justify-center gap-10 rounded-full p-1 hover:bg-primary/50 lg:hover:bg-transparent">
         <div>

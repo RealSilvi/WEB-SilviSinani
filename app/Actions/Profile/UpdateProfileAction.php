@@ -11,6 +11,10 @@ use App\Exceptions\NicknameAlreadyExistsException;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+use League\Flysystem\FilesystemException;
+use Nette\FileNotFoundException;
 use Storage;
 use Throwable;
 
@@ -32,27 +36,20 @@ class UpdateProfileAction
 
 
     /**
-     * @throws CannotChangeDefaultProfileException
+     * @throws CannotChangeDefaultProfileException|FilesystemException
      */
     public function updateProfile(User $user, Profile $profile, UpdateProfileInput $input): Profile
     {
+        $input->nickname = Str::slug($input->nickname);
         $this->checkAndRestoreDefaults($user, $profile, $input);
-
-        if ($input->mainImage && $profile->main_image) {
-            Storage::disk('public')->delete($profile->main_image);
-        }
-        if ($input->secondaryImage && $profile->secondary_image) {
-            Storage::disk('public')->delete($profile->secondary_image);
-        }
-
-        $mainImage = $input->mainImage?->store('profiles', 'public') ?? $profile->main_image;
-        $secondaryImage = $input->secondaryImage?->store('backgrounds', 'public') ?? $profile->secondary_image;
+        $this->checkNicknamesAndRestoreStoragePaths($profile, $input);
+        $images = $this->checkAndRestoreImages($input,$profile);
 
         $profile->update([
             'nickname' => $input->nickname ?? $profile->nickname,
             'bio' => $input->bio ?? $profile->bio,
-            'main_image' => asset($mainImage),
-            'secondary_image' => asset($secondaryImage),
+            'main_image' => $images['main_image'],
+            'secondary_image' => $images['secondary_image'],
             'date_of_birth' => $input->dateOfBirth ?? $profile->date_of_birth,
             'default' => $input->default ?? $profile->default,
             'breed' => $input->breed ?? $profile->breed,
@@ -98,5 +95,58 @@ class UpdateProfileAction
             $newDefaultProfile->save();
         }
 
+    }
+
+    /**
+     * @throws FilesystemException
+     */
+    public function checkNicknamesAndRestoreStoragePaths(Profile $profile, UpdateProfileInput $input): void
+    {
+        if ($profile->nickname === $input->nickname || !$input->nickname) {
+            return;
+        }
+        Storage::disk('public')->createDirectory('profiles/' . $input->nickname);
+
+        foreach (Storage::disk('public')->allDirectories('profiles/' . $profile->nickname) as $directory) {
+            Storage::disk('public')->createDirectory('profiles/' . $input->nickname . '/' . $directory);
+        }
+        foreach (Storage::disk('public')->allFiles('profiles/' . $profile->nickname) as $file) {
+            Storage::disk('public')->createDirectory('profiles/' . $input->nickname . '/' . $file);
+        }
+        Storage::disk('public')->deleteDirectory('profiles/' . $profile->nickname);
+
+    }
+
+    public function checkAndRestoreImages(UpdateProfileInput $input, Profile $profile): array
+    {
+        try {
+            if ($input->mainImage) {
+                $mainImage = StoreImageOrStoreDefaultImageAction::execute(
+                    $input->mainImage,
+                    'profile.jpg',
+                    'profiles/' . $input->nickname,
+                    'utilities/profileDefault.jpg'
+                );
+            }
+            if ($input->secondaryImage) {
+                $secondaryImage = StoreImageOrStoreDefaultImageAction::execute(
+                    $input->secondaryImage,
+                    'background.jpg',
+                    'profiles/' . $input->nickname,
+                    'utilities/backgroundDefault.jpg'
+                );
+            }
+        } catch (FilesystemException|FileNotFoundException) {
+            if ($input->mainImage) {
+                $mainImage = asset('utilities/profileDefault.jpg');
+            }
+            if ($input->secondaryImage) {
+                $secondaryImage = asset('utilities/backgroundDefault.jpg');
+            }
+        }
+        return [
+            'main_image' => $mainImage ?? $profile->main_image,
+            'secondary_image' => $secondaryImage ?? $profile->secondary_image,
+        ];
     }
 }

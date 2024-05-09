@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Actions\Profile;
 
 use App\Actions\Data\CreateProfileInput;
+use App\Actions\Data\UpdateProfileInput;
 use App\Exceptions\NicknameAlreadyExistsException;
 use App\Models\Profile;
 use App\Models\User;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rules\ImageFile;
-use Nette\Utils\Image;
+use Illuminate\Support\Str;
+use League\Flysystem\FilesystemException;
 use Throwable;
 
 class CreateProfileAction
@@ -32,20 +32,21 @@ class CreateProfileAction
     /**
      * Validate and create a newly registered profile.
      *
+     * @param User $user
      * @param CreateProfileInput $input
      * @return Profile
      */
     public function createProfile(User $user, CreateProfileInput $input): Profile
     {
+        $input->nickname = Str::slug($input->nickname);
         $this->checkAndRestoreDefaults($user, $input);
+        $images = $this->checkAndRestoreImages($input);
 
-        $mainImage = $input->mainImage?->store('profiles', 'public') ??'profiles/default.png';
-        $secondaryImage = $input->secondaryImage?->store('backgrounds', 'public') ?? 'backgrounds/default.png';
 
         $profile = new Profile([
             'nickname' => $input->nickname,
-            'main_image' => asset($mainImage),
-            'secondary_image' => asset($secondaryImage),
+            'main_image' => $images['main_image'],
+            'secondary_image' => $images['secondary_image'],
             'date_of_birth' => $input->dateOfBirth,
             'default' => $input->default,
             'user_id' => $user->id,
@@ -64,7 +65,7 @@ class CreateProfileAction
      */
     protected function validateNickname(CreateProfileInput $input): void
     {
-        if (Profile::query()->where('nickname', $input->nickname)->exists()) {
+        if (Profile::query()->where('nickname', Str::lower($input->nickname))->exists()) {
             throw new NicknameAlreadyExistsException('Nickname already exists');
         }
 
@@ -84,4 +85,31 @@ class CreateProfileAction
             $oldDefaultProfile->save();
         }
     }
+
+    public function checkAndRestoreImages(CreateProfileInput $input): array
+    {
+        try {
+            $mainImage = StoreImageOrStoreDefaultImageAction::execute(
+                $input->mainImage,
+                'profile.jpg',
+                'profiles/' . $input->nickname,
+                'utilities/profileDefault.jpg'
+            );
+
+            $secondaryImage = StoreImageOrStoreDefaultImageAction::execute(
+                $input->secondaryImage,
+                'background.jpg',
+                'profiles/' . $input->nickname,
+                'utilities/backgroundDefault.jpg'
+            );
+        } catch (FilesystemException) {
+            $mainImage = asset('utilities/profileDefault.jpg');
+            $secondaryImage = asset('utilities/backgroundDefault.jpg');
+        }
+        return [
+            'main_image' => $mainImage,
+            'secondary_image' => $secondaryImage,
+        ];
+    }
+
 }

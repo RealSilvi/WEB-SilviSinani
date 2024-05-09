@@ -30,9 +30,9 @@
             </section>
         @endif
 
-        <section class="flex flex-col lg:flex-row w-full justify-center gap-10">
+        <section class="flex flex-col lg:flex-row w-full justify-center lg:flex-wrap">
             @foreach ($profiles as $profile)
-                <div class="lg:w-1/3">
+                <div class="lg:w-1/3 py-5 lg:p-5">
                     <x-search-profile-item :profile="$profile"></x-search-profile-item>
                 </div>
             @endforeach

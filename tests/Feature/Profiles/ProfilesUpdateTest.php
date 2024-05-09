@@ -34,12 +34,12 @@ it('can update a profile', function () {
         ->has('data', fn(AssertableJson $json) => $json
             ->has('type')
             ->where('id', $profile->id)
-            ->where('nickname', 'Scott')
+            ->where('nickname', 'scott')
             ->where('userId', $user->id)
             ->where('dateOfBirth', $date)
             ->where('breed', ProfileBreedDog::GOLDEN_RETRIEVER->value)
-            ->where('mainImage','profiles/'.$mainUrl->hashName())
-            ->where('secondaryImage', 'backgrounds/'.$secondaryUrl->hashName())
+            ->where('mainImage', asset('profiles/scott/profile.jpg'))
+            ->where('secondaryImage', asset('profiles/scott/background.jpg'))
             ->where('bio', 'Scott it is an awesome dog.')
             ->etc()
         )
@@ -50,16 +50,15 @@ it('can update a profile', function () {
 
     expect($profile)
         ->user_id->toBe($user->id)
-        ->nickname->toBe('Scott')
+        ->nickname->toBe('scott')
         ->date_of_birth->toBe($date)
         ->breed->toBe(ProfileBreedDog::GOLDEN_RETRIEVER->value)
-        ->main_image->toBe('profiles/'.$mainUrl->hashName())
-        ->secondary_image->toBe('backgrounds/'.$secondaryUrl->hashName())
+        ->main_image->toBe(asset('profiles/scott/profile.jpg'))
+        ->secondary_image->toBe(asset('profiles/scott/background.jpg'))
         ->bio->toBe('Scott it is an awesome dog.')
         ->type->not()->toBeNull();
 
-    Storage::disk('public')->delete($response->json('data.mainImage'));
-    Storage::disk('public')->delete($response->json('data.secondaryImage'));
+    Storage::disk('public')->deleteDirectory('profiles/'.$response->json('data.nickname'));
 });
 
 it('can not update profile when does not match user profiles', function () {
@@ -118,6 +117,7 @@ it('can manage default updates, false to false', function () {
     $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileB->id)]), [
         'default' => false
     ]);
+
 
     $response->assertOk();
 
