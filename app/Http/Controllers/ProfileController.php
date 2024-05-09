@@ -13,15 +13,14 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
-        if ($profile && $profile->user_id !== $user->id) {
-            abort(404);
-        }
-
         $profile = $profile ?? $user->getDefaultProfile();
+
+        $authProfile = Profile::query()->where('nickname', $request->query('authProfile'))->first();
 
         return view('pages.profiles._profile', [
             'user' => $user,
             'profile' => $profile,
+            'authProfile' => $authProfile ?? $profile
         ]);
     }
 

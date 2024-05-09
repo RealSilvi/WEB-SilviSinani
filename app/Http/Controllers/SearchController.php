@@ -13,12 +13,9 @@ class SearchController extends Controller
     {
         $user = $request->user();
 
-        if ($profile && $profile->user_id !== $user->id) {
-            abort(404);
-        }
-
         $profile = $profile ?? $user->getDefaultProfile();
 
+        /** @var \Illuminate\Database\Eloquent\Collection<array-key,\App\Models\Profile> $profiles */
         $profiles = Profile::search($request->search)->get();
 
         return view('pages.search._profile', [

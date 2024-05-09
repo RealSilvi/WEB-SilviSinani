@@ -12,7 +12,7 @@ class UpdateProfileInput extends Data
 {
     public function __construct(
         public ?string $nickname = null,
-        public ?bool   $default = false,
+        public ?bool   $default = null,
         public ?string $dateOfBirth = null,
         public ?string $breed = null,
         public ?UploadedFile $mainImage = null,

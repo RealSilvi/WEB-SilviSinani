@@ -40,14 +40,14 @@ class UpdateProfileAction
      */
     public function updateProfile(User $user, Profile $profile, UpdateProfileInput $input): Profile
     {
-        $input->nickname = Str::slug($input->nickname);
+        $input->nickname = Str::slug($input->nickname ?? $profile->nickname);
         $this->checkAndRestoreDefaults($user, $profile, $input);
         $this->checkNicknamesAndRestoreStoragePaths($profile, $input);
 
         $images = $this->checkAndRestoreImages($input, $profile);
 
         $profile->update([
-            'nickname' => $input->nickname ?? $profile->nickname,
+            'nickname' => $input->nickname,
             'bio' => $input->bio ?? $profile->bio,
             'main_image' => $images['main_image'],
             'secondary_image' => $images['secondary_image'],
@@ -76,11 +76,12 @@ class UpdateProfileAction
      */
     protected function checkAndRestoreDefaults(User $user, Profile $profile, UpdateProfileInput $input): void
     {
-        if ($profile->default == $input->default) {
+
+        if ($profile->default === $input->default || $input->default === null) {
             return;
         }
 
-        if ($user->profiles()->count() == 1 && !$input->default) {
+        if ($user->profiles()->count() === 1 && !$input->default) {
             throw  new CannotChangeDefaultProfileException('Cannot change the default status of your last profile');
         }
 

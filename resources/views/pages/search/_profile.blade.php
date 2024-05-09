@@ -31,9 +31,9 @@
         @endif
 
         <section class="flex flex-col lg:flex-row w-full justify-center lg:flex-wrap">
-            @foreach ($profiles as $profile)
-                <div class="lg:w-1/3 py-5 lg:p-5">
-                    <x-search-profile-item :profile="$profile"></x-search-profile-item>
+            @foreach ($profiles as $searchProfile)
+                <div class="lg:w-1/3 lg:p-5">
+                    <x-search-profile-item :authProfile="$profile" :searchProfile="$searchProfile"></x-search-profile-item>
                 </div>
             @endforeach
         </section>

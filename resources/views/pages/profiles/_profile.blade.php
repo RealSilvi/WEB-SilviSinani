@@ -1,6 +1,7 @@
 @php
     /**
      * @var \App\Models\Profile $profile
+     * @var \App\Models\Profile $authProfile
      * @var \App\Models\User $user
      */
 @endphp
@@ -9,21 +10,21 @@
 
 @section('main')
     <header>
-        @include('partials.navbar.navbar')
+        @include('partials.navbar.navbar',['profile'=>$authProfile])
     </header>
 
     <aside>
-        @include('partials.sidebar.sidebar')
+        @include('partials.sidebar.sidebar',['profile'=>$authProfile])
     </aside>
 
     <main class="mx-auto w-full max-w-screen-2xl flex-1 pt-5 pb-10 lg:pt-20 lg:pb-32 px-5 lg:px-20">
         <section>
-            <img src="{{$profile->secondary_image}}" alt="{{$profile->nickname.' secondary image'}}"
+            <img src="{{asset($profile->secondary_image)}}" alt="{{$profile->nickname.' secondary image'}}"
                  class="object-cover aspect-[7/3] w-full rounded-xl" />
 
             <div class="-mt-5 lg:relative  px-2">
                 <div class="grid grid-cols-3 justify-around items-center gap-5 lg:absolute lg:-translate-y-2/3">
-                    <img src="{{$profile->main_image}}" alt="{{$profile->nickname.' main image'}}"
+                    <img src="{{asset($profile->main_image)}}" alt="{{$profile->nickname.' main image'}}"
                          class="block aspect-[1/1] w-full rounded-full object-cover" />
 
                     <div
