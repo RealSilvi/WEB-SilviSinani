@@ -43,7 +43,8 @@ class UpdateProfileAction
         $input->nickname = Str::slug($input->nickname);
         $this->checkAndRestoreDefaults($user, $profile, $input);
         $this->checkNicknamesAndRestoreStoragePaths($profile, $input);
-        $images = $this->checkAndRestoreImages($input,$profile);
+
+        $images = $this->checkAndRestoreImages($input, $profile);
 
         $profile->update([
             'nickname' => $input->nickname ?? $profile->nickname,
@@ -105,16 +106,17 @@ class UpdateProfileAction
         if ($profile->nickname === $input->nickname || !$input->nickname) {
             return;
         }
-        Storage::disk('public')->createDirectory('profiles/' . $input->nickname);
 
-        foreach (Storage::disk('public')->allDirectories('profiles/' . $profile->nickname) as $directory) {
-            Storage::disk('public')->createDirectory('profiles/' . $input->nickname . '/' . $directory);
-        }
         foreach (Storage::disk('public')->allFiles('profiles/' . $profile->nickname) as $file) {
-            Storage::disk('public')->createDirectory('profiles/' . $input->nickname . '/' . $file);
+            Storage::disk('public')->move(
+                $file,
+                Str::replace($profile->nickname, $input->nickname, $file),
+            );
         }
         Storage::disk('public')->deleteDirectory('profiles/' . $profile->nickname);
 
+        $profile->main_image = Str::replace($profile->nickname, $input->nickname, $profile->main_image);
+        $profile->secondary_image = Str::replace($profile->nickname, $input->nickname, $profile->secondary_image);
     }
 
     public function checkAndRestoreImages(UpdateProfileInput $input, Profile $profile): array

@@ -38,6 +38,6 @@ class StoreImageOrStoreDefaultImageAction
             Storage::disk('public')->copy($defaultImagePath, $profilePathDirectory . '/' . $filename);
         }
 
-        return asset($profilePathDirectory . '/' . $filename);
+        return $profilePathDirectory . '/' . $filename;
     }
 }

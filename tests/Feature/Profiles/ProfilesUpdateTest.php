@@ -16,8 +16,8 @@ it('can update a profile', function () {
     $profile = Profile::factory()->for($user)->create();
 
     $date = fake()->date();
-    $mainUrl =  UploadedFile::fake()->image(storage_path('/test/test.png'));
-    $secondaryUrl =  UploadedFile::fake()->image(storage_path('/test/test.png'));
+    $mainUrl = UploadedFile::fake()->image(storage_path('/test/test.png'));
+    $secondaryUrl = UploadedFile::fake()->image(storage_path('/test/test.png'));
 
     $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profile->id)]), [
         'nickname' => 'Scott',
@@ -38,8 +38,8 @@ it('can update a profile', function () {
             ->where('userId', $user->id)
             ->where('dateOfBirth', $date)
             ->where('breed', ProfileBreedDog::GOLDEN_RETRIEVER->value)
-            ->where('mainImage', asset('profiles/scott/profile.jpg'))
-            ->where('secondaryImage', asset('profiles/scott/background.jpg'))
+            ->where('mainImage', 'profiles/scott/profile.jpg')
+            ->where('secondaryImage', 'profiles/scott/background.jpg')
             ->where('bio', 'Scott it is an awesome dog.')
             ->etc()
         )
@@ -53,12 +53,12 @@ it('can update a profile', function () {
         ->nickname->toBe('scott')
         ->date_of_birth->toBe($date)
         ->breed->toBe(ProfileBreedDog::GOLDEN_RETRIEVER->value)
-        ->main_image->toBe(asset('profiles/scott/profile.jpg'))
-        ->secondary_image->toBe(asset('profiles/scott/background.jpg'))
+        ->main_image->toBe('profiles/scott/profile.jpg')
+        ->secondary_image->toBe('profiles/scott/background.jpg')
         ->bio->toBe('Scott it is an awesome dog.')
         ->type->not()->toBeNull();
 
-    Storage::disk('public')->deleteDirectory('profiles/'.$response->json('data.nickname'));
+    Storage::disk('public')->deleteDirectory('profiles/' . $response->json('data.nickname'));
 });
 
 it('can not update profile when does not match user profiles', function () {
@@ -87,8 +87,8 @@ it('can not update a profile with the a nickname that already exists', function 
     $profileB = Profile::factory()->for($user)->create();
 
     $date = fake()->date();
-    $mainUrl =  UploadedFile::fake()->image(storage_path('/test/test.png'));
-    $secondaryUrl =  UploadedFile::fake()->image(storage_path('/test/test.png'));
+    $mainUrl = UploadedFile::fake()->image(storage_path('/test/test.png'));
+    $secondaryUrl = UploadedFile::fake()->image(storage_path('/test/test.png'));
 
     $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileB->id)]), [
         'nickname' => $profileA->nickname,
@@ -111,7 +111,7 @@ it('can manage default updates, false to false', function () {
     $user = User::factory()->create();
     Sanctum::actingAs($user);
 
-    $profileA = Profile::factory()->for($user)->create(['default'=>true]);
+    $profileA = Profile::factory()->for($user)->create(['default' => true]);
     $profileB = Profile::factory()->for($user)->create();
 
     $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileB->id)]), [
@@ -134,15 +134,15 @@ it('can manage default updates, false to false', function () {
 
     expect($profileA)->default->toBeTrue();
     expect($profileB)->default->toBeFalse();
-    expect($user->profiles()->where('default',true)->count())->toBe(1);
-    expect($user->profiles()->where('default',true)->first()->toArray())->toBe($profileA->toArray());
+    expect($user->profiles()->where('default', true)->count())->toBe(1);
+    expect($user->profiles()->where('default', true)->first()->toArray())->toBe($profileA->toArray());
 });
 
 it('can manage default updates, true to true', function () {
     $user = User::factory()->create();
     Sanctum::actingAs($user);
 
-    $profileA = Profile::factory()->for($user)->create(['default'=>true]);
+    $profileA = Profile::factory()->for($user)->create(['default' => true]);
     $profileB = Profile::factory()->for($user)->create();
 
     $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileA->id)]), [
@@ -164,15 +164,15 @@ it('can manage default updates, true to true', function () {
 
     expect($profileA)->default->toBeTrue();
     expect($profileB)->default->toBeFalse();
-    expect($user->profiles()->where('default',true)->count())->toBe(1);
-    expect($user->profiles()->where('default',true)->first()->toArray())->toBe($profileA->toArray());
+    expect($user->profiles()->where('default', true)->count())->toBe(1);
+    expect($user->profiles()->where('default', true)->first()->toArray())->toBe($profileA->toArray());
 });
 
 it('can manage default updates, false to true', function () {
     $user = User::factory()->create();
     Sanctum::actingAs($user);
 
-    $profileA = Profile::factory()->for($user)->create(['default'=>true]);
+    $profileA = Profile::factory()->for($user)->create(['default' => true]);
     $profileB = Profile::factory()->for($user)->create();
 
     $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileB->id)]), [
@@ -194,15 +194,15 @@ it('can manage default updates, false to true', function () {
 
     expect($profileA)->default->toBeFalse();
     expect($profileB)->default->toBeTrue();
-    expect($user->profiles()->where('default',true)->count())->toBe(1);
-    expect($user->profiles()->where('default',true)->first()->toArray())->toBe($profileB->toArray());
+    expect($user->profiles()->where('default', true)->count())->toBe(1);
+    expect($user->profiles()->where('default', true)->first()->toArray())->toBe($profileB->toArray());
 });
 
 it('can manage default updates, true to false', function () {
     $user = User::factory()->create();
     Sanctum::actingAs($user);
 
-    $profileA = Profile::factory()->for($user)->create(['default'=>true]);
+    $profileA = Profile::factory()->for($user)->create(['default' => true]);
     $profileB = Profile::factory()->for($user)->create();
 
     $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileA->id)]), [
@@ -224,15 +224,15 @@ it('can manage default updates, true to false', function () {
 
     expect($profileA)->default->toBeFalse();
     expect($profileB)->default->toBeTrue();
-    expect($user->profiles()->where('default',true)->count())->toBe(1);
-    expect($user->profiles()->where('default',true)->first()->toArray())->toBe($profileB->toArray());
+    expect($user->profiles()->where('default', true)->count())->toBe(1);
+    expect($user->profiles()->where('default', true)->first()->toArray())->toBe($profileB->toArray());
 });
 
 it('can not update default of last profile', function () {
     $user = User::factory()->create();
     Sanctum::actingAs($user);
 
-    $profileA = Profile::factory()->for($user)->create(['default'=>true]);
+    $profileA = Profile::factory()->for($user)->create(['default' => true]);
 
     $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileA->id)]), [
         'default' => false
@@ -243,4 +243,43 @@ it('can not update default of last profile', function () {
     expect($response->json())
         ->error->toBe(true)
         ->message->toBe('Cannot change the default status of your last profile');
+});
+
+it('can update storage paths', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    /** @var Profile $profile */
+    $profile = Profile::factory()->for($user)->realImages()->create();
+    $directoryUrl = 'profiles/' . $profile->nickname;
+    $mainUrl = $profile->main_image;
+    $secondaryUrl = $profile->secondary_image;
+
+    expect(Storage::disk('public')->directoryExists($directoryUrl))->toBeTrue();
+    expect(Storage::disk('public')->exists($mainUrl))->toBeTrue();
+    expect(Storage::disk('public')->exists($secondaryUrl))->toBeTrue();
+    $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profile->id)]), [
+        'nickname' => 'Scott',
+    ]);
+
+    $response->assertOk();
+
+    $response->assertJson(fn(AssertableJson $json) => $json
+        ->has('data', fn(AssertableJson $json) => $json
+            ->where('nickname', 'scott')
+            ->where('mainImage', 'profiles/scott/profile.jpg')
+            ->where('secondaryImage', 'profiles/scott/background.jpg')
+            ->etc()
+        )
+    );
+
+    $profile = $profile->fresh();
+    expect(Storage::disk('public')->directoryExists($directoryUrl))->toBeFalse();
+    expect(Storage::disk('public')->exists($mainUrl))->toBeFalse();
+    expect(Storage::disk('public')->exists($secondaryUrl))->toBeFalse();
+    expect(Storage::disk('public')->directoryExists('profiles/' . $profile->nickname))->toBeTrue();
+    expect(Storage::disk('public')->exists($profile->main_image))->toBeTrue();
+    expect(Storage::disk('public')->exists($profile->secondary_image))->toBeTrue();
+
+    Storage::disk('public')->deleteDirectory('profiles/' . $response->json('data.nickname'));
 });

@@ -103,8 +103,8 @@ class CreateProfileAction
                 'utilities/backgroundDefault.jpg'
             );
         } catch (FilesystemException) {
-            $mainImage = asset('utilities/profileDefault.jpg');
-            $secondaryImage = asset('utilities/backgroundDefault.jpg');
+            $mainImage = 'utilities/profileDefault.jpg';
+            $secondaryImage = 'utilities/backgroundDefault.jpg';
         }
         return [
             'main_image' => $mainImage,

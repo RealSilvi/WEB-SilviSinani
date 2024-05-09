@@ -22,7 +22,6 @@ class ImageGenerator
 
         Storage::disk('public')->put($basePathToFile, $contents);
         return $basePathToFile;
-
     }
 
 }
