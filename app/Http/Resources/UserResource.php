@@ -19,6 +19,7 @@ class UserResource extends JsonResource
             'lastName' => $this->resource->last_name,
             'dateOfBirth' => $this->resource->date_of_birth,
             'email' => $this->resource->email,
+            'profilesCount' => $this->whenCounted('profiles', $this->resource->profiles_count),
             'profiles' => ProfileResource::collection($this->whenLoaded('profiles')),
             'createdAt' => $this->resource->created_at,
             'updatedAt' => $this->resource->updated_at,

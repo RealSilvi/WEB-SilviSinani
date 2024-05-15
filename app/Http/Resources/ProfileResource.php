@@ -14,7 +14,6 @@ class ProfileResource extends JsonResource
 
     public function toArray(Request $request): array
     {
-
         return [
             'id' => $this->resource->id,
             'nickname' => $this->resource->nickname,
@@ -28,6 +27,14 @@ class ProfileResource extends JsonResource
             'createdAt' => $this->resource->created_at,
             'updatedAt' => $this->resource->updated_at,
             'user' => new UserResource($this->whenLoaded('user')),
+            'receivedRequestsCount' => $this->whenCounted('receivedRequests', $this->resource->received_requests_count),
+            'receivedRequests' => ProfileResource::collection($this->whenLoaded('receivedRequests')),
+            'sentRequestsCount' => $this->whenCounted('sentRequests', $this->resource->sent_requests_count),
+            'sentRequests' => ProfileResource::collection($this->whenLoaded('sentRequests')),
+            'followersCount' => $this->whenCounted('followers', $this->resource->following_count),
+            'followers' => ProfileResource::collection($this->whenLoaded('followers')),
+            'followingCount' => $this->whenCounted('following', $this->resource->following_count),
+            'following' => ProfileResource::collection($this->whenLoaded('following')),
             'bio' => $this->resource->bio,
         ];
     }

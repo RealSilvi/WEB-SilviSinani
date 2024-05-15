@@ -54,7 +54,7 @@ Alpine.data('sidebar', (props: NavbarProps) => {
             this.profileLinks = this.profiles.map((profile: Profile) => {
                 return {
                     profileId: profile.id,
-                    src:  `${window.location.origin}/${profile.mainImage}`,
+                    src: `${window.location.origin}/${profile.mainImage}`,
                     alt: `Profile image ${profile.nickname}`,
                     href: ROUTE_PROFILE_EDIT(profile.nickname),
                     nickname: profile.nickname,
