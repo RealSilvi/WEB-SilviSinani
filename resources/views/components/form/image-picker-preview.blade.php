@@ -10,7 +10,7 @@
     'accept'=>".jpg, .jpeg, .png, .svg",
     'error' => isset($name) && $name !== null ? $errors->first($name) : null,
     'reverse' => false,
-    'defaultUrlStorage'=>asset('/storage/utilities/image-placeholder.png'),
+    'defaultUrlStorage'=>asset('/storage/utilities/profileDefault.jpg'),
 ])
 
 <div x-cloak x-data="imagePreview({ defaultUrl:@js($defaultUrlStorage) })" class="overflow-hidden">

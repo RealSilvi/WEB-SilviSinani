@@ -66,12 +66,10 @@ Alpine.data('formSubmit', (props: FormSubmitProps = {}) => {
                 // });
 
                 event.target.reset();
-
                 if (props.onSuccessRedirectUrl) {
                     window.location.replace(props.onSuccessRedirectUrl);
-                } else {
-                    window.location.reload();
                 }
+                window.location.reload();
 
                 // this.$dispatch('submitted', {
                 //     formId: props.formId,

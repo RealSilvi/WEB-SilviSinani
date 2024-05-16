@@ -7,7 +7,7 @@
     $profile= $profile ?? $user->getDefaultProfile();
 @endphp
 <aside x-data="sidebar({ userId: {{auth()->id()}} })"
-       class="fixed z-40 w-screen bottom-0 right-0 lg:top-0 lg:h-full lg:w-20 h-15 p-2 lg:py-0">
+       class="fixed z-40 w-full bottom-0 right-0 lg:top-0 lg:h-full lg:w-20 h-15 p-2 lg:py-0">
     <div class="w-full h-full bg-white rounded-full lg:flex lg:flex-col">
         <div class="hidden lg:block w-full pt-2 h-22">
             <div class="bg-primary/90 rounded-2xl w-full h-full">
