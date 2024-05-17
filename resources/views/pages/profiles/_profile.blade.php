@@ -19,14 +19,6 @@
     $unfollowFormId = 'unfollow_request_form';
     $unfollowMethod = 'DELETE';
     $unfollowActionUrl = route('users.profiles.following.destroy',['user'=>$user->id,'profile'=>$authProfile->id,'following'=>$profile->id]);
-
-    $acceptFollowerFormId = 'accept_follower_form';
-    $acceptFollowerMethod = 'POST';
-    $acceptFollowerActionUrl = route('users.profiles.followers.store',['user'=>$user->id,'profile'=>$authProfile->id]);
-
-    $declineFollowerFormId = 'decline_follower_form';
-    $declineFollowerMethod = 'DELETE';
-    $declineFollowerActionUrl = route('users.profiles.followers.destroy',['user'=>$user->id,'profile'=>$authProfile->id,'follower'=>$profile->id]);
 @endphp
 
 @extends('layouts.default')
@@ -108,10 +100,6 @@
                               @submit.prevent="submit"
                               class="w-full">
                             @csrf
-                            <x-form.group name="followerId">
-                                <x-form.input type="hidden" value="{{$profile->id}}"></x-form.input>
-                            </x-form.group>
-
                             <x-form.submit  class="bg-primary/10 font-normal lg:text-2xl rounded-xl py-2 w-full lg:p-3 h-fit !text-primary">
                                 {{$friendshipStatus == \App\Enum\FriendshipStatus::WAITING?'Waiting':'Unfollow'}}
                             </x-form.submit>

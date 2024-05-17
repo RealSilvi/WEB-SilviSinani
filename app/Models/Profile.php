@@ -77,11 +77,15 @@ class Profile extends Model
         return $this->sentRequests()->wherePivot('accepted', true);
     }
 
+    public function pendingFollowers(): BelongsToMany
+    {
+        return $this->receivedRequests()->wherePivot('accepted', false);
+    }
+
     public function friends(): \Illuminate\Database\Eloquent\Collection
     {
         return $this->followers()->get()->merge($this->following()->get())->unique('id');
     }
-
 
     public function toSearchableArray(): array
     {

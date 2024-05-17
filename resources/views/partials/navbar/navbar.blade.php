@@ -48,8 +48,8 @@
                     x-transition:leave-end="translate-x-full"
                     class="w-14 h-full flex flex-col items-center justify-around transition-all ease-in-out duration-300">
                 <div x-on:click.outside="showMenu=false" class="w-full aspect-[1/1] bg-primary/90 rounded-xl">
-                    <a href="#" class="w-full h-full flex items-center justify-center">
-                        {{svg('conversations','h-6 w-6')}}
+                    <a href="{{route('news',['profile'=>$profile->nickname])}}" class="w-full h-full flex items-center justify-center">
+                        {{svg('heart','h-6 w-6')}}
                     </a>
                 </div>
                 <div x-on:click.outside="showMenu=false" class="w-full aspect-[1/1] bg-primary/90 rounded-xl">

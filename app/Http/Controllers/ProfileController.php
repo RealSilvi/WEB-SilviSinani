@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Enum\FriendshipStatus;
 use App\Models\Profile;
 use Illuminate\Routing\Controller;
@@ -19,7 +18,6 @@ class ProfileController extends Controller
         $profile->loadCount(['followers', 'following']);
 
         $authProfile = Profile::query()->where('nickname', $request->query('authProfile'))->first() ?? $profile;
-
         $ownership = $authProfile == $profile;
 
         $friendshipStatus = $authProfile->sentRequests()->find($profile) ?

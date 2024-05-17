@@ -11,8 +11,8 @@
     <div class="w-full h-full bg-white rounded-full lg:flex lg:flex-col">
         <div class="hidden lg:block w-full pt-2 h-22">
             <div class="bg-primary/90 rounded-2xl w-full h-full">
-                <a href="#" class="w-full h-full flex  items-center justify-center">
-                    {{svg('conversations','lg:h-7 lg:w-7')}}
+                <a href="{{route('news',['profile'=>$profile->nickname])}}" class="w-full h-full flex  items-center justify-center">
+                    {{svg('heart','lg:h-7 lg:w-7')}}
                 </a>
             </div>
         </div>
