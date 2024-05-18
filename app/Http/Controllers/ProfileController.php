@@ -18,7 +18,8 @@ class ProfileController extends Controller
         $profile->loadCount(['followers', 'following']);
 
         $authProfile = Profile::query()->where('nickname', $request->query('authProfile'))->first() ?? $profile;
-        $ownership = $authProfile == $profile;
+
+        $ownership = $authProfile->id == $profile->id;
 
         $friendshipStatus = $authProfile->sentRequests()->find($profile) ?
             ($authProfile->following()->find($profile) ? FriendshipStatus::ACCEPTED : FriendshipStatus::WAITING) :

@@ -50,7 +50,7 @@ class DeleteProfileFollowingAction
             throw new ModelNotFoundException('Profile with id:' . $follower->id . ' does not exist');
         }
 
-        if (!$profile->sentRequests()->find($follower->id)->exists()) {
+        if (!$profile->sentRequests()->find($follower->id)) {
             throw new FollowingNotFoundException('Following not found');
         }
     }

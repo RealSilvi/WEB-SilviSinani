@@ -3,6 +3,7 @@
      * @var \App\Models\Profile $profile
      * @var \App\Models\User $user
      * @var \Illuminate\Database\Eloquent\Collection<array-key,\App\Models\Profile> $pendingFollowers
+     * @var \App\Enum\FriendshipType $friendshipType
      */
 @endphp
 
@@ -32,7 +33,7 @@
         <section class="flex flex-col lg:flex-row w-full justify-center lg:flex-wrap">
             @foreach ($pendingFollowers as $followRequest)
                 <div class="lg:w-1/3 lg:p-5">
-                    <x-news-follow-request :authProfile="$profile" :followRequestProfile="$followRequest"></x-news-follow-request>
+                    <x-edit-friend :authProfile="$profile" :friendProfile="$followRequest" :friendshipType="$friendshipType" ></x-edit-friend>
                 </div>
             @endforeach
         </section>

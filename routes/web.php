@@ -35,6 +35,7 @@ Route::middleware(['auth', 'verified', 'userHasProfile'])->group(function () {
     Route::get('/search/{profile:nickname?}', \App\Http\Controllers\SearchController::class)->name('search');
     Route::get('/profiles/{profile:nickname?}', \App\Http\Controllers\ProfileController::class)->name('profile');
     Route::get('/news/{profile:nickname?}', \App\Http\Controllers\NewsController::class)->name('news');
+    Route::get('/profile/{profile:nickname?}/friendships/{friendshipType}', \App\Http\Controllers\FriendshipsController::class)->name('friendships');
     Route::get('/settings/{profile:nickname?}', \App\Http\Controllers\SettingsController::class)->name('settings');
 //    Route::get('/chats/{profile:nickname?}', \App\Http\Controllers\DashboardController::class);
 });
