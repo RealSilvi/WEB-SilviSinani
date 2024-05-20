@@ -1,7 +1,8 @@
 @php
     $formId = 'register_profile_form';
-    $actionUrl = route('users.profiles.store',['user'=>auth()->id()]);
-    $onSuccessRedirect=\App\Providers\RouteServiceProvider::HOME;
+    $method = 'POST';
+    $actionUrl = route('users.profiles.store',['user' => auth()->id()]);
+    $onSuccessRedirect = \App\Providers\RouteServiceProvider::HOME;
 @endphp
 
 @extends('layouts.auth', [
@@ -18,9 +19,10 @@
 
                 <div class="mt-10 lg:mt-15  flex flex-col">
                     <form action="{{$actionUrl}}"
-                          method="POST"
+                          method="{{$method}}"
                           x-data="formSubmit({
                             formId: '{{ $formId }}',
+                            method: '{{ $method }}',
                             url: '{{ $actionUrl }}',
                             onSuccessRedirectUrl: '{{ $onSuccessRedirect }}',
                           })"

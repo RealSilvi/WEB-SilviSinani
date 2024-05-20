@@ -1,7 +1,8 @@
 @php
     $formId = 'register_profile_form';
-    $actionUrl = route('users.profiles.store',['user'=>auth()->id()]);
-    $onSuccessRedirect=\App\Providers\RouteServiceProvider::HOME;
+    $method = 'POST';
+    $actionUrl = route('users.profiles.store',['user' => auth()->id()]);
+    $onSuccessRedirect = \App\Providers\RouteServiceProvider::HOME;
 @endphp
 
 @extends('layouts.default')
@@ -14,12 +15,14 @@
     <aside>
         @include('partials.sidebar.sidebar')
     </aside>
+
     <main class="mx-auto w-full max-w-screen-2xl flex-1 pt-5 pb-10 lg:pt-20 lg:pb-32 px-5 lg:px-20">
         <section class="flex w-full h-full items-center justify-center">
-            <form action="{{$actionUrl}}"
+            <form action="{{ $actionUrl }}"
                   method="POST"
                   x-data="formSubmit({
                             formId: '{{ $formId }}',
+                            method: '{{ $method }}',
                             url: '{{ $actionUrl }}',
                             onSuccessRedirectUrl: '{{ $onSuccessRedirect }}',
                           })"
@@ -36,8 +39,8 @@
                                     {{ __('form.profile_create.main_image') }}
                                 </x-form.label>
                                 <x-form.image-picker-preview
-                                    defaultUrlStorage="{{asset('/storage/utilities/profileDefault.jpg')}}"
-                                    class="h-20" />
+                                        defaultUrlStorage="{{asset('/storage/utilities/profileDefault.jpg')}}"
+                                        class="h-20" />
                             </x-form.group>
                         </div>
                     </div>
@@ -45,18 +48,18 @@
                         <div class="lg:order-first lg:pb-10">
                             <x-form.group name="type">
                                 <div
-                                    class="flex flex-row items-center justify-center w-full gap-2 lg:gap-4 flex-wrap ">
+                                        class="flex flex-row items-center justify-center w-full gap-2 lg:gap-4 flex-wrap ">
                                     @foreach(\App\Enum\ProfileType::cases() as $profileType)
                                         <div class="w-1/4">
 
                                             <x-form.radio
-                                                id="{{ $profileType->value }}"
-                                                value="{{ $profileType->value }}"
-                                                class="hidden peer/type" />
+                                                    id="{{ $profileType->value }}"
+                                                    value="{{ $profileType->value }}"
+                                                    class="hidden peer/type" />
 
                                             <x-form.label
-                                                for="{{ $profileType->value }}"
-                                                class="flex items-center justify-center p-2 lg:py-3 lg:px-5 rounded-xl text-primary w-full h-full cursor-pointer text-sm bg-primary/50 peer-checked/type:bg-primary peer-checked/type:text-white">
+                                                    for="{{ $profileType->value }}"
+                                                    class="flex items-center justify-center p-2 lg:py-3 lg:px-5 rounded-xl text-primary w-full h-full cursor-pointer text-sm bg-primary/50 peer-checked/type:bg-primary peer-checked/type:text-white">
                                                 {{ $profileType->value }}
                                             </x-form.label>
                                         </div>
