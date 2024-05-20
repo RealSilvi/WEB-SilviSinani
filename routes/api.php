@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\FollowersController;
 use App\Http\Controllers\Api\FollowingController;
+use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,6 @@ Route::middleware(['auth:sanctum','verified'])->group(function () {
     Route::resource('users.profiles', ProfileController::class)->except(['edit','create']);
     Route::resource('users.profiles.followers', FollowersController::class)->only(['index','store','destroy']);
     Route::resource('users.profiles.following', FollowingController::class)->only(['index','store','destroy']);
+    Route::post('/users/{user}/profiles/{profile}/news/seeAll', [NewsController::class,'seeAll'])->name('users.profiles.news.seeAll');
+    Route::resource('users.profiles.news', NewsController::class)->only(['store']);
 });

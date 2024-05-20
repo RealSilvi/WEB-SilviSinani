@@ -1,7 +1,9 @@
 <?php
 
+use App\Enum\NewsType;
 use App\Http\Controllers\Api\FollowersController;
 use App\Http\Controllers\Api\FollowingController;
+use App\Http\Controllers\Api\NewsController;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;

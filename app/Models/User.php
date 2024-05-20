@@ -80,7 +80,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getDefaultProfile(): Profile
     {
-        $profile = $this->profiles()->where('default', 1)->first();
+        $profile = $this->profiles()->where('default', true)->first();
 
         assert($profile instanceof Profile);
 

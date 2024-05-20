@@ -77,6 +77,7 @@ class ProfileController
         $profile = QueryBuilder::for(Profile::class, $request)
             ->allowedIncludes([
                 'user',
+                'news',
             ])
             ->findOrFail($profile);
 
@@ -96,6 +97,7 @@ class ProfileController
         $profiles = QueryBuilder::for(Profile::class, $request)
             ->allowedIncludes([
                 'user',
+                'news',
             ])
             ->where('user_id', $user->id)
             ->get();

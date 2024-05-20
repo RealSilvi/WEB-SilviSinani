@@ -12,6 +12,7 @@ use App\Actions\Profile\DeleteProfileAction;
 use App\Actions\Profile\DeleteProfileFollowerAction;
 use App\Actions\Profile\DeleteProfileFollowingAction;
 use App\Actions\Profile\UpdateProfileAction;
+use App\Enum\NewsType;
 use App\Exceptions\CannotDeleteDefaultProfileException;
 use App\Exceptions\CannotUnfollowYourselfException;
 use App\Exceptions\FollowerNotFoundException;
@@ -37,7 +38,9 @@ class FollowingController
      */
     public function store(User $user, Profile $profile, ProfileFollowInput $input, CreateProfileFollowingAction $action): ProfileResource
     {
-        $profile = $action->execute($profile, $input);
+        $profile = $action->execute($user,$profile, $input);
+
+
 
         return new ProfileResource($profile);
     }

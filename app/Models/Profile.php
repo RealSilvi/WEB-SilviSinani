@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
 
 /**
@@ -34,6 +35,10 @@ use Laravel\Scout\Searchable;
  * @property-read int|null $followers_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Profile> $following
  * @property-read int|null $following_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\News> $news
+ * @property-read int|null $news_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Profile> $pendingFollowers
+ * @property-read int|null $pending_followers_count
  */
 class Profile extends Model
 {
@@ -44,7 +49,7 @@ class Profile extends Model
 
     protected $casts = [
         'type' => ProfileType::class,
-        'default' => 'bool',
+        'default' => 'boolean',
         'created_at' => 'date:Y-m-d',
         'updated_ad' => 'date:Y-m-d',
     ];
@@ -82,9 +87,9 @@ class Profile extends Model
         return $this->receivedRequests()->wherePivot('accepted', false);
     }
 
-    public function friends(): \Illuminate\Database\Eloquent\Collection
+    public function news(): HasMany
     {
-        return $this->followers()->get()->merge($this->following()->get())->unique('id');
+        return $this->hasMany(News::class);
     }
 
     public function toSearchableArray(): array
