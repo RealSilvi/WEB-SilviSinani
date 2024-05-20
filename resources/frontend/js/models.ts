@@ -12,6 +12,32 @@ export interface Profile {
     updatedAt: string;
     user?: User;
     bio: string;
+    receivedRequestsCount?: number;
+    receivedRequests?: Profile[];
+    sentRequestsCount: number;
+    sentRequests?: Profile[];
+    allNewsCount: number;
+    allNews?: News[];
+    newsCount: number;
+    news?: News[];
+    followersCount: number;
+    followers?: Profile[];
+    followingCount: number;
+    following?: Profile[];
+}
+
+export interface News {
+    id: number;
+    title: string | null;
+    body: string | null;
+    type: string;
+    seen: boolean;
+    seenAt: string;
+    createdAt: string;
+    updatedAt: string;
+    profileId: number;
+    from: number;
+    profile?: Profile;
 }
 
 export interface User {

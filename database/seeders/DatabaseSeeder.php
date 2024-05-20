@@ -11,18 +11,29 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = User::factory()->create([
+        $userAdmin = User::factory()->create([
             'first_name' => 'admin',
             'last_name' => 'admin',
             'email' => 'admin@example.com',
             'password' => 'password'
         ]);
+        $userTest = User::factory()->create([
+            'first_name' => 'test',
+            'last_name' => 'test',
+            'email' => 'test@example.com',
+            'password' => 'password'
+        ]);
 
         Profile::factory()->realImages()->create([
-            'user_id' => $user->id,
+            'user_id' => $userAdmin->id,
             'nickname' => 'admin',
             'default' => true,
-            'type' => ProfileType::DOG,
+        ]);
+
+        Profile::factory()->realImages()->create([
+            'user_id' => $userTest->id,
+            'nickname' => 'test',
+            'default' => true,
         ]);
 
 

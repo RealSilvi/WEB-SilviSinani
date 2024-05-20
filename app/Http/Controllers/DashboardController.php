@@ -18,6 +18,7 @@ class DashboardController extends Controller
         }
 
         $profile = $profile ?? $user->getDefaultProfile();
+        $profile->loadCount('news');
 
         return view('pages.dashboard._profile', [
             'user' => $user,

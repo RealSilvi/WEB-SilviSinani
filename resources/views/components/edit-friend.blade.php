@@ -9,7 +9,7 @@
 @endphp
 <div class="h-full w-full border-b-4 py-5 lg:rounded-full lg:border-4 lg:p-2 lg:hover:bg-primary/50">
     <div
-        class="grid grid-cols-3 items-center justify-center gap-10 rounded-full p-1 hover:bg-primary/50 lg:hover:bg-transparent">
+        class="grid grid-cols-3 items-center justify-center gap-6 rounded-full p-1 hover:bg-primary/50 lg:hover:bg-transparent">
         <a
             href="{{ route('profile', ['profile' => $friendProfile->nickname, 'authProfile' => $authProfile->nickname]) }}">
             <img src="{{ asset($friendProfile->main_image) }}" alt="{{ $friendProfile->nickname . ' ' . 'main image' }}"
@@ -22,7 +22,7 @@
                 {{ '@' . $friendProfile->nickname }}
             </a>
         </div>
-        <div class="grid grid-cols-2">
+        <div class="grid h-full grid-cols-2">
 
             @if (!$onlyDelete)
                 <form action="{{ $storeFriendForm['action'] }}" method="{{ $storeFriendForm['method'] }}"
@@ -39,6 +39,8 @@
                         {{ svg('accept', 'h-8 w-8 text-success/75') }}
                     </button>
                 </form>
+            @else
+                <div></div>
             @endif
 
             <form action="{{ $deleteFriendForm['action'] }}" method="{{ $deleteFriendForm['method'] }}"
@@ -46,8 +48,7 @@
                     formId: '{{ $deleteFriendForm['id'] }}',
                     url: '{{ $deleteFriendForm['action'] }}',
                     method: '{{ $deleteFriendForm['method'] }}',
-                })" @submit.prevent="submit"
-                class="order-last h-full w-full items-center justify-center">
+                })" @submit.prevent="submit" class="h-full w-full items-center justify-center">
                 @csrf
                 <button @click="submit">
                     {{ svg('decline', 'h-8 w-8 text-error/75') }}

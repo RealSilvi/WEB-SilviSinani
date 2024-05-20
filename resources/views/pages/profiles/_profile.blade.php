@@ -65,7 +65,7 @@
 
             <div class="mt-5 flex flex-row gap-2 lg:gap-10 justify-between items-center h-full lg:mt-40 lg:text-2xl">
                 <a href="{{route('friendships',['profile'=>$profile->nickname,'friendshipType'=>\App\Enum\FriendshipType::FOLLOWER->value,'authProfile'=>$authProfile->nickname])}}"
-                   class="bg-primary/10 lg:text-2xl rounded-xl py-2 w-full lg:p-3 lg:w-2/3 h-fit">
+                   class="bg-primary/10 lg:text-2xl rounded-xl py-2 w-full lg:p-3 lg:w-2/3 h-fit text-center lg:text-start">
                     Followers <br class="lg:hidden"> {{$profile->followers_count}}
                 </a>
                 @if(!$ownership)
@@ -79,14 +79,14 @@
                             onSuccessRedirectUrl: '{{ $redirectUrl }}',
                           })"
                               @submit.prevent="submit"
-                              class="w-full">
+                              class="w-full h-full">
                             @csrf
                             <x-form.group name="followerId">
                                 <x-form.input type="hidden" value="{{$profile->id}}"></x-form.input>
                             </x-form.group>
 
                             <x-form.submit
-                                    class="bg-primary/10 font-normal lg:text-2xl rounded-xl py-2 w-full lg:p-3 h-fit !text-primary">
+                                    class="bg-primary/10 font-normal lg:text-2xl rounded-xl py-2 w-full lg:p-3 h-full lg:h-fit !text-primary">
                                 Follow
                             </x-form.submit>
                         </form>
@@ -103,14 +103,14 @@
                               class="w-full">
                             @csrf
                             <x-form.submit
-                                    class="bg-primary/10 font-normal lg:text-2xl rounded-xl py-2 w-full lg:p-3 h-fit !text-primary">
+                                    class="bg-primary/10 font-normal lg:text-2xl rounded-xl py-2 w-full h-full lg:p-3 lg:h-fit !text-primary">
                                 {{$friendshipStatus == \App\Enum\FriendshipStatus::WAITING?'Waiting':'Unfollow'}}
                             </x-form.submit>
                         </form>
                     @endif
                 @endif
                 <a href="{{route('friendships',['profile'=>$profile->nickname,'friendshipType'=>\App\Enum\FriendshipType::FOLLOWING->value,'authProfile'=>$authProfile->nickname])}}"
-                    class="bg-primary/10 lg:text-2xl rounded-xl py-2 w-full lg:p-3 lg:w-2/3 h-fit">
+                    class="bg-primary/10 lg:text-2xl rounded-xl py-2 w-full lg:p-3 lg:w-2/3 h-fit text-center lg:text-start">
                     Following <br class="lg:hidden"> {{$profile->following_count}}
                 </a>
             </div>

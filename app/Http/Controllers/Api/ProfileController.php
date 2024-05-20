@@ -98,6 +98,13 @@ class ProfileController
             ->allowedIncludes([
                 'user',
                 'news',
+                'allNews',
+                'allNews',
+                'receivedRequests',
+                'sentRequests',
+                'followers',
+                'following',
+                'pendingFollowers',
             ])
             ->where('user_id', $user->id)
             ->get();

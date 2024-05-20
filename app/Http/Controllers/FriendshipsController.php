@@ -25,6 +25,8 @@ class FriendshipsController extends Controller
             FriendshipType::FOLLOWING => $profile->following,
         };
 
+        $authProfile->loadCount('news');
+
         return view('pages.profiles.friendships._friendshipType', [
             'user' => $user,
             'profile' => $profile,

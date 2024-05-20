@@ -87,9 +87,14 @@ class Profile extends Model
         return $this->receivedRequests()->wherePivot('accepted', false);
     }
 
-    public function news(): HasMany
+    public function allNews(): HasMany
     {
         return $this->hasMany(News::class);
+    }
+
+    public function news(): HasMany
+    {
+        return $this->allNews()->where('seen',false);
     }
 
     public function toSearchableArray(): array

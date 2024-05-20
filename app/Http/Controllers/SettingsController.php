@@ -19,6 +19,8 @@ class SettingsController extends Controller
 
         $profile = $profile ?? $user->getDefaultProfile();
 
+        $profile->loadCount('news');
+
         return view('pages.settings._profile', [
             'user' => $user,
             'profile' => $profile,

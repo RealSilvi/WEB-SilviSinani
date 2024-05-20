@@ -31,6 +31,8 @@ class ProfileResource extends JsonResource
             'receivedRequests' => ProfileResource::collection($this->whenLoaded('receivedRequests')),
             'sentRequestsCount' => $this->whenCounted('sentRequests', $this->resource->sent_requests_count),
             'sentRequests' => ProfileResource::collection($this->whenLoaded('sentRequests')),
+            'allNewsCount' => $this->whenCounted('news', $this->resource->all_news_count),
+            'allNews' => NewsResource::collection($this->whenLoaded('allNews')),
             'newsCount' => $this->whenCounted('news', $this->resource->news_count),
             'news' => NewsResource::collection($this->whenLoaded('news')),
             'followersCount' => $this->whenCounted('followers', $this->resource->following_count),

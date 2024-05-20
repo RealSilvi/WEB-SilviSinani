@@ -25,6 +25,8 @@ class ProfileController extends Controller
             ($authProfile->following()->find($profile) ? FriendshipStatus::ACCEPTED : FriendshipStatus::WAITING) :
             FriendshipStatus::NONE;
 
+        $authProfile->loadCount('news');
+
         return view('pages.profiles._profile', [
             'user' => $user,
             'profile' => $profile,

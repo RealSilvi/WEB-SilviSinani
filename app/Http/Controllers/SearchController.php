@@ -18,6 +18,8 @@ class SearchController extends Controller
         /** @var \Illuminate\Database\Eloquent\Collection<array-key,\App\Models\Profile> $profiles */
         $profiles = Profile::search($request->search)->get();
 
+        $profile->loadCount('news');
+
         return view('pages.search._profile', [
             'user' => $user,
             'profile' => $profile,
