@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Profile;
@@ -9,7 +10,7 @@ use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
 use function Pest\Laravel\getJson;
 
-it('can fetch posts', function () {
+it('can fetch a single post', function () {
     $user = User::factory()->create();
     Sanctum::actingAs($user);
 
@@ -18,15 +19,17 @@ it('can fetch posts', function () {
     $profile = $profile->fresh();
     $post = $profile->lastPost()->first();
 
-    $response = getJson(action([PostController::class, 'index'], [
+    $response = getJson(action([PostController::class, 'show'], [
         'user' => $user->id,
         'profile' => $profile->id,
+        'post' => $post->id,
         'include' => []
     ]));
 
     $response->assertOk();
+
     $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', 15, fn(AssertableJson $json) => $json
+        ->has('data', fn(AssertableJson $json) => $json
             ->where('id', $post->id)
             ->where('image', $post->image)
             ->where('description', $post->description)
@@ -37,7 +40,7 @@ it('can fetch posts', function () {
     );
 });
 
-it('can fetch posts full', function () {
+it('can fetch a single post full', function () {
     $user = User::factory()->create();
     Sanctum::actingAs($user);
 
@@ -51,9 +54,10 @@ it('can fetch posts full', function () {
     $profileA->postLikes()->attach($post);
     $profileB->postLikes()->attach($post);
 
-    $response = getJson(action([PostController::class, 'index'], [
+    $response = getJson(action([PostController::class, 'show'], [
         'user' => $user->id,
         'profile' => $profileA->id,
+        'post' => $post->id,
         'include' => [
             'profile',
             'comments',
@@ -64,7 +68,7 @@ it('can fetch posts full', function () {
     $response->assertOk();
 
     $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', 15, fn(AssertableJson $json) => $json
+        ->has('data', fn(AssertableJson $json) => $json
             ->where('id', $post->id)
             ->has('profile', fn(AssertableJson $json) => $json
                 ->where('id', $profileA->id)

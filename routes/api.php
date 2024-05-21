@@ -24,5 +24,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('users.profiles.following', FollowingController::class)->only(['index', 'store', 'destroy']);
     Route::post('/users/{user}/profiles/{profile}/news/seeAll', [NewsController::class, 'seeAll'])->name('users.profiles.news.seeAll');
     Route::resource('users.profiles.news', NewsController::class)->only(['store']);
-    Route::resource('users.profiles.post', PostController::class)->only(['index', 'store', 'destroy']);
+    Route::resource('users.profiles.post', PostController::class)->only(['index','show', 'store', 'destroy']);
 });
