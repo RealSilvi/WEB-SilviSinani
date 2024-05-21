@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\FollowersController;
 use App\Http\Controllers\Api\FollowingController;
 use App\Http\Controllers\Api\NewsController;
+use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Support\Facades\Route;
 

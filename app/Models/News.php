@@ -33,8 +33,10 @@ class News extends Model
 
     protected $casts = [
         'type' => NewsType::class,
-        'seen_at' => 'date',
-        'seen' => 'boolean'
+        'seen_at' => 'datetime',
+        'seen' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_ad' => 'datetime',
     ];
 
     public function profile(): BelongsTo

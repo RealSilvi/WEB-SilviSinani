@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\PostResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,6 +31,11 @@ class Post extends Model
 
     protected $guarded = [];
 
+    protected $casts=[
+        'created_at' => 'datetime',
+        'updated_ad' => 'datetime',
+    ];
+
     public function profile(): BelongsTo
     {
         return $this->belongsTo(Profile::class);
@@ -40,9 +46,8 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public function likes(): BelongsToMany{
-        return $this->belongsToMany(Profile::class,'post_likes','post_id','profile_id');
+    public function likes(): BelongsToMany
+    {
+        return $this->belongsToMany(Profile::class, 'post_likes', 'post_id', 'profile_id');
     }
-
-
 }

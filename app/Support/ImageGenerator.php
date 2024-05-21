@@ -10,8 +10,9 @@ class ImageGenerator
     {
     }
 
-    public function generate(string $endLocation, string $filename, ?array $filters = []): string
+    public function generate(string $endLocation, ?string $filename = null, ?array $filters = []): string
     {
+        $filename = $filename ?? now()->toString();
         $url = $this->baseUrl . (count($filters) != 0 ? '?' : '');
         foreach ($filters as $filter) {
             $url = $url . '%20' . $filter;

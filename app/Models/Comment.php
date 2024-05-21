@@ -28,6 +28,11 @@ class Comment extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_ad' => 'datetime',
+    ];
+
     public function profile(): BelongsTo
     {
         return $this->belongsTo(Profile::class);
@@ -38,7 +43,8 @@ class Comment extends Model
         return $this->belongsTo(Post::class);
     }
 
-    public function likes(): BelongsToMany{
-        return $this->belongsToMany(Profile::class,'comment_likes','comment_id','profile_id');
+    public function likes(): BelongsToMany
+    {
+        return $this->belongsToMany(Profile::class, 'comment_likes', 'comment_id', 'profile_id');
     }
 }

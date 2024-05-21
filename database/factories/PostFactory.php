@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Post;
+use App\Models\Profile;
+use App\Support\ImageGenerator;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +20,10 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'image' => null,
+            'description' => null,
+            'profile_id' => Profile::factory()->create()->id,
         ];
     }
+
 }

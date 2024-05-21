@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\PostController;
+use App\Models\Comment;
+use App\Models\Post;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
@@ -11,82 +13,73 @@ it('can fetch posts', function () {
     $user = User::factory()->create();
     Sanctum::actingAs($user);
 
-    $profileA = Profile::factory()->for($user)->create();
-    $profileB = Profile::factory()->for($user)->create();
+    $profile = Profile::factory()->for($user)->create();
+    Post::factory()->for($profile)->count(15)->create();
+    $profile = $profile->fresh();
+    $post = $profile->lastPost()->first();
 
-    $response = getJson(action([ProfileController::class, 'index'], [
+    $response = getJson(action([PostController::class, 'index'], [
         'user' => $user->id,
+        'profile' => $profile->id,
         'include' => []
     ]));
 
     $response->assertOk();
-
     $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', 2, fn(AssertableJson $json) => $json
-            ->where('nickname', $profileA->nickname)
-            ->where('default', $profileA->default)
-            ->where('userId', $user->id)
-            ->where('type', $profileA->type->value)
-            ->where('dateOfBirth', $profileA->date_of_birth)
-            ->where('breed', $profileA->breed)
-            ->where('mainImage', $profileA->main_image)
-            ->where('secondaryImage', $profileA->secondary_image)
-            ->where('bio', $profileA->bio)
+        ->has('data', 15, fn(AssertableJson $json) => $json
+            ->where('id', $post->id)
+            ->where('image', $post->image)
+            ->where('description', $post->description)
+            ->where('profileId', $post->profile_id)
             ->etc()
         )
         ->etc()
     );
 });
-//
-//it('can fetch profiles full', function () {
-//    $user = User::factory()->create();
-//    Sanctum::actingAs($user);
-//
-//    $profileA = Profile::factory()->for($user)->create();
-//    $profileB = Profile::factory()->for($user)->create();
-//
-//    $response = getJson(action([ProfileController::class, 'index'], [
-//        'user' => $user->id,
-//        'include' => ['user']
-//    ]));
-//
-//    $response->assertOk();
-//
-//    $response->assertJson(fn(AssertableJson $json) => $json
-//        ->has('data', 2, fn(AssertableJson $json) => $json
-//            ->where('id', $profileA->id)
-//            ->where('nickname', $profileA->nickname)
-//            ->where('default', $profileA->default)
-//            ->where('userId', $user->id)
-//            ->where('type', $profileA->type->value)
-//            ->where('dateOfBirth', $profileA->date_of_birth)
-//            ->where('breed', $profileA->breed)
-//            ->where('mainImage', $profileA->main_image)
-//            ->where('secondaryImage', $profileA->secondary_image)
-//            ->where('bio', $profileA->bio)
-//            ->has('user', fn(AssertableJson $json) => $json
-//                ->where('id', $user->id)
-//                ->where('firstName', $user->first_name)
-//                ->where('lastName', $user->last_name)
-//                ->where('dateOfBirth', $user->date_of_birth)
-//                ->where('email', $user->email)
-//                ->etc()
-//            )
-//            ->etc()
-//        )
-//        ->etc()
-//    );
-//});
-//
-//it('can not fetch profiles when user does not have any', function () {
-//    $user = User::factory()->create();
-//    Sanctum::actingAs($user);
-//
-//    $response = getJson(action([ProfileController::class, 'index'], ['user' => $user->id]));
-//
-//    $response->assertNotAcceptable();
-//
-//    expect($response->json())
-//        ->error->toBe(true)
-//        ->message->toBe('The user does not have profiles yet.');
-//});
+
+it('can fetch posts full', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    $profileA = Profile::factory()->for($user)->create();
+    $profileB = Profile::factory()->for($user)->create();
+    Post::factory()->for($profileA)->count(15)->create();
+    $profileA = $profileA->fresh();
+    $post = $profileA->lastPost()->first();
+
+    Comment::factory()->for($profileB)->for($post)->count(15)->create();
+    $profileA->postLikes()->attach($post);
+    $profileB->postLikes()->attach($post);
+
+    $response = getJson(action([PostController::class, 'index'], [
+        'user' => $user->id,
+        'profile' => $profileA->id,
+        'include' => [
+            'profile',
+            'comments',
+            'likes'
+        ]
+    ]));
+
+    $response->assertOk();
+
+    $response->assertJson(fn(AssertableJson $json) => $json
+        ->has('data', 15, fn(AssertableJson $json) => $json
+            ->where('id', $post->id)
+            ->has('profile', fn(AssertableJson $json) => $json
+                ->where('id', $profileA->id)
+                ->etc()
+            )
+            ->has('comments', 15, fn(AssertableJson $json) => $json
+                ->where('profileId', $profileB->id)
+                ->etc()
+            )
+            ->has('likes', 2, fn(AssertableJson $json) => $json
+                ->where('id', $profileA->id)
+                ->etc()
+            )
+            ->etc()
+        )
+        ->etc()
+    );
+});

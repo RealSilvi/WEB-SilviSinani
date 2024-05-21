@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Scout\Searchable;
 
 
@@ -61,8 +62,8 @@ class Profile extends Model
     protected $casts = [
         'type' => ProfileType::class,
         'default' => 'boolean',
-        'created_at' => 'date:Y-m-d',
-        'updated_ad' => 'date:Y-m-d',
+        'created_at' => 'datetime',
+        'updated_ad' => 'datetime',
     ];
 
     /**
@@ -111,6 +112,11 @@ class Profile extends Model
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function lastPost(): HasOne
+    {
+        return $this->hasOne(Post::class)->latest();
     }
 
     public function comments(): HasMany
