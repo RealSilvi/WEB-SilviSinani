@@ -2,43 +2,43 @@
 
 namespace App\Models;
 
-use App\Enum\NewsType;
-use Carbon\Traits\Date;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use phpDocumentor\Reflection\Types\Boolean;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 /**
  *
  *
  * @property int $id
- * @property NewsType $type
- * @property string|null $title
- * @property string|null $body
- * @property bool $seen
- * @property \Illuminate\Support\Carbon|null $seen_at
+ * @property string $body
+ * @property int $post_id
  * @property int $profile_id
- * @property int $from
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Profile> $likes
+ * @property-read int|null $likes_count
+ * @property-read \App\Models\Post $post
  * @property-read \App\Models\Profile $profile
  */
-class News extends Model
+class Comment extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    protected $casts = [
-        'type' => NewsType::class,
-        'seen_at' => 'date',
-        'seen' => 'boolean'
-    ];
-
     public function profile(): BelongsTo
     {
         return $this->belongsTo(Profile::class);
+    }
+
+    public function post(): BelongsTo
+    {
+        return $this->belongsTo(Post::class);
+    }
+
+    public function likes(): BelongsToMany{
+        return $this->belongsToMany(Profile::class,'comment_likes','comment_id','profile_id');
     }
 }

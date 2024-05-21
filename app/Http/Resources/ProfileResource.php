@@ -40,6 +40,13 @@ class ProfileResource extends JsonResource
             'followingCount' => $this->whenCounted('following', $this->resource->following_count),
             'following' => ProfileResource::collection($this->whenLoaded('following')),
             'bio' => $this->resource->bio,
+            'commentLikesCount' => $this->whenCounted('commentLikes', $this->resource->comment_likes_count),
+            'commentLikes' => CommentResource::collection($this->whenLoaded('commentLikes')),
+            'postLikesCount' => $this->whenCounted('postLikes', $this->resource->post_likes_count),
+            'postLikes' => PostResource::collection($this->whenLoaded('postLikes')),
+            'postsCount' => $this->whenCounted('posts', $this->resource->posts_count),
+            'posts' => PostResource::collection($this->whenLoaded('posts')),
+
         ];
     }
 }

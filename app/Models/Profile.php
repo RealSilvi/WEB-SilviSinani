@@ -11,26 +11,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
 
+
 /**
  *
  *
  * @property int $id
  * @property string $nickname
+ * @property string|null $bio
  * @property string|null $main_image
  * @property string|null $secondary_image
- * @property \Illuminate\Support\Carbon|null $date_of_birth
- * @property int $default
+ * @property string|null $date_of_birth
+ * @property bool $default
  * @property int $user_id
  * @property ProfileType $type
  * @property string|null $breed
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\User $user
- * @property string $bio
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Profile> $receivedRequests
- * @property-read int|null $received_requests_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Profile> $sentRequests
- * @property-read int|null $sent_requests_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\News> $allNews
+ * @property-read int|null $all_news_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $commentLikes
+ * @property-read int|null $comment_likes_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
+ * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Profile> $followers
  * @property-read int|null $followers_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Profile> $following
@@ -39,6 +41,15 @@ use Laravel\Scout\Searchable;
  * @property-read int|null $news_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Profile> $pendingFollowers
  * @property-read int|null $pending_followers_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $postLikes
+ * @property-read int|null $post_likes_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
+ * @property-read int|null $posts_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Profile> $receivedRequests
+ * @property-read int|null $received_requests_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Profile> $sentRequests
+ * @property-read int|null $sent_requests_count
+ * @property-read \App\Models\User $user
  */
 class Profile extends Model
 {
@@ -94,7 +105,27 @@ class Profile extends Model
 
     public function news(): HasMany
     {
-        return $this->allNews()->where('seen',false);
+        return $this->allNews()->where('seen', false);
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function postLikes(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'post_likes', 'profile_id', 'post_id');
+    }
+
+    public function commentLikes(): BelongsToMany
+    {
+        return $this->belongsToMany(Comment::class, 'comment_likes', 'profile_id', 'comment_id');
     }
 
     public function toSearchableArray(): array

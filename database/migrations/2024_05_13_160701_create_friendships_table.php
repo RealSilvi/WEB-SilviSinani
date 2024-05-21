@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('friendships', function (Blueprint $table) {
+            $table->unsignedBigInteger('following_id')->index();
             $table->unsignedBigInteger('follower_id');
-            $table->unsignedBigInteger('following_id');
             $table->boolean('accepted')->default(false);
 
-            $table->foreign('follower_id')->references('id')->on('profiles')->cascadeOnDelete();
+            $table->primary(['following_id', 'follower_id']);
             $table->foreign('following_id')->references('id')->on('profiles')->cascadeOnDelete();
+            $table->foreign('follower_id')->references('id')->on('profiles')->cascadeOnDelete();
         });
     }
 
