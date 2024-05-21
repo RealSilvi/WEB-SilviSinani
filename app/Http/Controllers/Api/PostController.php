@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Data\CreateProfileInput;
 use App\Actions\Data\UpdateProfileInput;
+use App\Actions\Post\DeletePostAction;
 use App\Actions\Profile\CreateProfileAction;
 use App\Actions\Profile\DeleteProfileAction;
 use App\Actions\Profile\UpdateProfileAction;
@@ -54,6 +55,14 @@ class PostController
             ->findOrFail($post->id);
 
         return new PostResource($profile);
+    }
+
+    public function destroy(User $user, Profile $profile, Post $post, DeletePostAction $action): Response
+    {
+
+        $action->execute($user, $profile, $post);
+
+        return response()->noContent();
     }
 
 
