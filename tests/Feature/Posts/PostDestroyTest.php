@@ -50,7 +50,7 @@ it('can delete a full post', function () {
         'profile' => $profileA->id,
         'post' => $post->id,
     ]));
-    
+
     $response->assertNoContent();
 
     expect(Comment::query()->where('post_id', $post->id,)->get())->toBeEmpty();

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Data\CreatePostInput;
 use App\Actions\Data\CreateProfileInput;
 use App\Actions\Data\UpdateProfileInput;
+use App\Actions\Post\CreatePostAction;
 use App\Actions\Post\DeletePostAction;
 use App\Actions\Profile\CreateProfileAction;
 use App\Actions\Profile\DeleteProfileAction;
@@ -63,6 +65,15 @@ class PostController
         $action->execute($user, $profile, $post);
 
         return response()->noContent();
+    }
+
+
+    public function store(User $user, Profile $profile, CreatePostInput $input, CreatePostAction $action): PostResource
+    {
+
+        $post = $action->execute($user,$profile, $input);
+
+        return new PostResource($post);
     }
 
 
