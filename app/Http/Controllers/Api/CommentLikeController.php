@@ -42,6 +42,7 @@ class CommentLikeController
     {
         $profile->commentLikes()->detach();
         $comment = $comment->fresh();
+        $comment->load('likes');
 
         return new CommentResource($comment);
     }
@@ -51,6 +52,7 @@ class CommentLikeController
     {
         $profile->commentLikes()->attach($comment);
         $comment = $comment->fresh();
+        $comment->load('likes');
 
         return new CommentResource($comment);
     }

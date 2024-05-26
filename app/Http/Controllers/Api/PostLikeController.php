@@ -42,6 +42,7 @@ class PostLikeController
     {
         $profile->postLikes()->detach();
         $post = $post->fresh();
+        $post->load('likes');
 
         return new PostResource($post);
     }
@@ -51,6 +52,7 @@ class PostLikeController
     {
         $profile->postLikes()->attach($post);
         $post = $post->fresh();
+        $post->load('likes');
 
         return new PostResource($post);
     }
