@@ -31,7 +31,7 @@ class Post extends Model
 
     protected $guarded = [];
 
-    protected $casts=[
+    protected $casts = [
         'created_at' => 'datetime',
         'updated_ad' => 'datetime',
     ];
