@@ -59,15 +59,9 @@ class PostController
         return new PostResource($profile);
     }
 
-    public function destroy(User $user, Profile $profile, Post $post, DeletePostAction $action): Response
-    {
-
-        $action->execute($user, $profile, $post);
-
-        return response()->noContent();
-    }
-
-
+    /**
+     * @throws Throwable
+     */
     public function store(User $user, Profile $profile, CreatePostInput $input, CreatePostAction $action): PostResource
     {
 
@@ -76,5 +70,12 @@ class PostController
         return new PostResource($post);
     }
 
+    public function destroy(User $user, Profile $profile, Post $post, DeletePostAction $action): Response
+    {
+
+        $action->execute($user, $profile, $post);
+
+        return response()->noContent();
+    }
 
 }

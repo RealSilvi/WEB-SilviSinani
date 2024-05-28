@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "dom",
+            "es2015",
+            "es2017"
+        ],
+        "target": "es5",
+        "module": "es2020",
+        "moduleResolution": "node",
+        "baseUrl": "./resources/frontend",
+        "strict": true,
+        "skipLibCheck": true,
+        "noImplicitAny": false
+    },
+    "include": [
+        "resources/frontend"
+    ]
+}

@@ -53,6 +53,16 @@ class CommentController
     /**
      * @throws Throwable
      */
+    public function store(User $user, Profile $profile, Post $post, CreateCommentInput $input, CreateCommentAction $action): CommentResource
+    {
+        $post = $action->execute($user, $profile, $post, $input);
+
+        return new CommentResource($post);
+    }
+
+    /**
+     * @throws Throwable
+     */
     public function destroy(User $user, Profile $profile, Post $post, Comment $comment, DeleteCommentAction $action): Response
     {
 
@@ -61,16 +71,6 @@ class CommentController
         return response()->noContent();
     }
 
-
-    /**
-     * @throws Throwable
-     */
-    public function store(User $user, Profile $profile, Post $post, CreateCommentInput $input, CreateCommentAction $action): CommentResource
-    {
-        $post = $action->execute($user, $profile, $post, $input);
-
-        return new CommentResource($post);
-    }
 
 
 }

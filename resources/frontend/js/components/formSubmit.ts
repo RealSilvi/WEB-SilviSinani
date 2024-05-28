@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
-import { apiErrorMessage, apiValidationErrors } from '../utils';
+import { apiValidationErrors } from '../utils';
 
 interface FormSubmitProps {
     formId?: string;

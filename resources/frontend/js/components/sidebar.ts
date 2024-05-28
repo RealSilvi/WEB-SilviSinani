@@ -2,8 +2,8 @@ import axios from 'axios';
 import { Alpine } from '../livewire';
 import { apiValidationErrors } from '../utils';
 import { Profile, ProfileLink } from '../models';
-import { API_USERS__PROFILES_INDEX } from '../api';
 import { ROUTE_PROFILE_EDIT, ROUTE_PROFILE_NEW } from '../routes';
+import { indexProfile } from '../api/profile';
 
 interface NavbarProps {
     userId?: number;
@@ -18,10 +18,10 @@ Alpine.data('sidebar', (props: NavbarProps) => {
         errors: {},
 
         init() {
-            this.fetch();
+            this.fetchProfiles();
         },
 
-        async fetch() {
+        async fetchProfiles() {
             if (!props.userId) {
                 console.error('[sidebar] userId is required');
                 return;
@@ -35,9 +35,7 @@ Alpine.data('sidebar', (props: NavbarProps) => {
             this.errors = {};
 
             try {
-                const { data } = await axios.request<{ data: Profile[] }>(API_USERS__PROFILES_INDEX(props.userId));
-
-                this.profiles = data?.data ?? ([] as Profile[]);
+                this.profiles = (await indexProfile(props.userId)) ?? ([] as Profile[]);
 
                 this.buildLinks();
             } catch (e) {

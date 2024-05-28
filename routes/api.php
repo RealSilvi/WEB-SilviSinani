@@ -24,9 +24,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/users/{user}/profiles/{profile}/news/seeAll', [NewsController::class, 'seeAll'])->name('users.profiles.news.seeAll');
     Route::resource('users.profiles.news', NewsController::class)->only(['store']);
     Route::resource('users.profiles.posts', PostController::class)->only(['index', 'show', 'store', 'destroy']);
-    Route::delete('/users/{user}/profiles/{profile}/posts/{post}/likes/destroy', [PostLikeController::class, 'destroy'])->name('users.profiles.posts.likes.destroy');
+    Route::delete('/users/{user}/profiles/{profile}/posts/{post}/likes', [PostLikeController::class, 'destroy'])->name('users.profiles.posts.likes.destroy');
     Route::resource('users.profiles.posts.likes', PostLikeController::class)->only(['index', 'store']);
     Route::resource('users.profiles.posts.comments', CommentController::class)->only(['index', 'show', 'store', 'destroy']);
-    Route::delete('/users/{user}/profiles/{profile}/posts/{post}/comments/{comment}/likes/destroy', [CommentLikeController::class, 'destroy'])->name('users.profiles.posts.comments.likes.destroy');
+    Route::delete('/users/{user}/profiles/{profile}/posts/{post}/comments/{comment}/likes', [CommentLikeController::class, 'destroy'])->name('users.profiles.posts.comments.likes.destroy');
     Route::resource('users.profiles.posts.comments.likes', CommentLikeController::class)->only(['index', 'store']);
 });

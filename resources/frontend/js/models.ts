@@ -28,8 +28,8 @@ export interface Profile {
 
 export interface News {
     id: number;
-    title: string | null;
-    body: string | null;
+    title?: string;
+    body?: string;
     type: string;
     seen: boolean;
     seenAt: string;
@@ -52,9 +52,36 @@ export interface User {
 }
 
 export interface ProfileLink {
-    profileId?: number;
+    profileId: number;
     src: string;
     alt: string;
     href: string;
     nickname: string;
+}
+
+export interface Post {
+    id: number;
+    image?: string;
+    description?: string;
+    profileId: number;
+    profile?: Profile;
+    createdAt: string;
+    updatedAt: string;
+    likesCount: number;
+    likes?: Profile[];
+    commentsCount: number;
+    comments?: Comment[];
+}
+
+export interface Comment {
+    id: number;
+    body: string;
+    postId: number;
+    post?: Post;
+    profileId: number;
+    profile?: Profile;
+    createdAt: string;
+    updatedAt: string;
+    likesCount?: number;
+    likes?: Profile[];
 }

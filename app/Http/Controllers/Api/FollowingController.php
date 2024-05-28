@@ -33,6 +33,29 @@ use Throwable;
 
 class FollowingController
 {
+    public function index(Request $request,User $user, Profile $profile): AnonymousResourceCollection
+    {
+        $profiles = QueryBuilder::for($profile->following(), $request)
+            ->allowedIncludes([
+                'user',
+                'news',
+                'allNews',
+                'receivedRequests',
+                'sentRequests',
+                'followers',
+                'following',
+                'pendingFollowers',
+                'comments',
+                'postLikes',
+                'commentLikes',
+                'lastPost',
+                'posts',
+            ])
+            ->get();
+
+        return ProfileResource::collection($profiles);
+    }
+
     /**
      * @throws Throwable
      */
@@ -57,9 +80,6 @@ class FollowingController
     }
 
 
-    public function index(User $user, Profile $profile): AnonymousResourceCollection
-    {
-        return ProfileResource::collection($profile->following()->get());
-    }
+
 
 }

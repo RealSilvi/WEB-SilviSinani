@@ -24,6 +24,70 @@ use Throwable;
 class ProfileController
 {
     /**
+     * @throws ProfileIsNotAUserProfileException
+     */
+    public function index(Request $request, User $user): AnonymousResourceCollection
+    {
+
+        $profiles = QueryBuilder::for(Profile::class, $request)
+            ->allowedIncludes([
+                'user',
+                'news',
+                'allNews',
+                'receivedRequests',
+                'sentRequests',
+                'followers',
+                'following',
+                'pendingFollowers',
+                'comments',
+                'postLikes',
+                'commentLikes',
+                'lastPost',
+                'posts',
+            ])
+            ->where('user_id', $user->id)
+            ->get();
+
+        if ($profiles->count() == 0) {
+            throw new UserHasNotProfilesException('The user does not have profiles yet.');
+        }
+
+        return ProfileResource::collection($profiles);
+    }
+
+
+    /**
+     * @throws Throwable
+     */
+    public function show(Request $request, User $user, int $profile): ProfileResource
+    {
+
+        $profile = QueryBuilder::for(Profile::class, $request)
+            ->allowedIncludes([
+                'user',
+                'news',
+                'allNews',
+                'receivedRequests',
+                'sentRequests',
+                'followers',
+                'following',
+                'pendingFollowers',
+                'comments',
+                'postLikes',
+                'commentLikes',
+                'lastPost',
+                'posts',
+            ])
+            ->findOrFail($profile);
+
+        if ($user->id != $profile->user_id) {
+            throw new ProfileIsNotAUserProfileException('Profile does not match any of the user profiles.');
+        }
+
+        return new ProfileResource($profile);
+    }
+
+    /**
      * @throws ToManyProfilesException|Throwable
      */
     public function store(User $user, CreateProfileInput $input, CreateProfileAction $action): ProfileResource
@@ -35,23 +99,6 @@ class ProfileController
         $profile = $action->execute($user, $input);
 
         return new ProfileResource($profile);
-    }
-
-    /**
-     * @throws CannotDeleteDefaultProfileException
-     * @throws ProfileIsNotAUserProfileException
-     */
-    public function destroy(User $user, Profile $profile, DeleteProfileAction $action): Response
-    {
-        if ($user->id != $profile->user_id) {
-            throw new ProfileIsNotAUserProfileException('Profile does not match any of the user profiles.');
-        }
-        if ($user->profiles()->count() < 2) {
-            throw new CannotDeleteDefaultProfileException('Cannot delete your last profile. If you want you can delete the user.');
-        }
-        $action->execute($user, $profile);
-
-        return response()->noContent();
     }
 
     /**
@@ -69,51 +116,20 @@ class ProfileController
     }
 
     /**
-     * @throws Throwable
+     * @throws CannotDeleteDefaultProfileException
+     * @throws ProfileIsNotAUserProfileException
      */
-    public function show(Request $request, User $user, int $profile): ProfileResource
+    public function destroy(User $user, Profile $profile, DeleteProfileAction $action): Response
     {
-
-        $profile = QueryBuilder::for(Profile::class, $request)
-            ->allowedIncludes([
-                'user',
-                'news',
-            ])
-            ->findOrFail($profile);
-
         if ($user->id != $profile->user_id) {
             throw new ProfileIsNotAUserProfileException('Profile does not match any of the user profiles.');
         }
-
-        return new ProfileResource($profile);
-    }
-
-    /**
-     * @throws ProfileIsNotAUserProfileException
-     */
-    public function index(Request $request, User $user): AnonymousResourceCollection
-    {
-
-        $profiles = QueryBuilder::for(Profile::class, $request)
-            ->allowedIncludes([
-                'user',
-                'news',
-                'allNews',
-                'allNews',
-                'receivedRequests',
-                'sentRequests',
-                'followers',
-                'following',
-                'pendingFollowers',
-            ])
-            ->where('user_id', $user->id)
-            ->get();
-
-        if ($profiles->count() == 0) {
-            throw new UserHasNotProfilesException('The user does not have profiles yet.');
+        if ($user->profiles()->count() < 2) {
+            throw new CannotDeleteDefaultProfileException('Cannot delete your last profile. If you want you can delete the user.');
         }
+        $action->execute($user, $profile);
 
-        return ProfileResource::collection($profiles);
+        return response()->noContent();
     }
 
 

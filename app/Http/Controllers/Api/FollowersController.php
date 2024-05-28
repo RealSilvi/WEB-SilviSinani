@@ -10,11 +10,36 @@ use App\Exceptions\FollowerNotFoundException;
 use App\Http\Resources\ProfileResource;
 use App\Models\Profile;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Spatie\QueryBuilder\QueryBuilder;
 use Throwable;
 
 class FollowersController
 {
+    public function index(Request $request, User $user, Profile $profile): AnonymousResourceCollection
+    {
+        $profiles = QueryBuilder::for($profile->followers(), $request)
+            ->allowedIncludes([
+                'user',
+                'news',
+                'allNews',
+                'receivedRequests',
+                'sentRequests',
+                'followers',
+                'following',
+                'pendingFollowers',
+                'comments',
+                'postLikes',
+                'commentLikes',
+                'lastPost',
+                'posts',
+            ])
+            ->get();
+
+        return ProfileResource::collection($profiles);
+    }
+
     /**
      * @throws Throwable
      */
@@ -37,9 +62,6 @@ class FollowersController
     }
 
 
-    public function index(User $user, Profile $profile): AnonymousResourceCollection
-    {
-        return ProfileResource::collection($profile->followers()->get());
-    }
+
 
 }

@@ -26,12 +26,16 @@ class PostLikeController
                 'user',
                 'news',
                 'allNews',
-                'allNews',
                 'receivedRequests',
                 'sentRequests',
                 'followers',
                 'following',
                 'pendingFollowers',
+                'comments',
+                'postLikes',
+                'commentLikes',
+                'lastPost',
+                'posts',
             ])
             ->get();
 
