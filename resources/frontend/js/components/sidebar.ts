@@ -3,7 +3,7 @@ import { Alpine } from '../livewire';
 import { apiValidationErrors } from '../utils';
 import { Profile, ProfileLink } from '../models';
 import { ROUTE_PROFILE_EDIT, ROUTE_PROFILE_NEW } from '../routes';
-import { indexProfile } from '../api/profile';
+import { indexProfile } from '../api/profiles';
 
 interface NavbarProps {
     userId?: number;

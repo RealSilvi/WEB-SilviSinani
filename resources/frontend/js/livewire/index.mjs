@@ -2490,7 +2490,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ''}`,
                             let carry = Promise.all([
                                 el2._x_hidePromise,
                                 ...(el2._x_hideChildren || []).map(hideAfterChildren),
-                            ]).then(([i]) => i());
+                            ]).then(([i]) => (i == null ? void 0 : i()));
                             delete el2._x_hidePromise;
                             delete el2._x_hideChildren;
                             return carry;
@@ -2989,7 +2989,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ''}`,
             get raw() {
                 return raw;
             },
-            version: '3.13.10',
+            version: '3.14.0',
             flushAndStopDeferringMutations,
             dontAutoEvaluateFunctions,
             disableEffectScheduling,
@@ -3275,14 +3275,14 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ''}`,
                 handler4 = wrapHandler(handler4, (next, e) => {
                     e.target === el && next(e);
                 });
-            handler4 = wrapHandler(handler4, (next, e) => {
-                if (isKeyEvent(event)) {
+            if (isKeyEvent(event) || isClickEvent(event)) {
+                handler4 = wrapHandler(handler4, (next, e) => {
                     if (isListeningForASpecificKeyThatHasntBeenPressed(e, modifiers)) {
                         return;
                     }
-                }
-                next(e);
-            });
+                    next(e);
+                });
+            }
             listenerTarget.addEventListener(event, handler4, options);
             return () => {
                 listenerTarget.removeEventListener(event, handler4, options);
@@ -3307,9 +3307,23 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ''}`,
         function isKeyEvent(event) {
             return ['keydown', 'keyup'].includes(event);
         }
+        function isClickEvent(event) {
+            return ['contextmenu', 'click', 'mouse'].some((i) => event.includes(i));
+        }
         function isListeningForASpecificKeyThatHasntBeenPressed(e, modifiers) {
             let keyModifiers = modifiers.filter((i) => {
-                return !['window', 'document', 'prevent', 'stop', 'once', 'capture'].includes(i);
+                return ![
+                    'window',
+                    'document',
+                    'prevent',
+                    'stop',
+                    'once',
+                    'capture',
+                    'self',
+                    'away',
+                    'outside',
+                    'passive',
+                ].includes(i);
             });
             if (keyModifiers.includes('debounce')) {
                 let debounceIndex = keyModifiers.indexOf('debounce');
@@ -3336,6 +3350,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ''}`,
                     return e[`${modifier}Key`];
                 });
                 if (activelyPressedKeyModifiers.length === selectedSystemKeyModifiers.length) {
+                    if (isClickEvent(e.type)) return false;
                     if (keyToModifiers(e.key).includes(keyModifiers[0])) return false;
                 }
             }
@@ -4031,7 +4046,7 @@ var require_module_cjs2 = __commonJS({
                             },
                             () => (el._x_isShown = true),
                             () => {
-                                if (el.getBoundingClientRect().height == full) {
+                                if (Math.abs(el.getBoundingClientRect().height - full) < 1) {
                                     el.style.overflow = null;
                                 }
                             },
@@ -7887,7 +7902,7 @@ var UploadManager = class {
         });
         request.upload.addEventListener('progress', (e) => {
             e.detail = {};
-            e.detail.progress = Math.round((e.loaded * 100) / e.total);
+            e.detail.progress = Math.floor((e.loaded * 100) / e.total);
             this.uploadBag.first(name).progressCallback(e);
         });
         request.addEventListener('load', () => {
@@ -9251,7 +9266,7 @@ import_nprogress.default.configure({
     minimum: 0.1,
     trickleSpeed: 200,
     showSpinner: false,
-    parent: 'html',
+    parent: 'body',
 });
 injectStyles();
 var inProgress = false;
@@ -10077,6 +10092,11 @@ function morph2(component, el, html) {
         updating: (el2, toEl, childrenOnly, skip) => {
             if (isntElement(el2)) return;
             trigger('morph.updating', { el: el2, toEl, component, skip, childrenOnly });
+            if (el2.__livewire_replace === true) el2.innerHTML = toEl.innerHTML;
+            if (el2.__livewire_replace_self === true) {
+                el2.outerHTML = toEl.outerHTML;
+                return skip();
+            }
             if (el2.__livewire_ignore === true) return skip();
             if (el2.__livewire_ignore_self === true) childrenOnly();
             if (isComponentRootEl(el2) && el2.getAttribute('wire:id') !== component.id) return skip();
@@ -10863,6 +10883,15 @@ function extractStreamObjects(raw) {
     let remaining = raw.replace(regex, '');
     return [parsed, remaining];
 }
+
+// js/directives/wire-replace.js
+directive('replace', ({ el, directive: directive2 }) => {
+    if (directive2.modifiers.includes('self')) {
+        el.__livewire_replace_self = true;
+    } else {
+        el.__livewire_replace = true;
+    }
+});
 
 // js/directives/wire-ignore.js
 directive('ignore', ({ el, directive: directive2 }) => {

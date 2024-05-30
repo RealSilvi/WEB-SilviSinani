@@ -2,7 +2,7 @@
     $formId = 'register_profile_form';
     $method = 'POST';
     $actionUrl = route('users.profiles.store',['user' => auth()->id()]);
-    $onSuccessRedirect = \App\Providers\RouteServiceProvider::HOME;
+    $redirectUrl = request()->redirectUrl ?? \App\Providers\RouteServiceProvider::HOME;
 @endphp
 
 @extends('layouts.auth', [
@@ -24,7 +24,7 @@
                             formId: '{{ $formId }}',
                             method: '{{ $method }}',
                             url: '{{ $actionUrl }}',
-                            onSuccessRedirectUrl: '{{ $onSuccessRedirect }}',
+                            onSuccessRedirectUrl: '{{ $redirectUrl }}',
                           })"
                           @submit.prevent="submit">
                         @csrf
@@ -39,8 +39,8 @@
                                             {{ __('form.profile_create.main_image') }}
                                         </x-form.label>
                                         <x-form.image-picker-preview
-                                            defaultUrlStorage="{{asset('/storage/utilities/profileDefault.jpg')}}"
-                                            class="h-20" />
+                                                defaultUrlStorage="{{asset('/storage/utilities/profileDefault.jpg')}}"
+                                                class="h-20" />
                                     </x-form.group>
                                 </div>
                             </div>
@@ -78,18 +78,18 @@
 
                                     <x-form.group name="type">
                                         <div
-                                            class="flex flex-row items-center justify-center w-full gap-2 lg:gap-4 flex-wrap ">
+                                                class="flex flex-row items-center justify-center w-full gap-2 lg:gap-4 flex-wrap ">
                                             @foreach(\App\Enum\ProfileType::cases() as $profileType)
                                                 <div class="w-1/4">
 
                                                     <x-form.radio
-                                                        id="{{ $profileType->value }}"
-                                                        value="{{ $profileType->value }}"
-                                                        class="hidden peer/type" />
+                                                            id="{{ $profileType->value }}"
+                                                            value="{{ $profileType->value }}"
+                                                            class="hidden peer/type" />
 
                                                     <x-form.label
-                                                        for="{{ $profileType->value }}"
-                                                        class="flex items-center justify-center p-2 lg:py-3 lg:px-5 rounded-xl text-primary w-full h-full cursor-pointer text-sm bg-primary/50 peer-checked/type:bg-primary peer-checked/type:text-white">
+                                                            for="{{ $profileType->value }}"
+                                                            class="flex items-center justify-center p-2 lg:py-3 lg:px-5 rounded-xl text-primary w-full h-full cursor-pointer text-sm bg-primary/50 peer-checked/type:bg-primary peer-checked/type:text-white">
                                                         {{ $profileType->value }}
                                                     </x-form.label>
                                                 </div>

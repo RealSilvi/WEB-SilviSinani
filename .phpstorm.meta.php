@@ -61,9 +61,11 @@ namespace PHPSTORM_META {
             'Illuminate\Foundation\Console\StubPublishCommand' => \Illuminate\Foundation\Console\StubPublishCommand::class,
             'Illuminate\Foundation\Console\UpCommand' => \Illuminate\Foundation\Console\UpCommand::class,
             'Illuminate\Foundation\Console\ViewCacheCommand' => \Illuminate\Foundation\Console\ViewCacheCommand::class,
+            'Illuminate\Foundation\Exceptions\Renderer\Listener' => \Illuminate\Foundation\Exceptions\Renderer\Listener::class,
             'Illuminate\Foundation\Mix' => \Illuminate\Foundation\Mix::class,
             'Illuminate\Foundation\PackageManifest' => \Illuminate\Foundation\PackageManifest::class,
             'Illuminate\Foundation\Vite' => \Illuminate\Foundation\Vite::class,
+            'Illuminate\Log\Context\Repository' => \Illuminate\Log\Context\Repository::class,
             'Illuminate\Queue\Console\ClearCommand' => \Illuminate\Queue\Console\ClearCommand::class,
             'Illuminate\Queue\Console\FlushFailedCommand' => \Illuminate\Queue\Console\FlushFailedCommand::class,
             'Illuminate\Queue\Console\ForgetFailedCommand' => \Illuminate\Queue\Console\ForgetFailedCommand::class,
@@ -129,6 +131,7 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
+            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\Illuminate\Container\Container::makeWith(0), map([
@@ -181,9 +184,11 @@ namespace PHPSTORM_META {
             'Illuminate\Foundation\Console\StubPublishCommand' => \Illuminate\Foundation\Console\StubPublishCommand::class,
             'Illuminate\Foundation\Console\UpCommand' => \Illuminate\Foundation\Console\UpCommand::class,
             'Illuminate\Foundation\Console\ViewCacheCommand' => \Illuminate\Foundation\Console\ViewCacheCommand::class,
+            'Illuminate\Foundation\Exceptions\Renderer\Listener' => \Illuminate\Foundation\Exceptions\Renderer\Listener::class,
             'Illuminate\Foundation\Mix' => \Illuminate\Foundation\Mix::class,
             'Illuminate\Foundation\PackageManifest' => \Illuminate\Foundation\PackageManifest::class,
             'Illuminate\Foundation\Vite' => \Illuminate\Foundation\Vite::class,
+            'Illuminate\Log\Context\Repository' => \Illuminate\Log\Context\Repository::class,
             'Illuminate\Queue\Console\ClearCommand' => \Illuminate\Queue\Console\ClearCommand::class,
             'Illuminate\Queue\Console\FlushFailedCommand' => \Illuminate\Queue\Console\FlushFailedCommand::class,
             'Illuminate\Queue\Console\ForgetFailedCommand' => \Illuminate\Queue\Console\ForgetFailedCommand::class,
@@ -249,6 +254,7 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
+            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\Illuminate\Contracts\Container\Container::get(0), map([
@@ -301,9 +307,11 @@ namespace PHPSTORM_META {
             'Illuminate\Foundation\Console\StubPublishCommand' => \Illuminate\Foundation\Console\StubPublishCommand::class,
             'Illuminate\Foundation\Console\UpCommand' => \Illuminate\Foundation\Console\UpCommand::class,
             'Illuminate\Foundation\Console\ViewCacheCommand' => \Illuminate\Foundation\Console\ViewCacheCommand::class,
+            'Illuminate\Foundation\Exceptions\Renderer\Listener' => \Illuminate\Foundation\Exceptions\Renderer\Listener::class,
             'Illuminate\Foundation\Mix' => \Illuminate\Foundation\Mix::class,
             'Illuminate\Foundation\PackageManifest' => \Illuminate\Foundation\PackageManifest::class,
             'Illuminate\Foundation\Vite' => \Illuminate\Foundation\Vite::class,
+            'Illuminate\Log\Context\Repository' => \Illuminate\Log\Context\Repository::class,
             'Illuminate\Queue\Console\ClearCommand' => \Illuminate\Queue\Console\ClearCommand::class,
             'Illuminate\Queue\Console\FlushFailedCommand' => \Illuminate\Queue\Console\FlushFailedCommand::class,
             'Illuminate\Queue\Console\ForgetFailedCommand' => \Illuminate\Queue\Console\ForgetFailedCommand::class,
@@ -369,6 +377,7 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
+            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\Illuminate\Contracts\Container\Container::make(0), map([
@@ -421,9 +430,11 @@ namespace PHPSTORM_META {
             'Illuminate\Foundation\Console\StubPublishCommand' => \Illuminate\Foundation\Console\StubPublishCommand::class,
             'Illuminate\Foundation\Console\UpCommand' => \Illuminate\Foundation\Console\UpCommand::class,
             'Illuminate\Foundation\Console\ViewCacheCommand' => \Illuminate\Foundation\Console\ViewCacheCommand::class,
+            'Illuminate\Foundation\Exceptions\Renderer\Listener' => \Illuminate\Foundation\Exceptions\Renderer\Listener::class,
             'Illuminate\Foundation\Mix' => \Illuminate\Foundation\Mix::class,
             'Illuminate\Foundation\PackageManifest' => \Illuminate\Foundation\PackageManifest::class,
             'Illuminate\Foundation\Vite' => \Illuminate\Foundation\Vite::class,
+            'Illuminate\Log\Context\Repository' => \Illuminate\Log\Context\Repository::class,
             'Illuminate\Queue\Console\ClearCommand' => \Illuminate\Queue\Console\ClearCommand::class,
             'Illuminate\Queue\Console\FlushFailedCommand' => \Illuminate\Queue\Console\FlushFailedCommand::class,
             'Illuminate\Queue\Console\ForgetFailedCommand' => \Illuminate\Queue\Console\ForgetFailedCommand::class,
@@ -489,6 +500,7 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
+            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
@@ -541,9 +553,11 @@ namespace PHPSTORM_META {
             'Illuminate\Foundation\Console\StubPublishCommand' => \Illuminate\Foundation\Console\StubPublishCommand::class,
             'Illuminate\Foundation\Console\UpCommand' => \Illuminate\Foundation\Console\UpCommand::class,
             'Illuminate\Foundation\Console\ViewCacheCommand' => \Illuminate\Foundation\Console\ViewCacheCommand::class,
+            'Illuminate\Foundation\Exceptions\Renderer\Listener' => \Illuminate\Foundation\Exceptions\Renderer\Listener::class,
             'Illuminate\Foundation\Mix' => \Illuminate\Foundation\Mix::class,
             'Illuminate\Foundation\PackageManifest' => \Illuminate\Foundation\PackageManifest::class,
             'Illuminate\Foundation\Vite' => \Illuminate\Foundation\Vite::class,
+            'Illuminate\Log\Context\Repository' => \Illuminate\Log\Context\Repository::class,
             'Illuminate\Queue\Console\ClearCommand' => \Illuminate\Queue\Console\ClearCommand::class,
             'Illuminate\Queue\Console\FlushFailedCommand' => \Illuminate\Queue\Console\FlushFailedCommand::class,
             'Illuminate\Queue\Console\ForgetFailedCommand' => \Illuminate\Queue\Console\ForgetFailedCommand::class,
@@ -609,6 +623,7 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
+            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\App::get(0), map([
@@ -661,9 +676,11 @@ namespace PHPSTORM_META {
             'Illuminate\Foundation\Console\StubPublishCommand' => \Illuminate\Foundation\Console\StubPublishCommand::class,
             'Illuminate\Foundation\Console\UpCommand' => \Illuminate\Foundation\Console\UpCommand::class,
             'Illuminate\Foundation\Console\ViewCacheCommand' => \Illuminate\Foundation\Console\ViewCacheCommand::class,
+            'Illuminate\Foundation\Exceptions\Renderer\Listener' => \Illuminate\Foundation\Exceptions\Renderer\Listener::class,
             'Illuminate\Foundation\Mix' => \Illuminate\Foundation\Mix::class,
             'Illuminate\Foundation\PackageManifest' => \Illuminate\Foundation\PackageManifest::class,
             'Illuminate\Foundation\Vite' => \Illuminate\Foundation\Vite::class,
+            'Illuminate\Log\Context\Repository' => \Illuminate\Log\Context\Repository::class,
             'Illuminate\Queue\Console\ClearCommand' => \Illuminate\Queue\Console\ClearCommand::class,
             'Illuminate\Queue\Console\FlushFailedCommand' => \Illuminate\Queue\Console\FlushFailedCommand::class,
             'Illuminate\Queue\Console\ForgetFailedCommand' => \Illuminate\Queue\Console\ForgetFailedCommand::class,
@@ -729,6 +746,7 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
+            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\App::make(0), map([
@@ -781,9 +799,11 @@ namespace PHPSTORM_META {
             'Illuminate\Foundation\Console\StubPublishCommand' => \Illuminate\Foundation\Console\StubPublishCommand::class,
             'Illuminate\Foundation\Console\UpCommand' => \Illuminate\Foundation\Console\UpCommand::class,
             'Illuminate\Foundation\Console\ViewCacheCommand' => \Illuminate\Foundation\Console\ViewCacheCommand::class,
+            'Illuminate\Foundation\Exceptions\Renderer\Listener' => \Illuminate\Foundation\Exceptions\Renderer\Listener::class,
             'Illuminate\Foundation\Mix' => \Illuminate\Foundation\Mix::class,
             'Illuminate\Foundation\PackageManifest' => \Illuminate\Foundation\PackageManifest::class,
             'Illuminate\Foundation\Vite' => \Illuminate\Foundation\Vite::class,
+            'Illuminate\Log\Context\Repository' => \Illuminate\Log\Context\Repository::class,
             'Illuminate\Queue\Console\ClearCommand' => \Illuminate\Queue\Console\ClearCommand::class,
             'Illuminate\Queue\Console\FlushFailedCommand' => \Illuminate\Queue\Console\FlushFailedCommand::class,
             'Illuminate\Queue\Console\ForgetFailedCommand' => \Illuminate\Queue\Console\ForgetFailedCommand::class,
@@ -849,6 +869,7 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
+            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\App::makeWith(0), map([
@@ -901,9 +922,11 @@ namespace PHPSTORM_META {
             'Illuminate\Foundation\Console\StubPublishCommand' => \Illuminate\Foundation\Console\StubPublishCommand::class,
             'Illuminate\Foundation\Console\UpCommand' => \Illuminate\Foundation\Console\UpCommand::class,
             'Illuminate\Foundation\Console\ViewCacheCommand' => \Illuminate\Foundation\Console\ViewCacheCommand::class,
+            'Illuminate\Foundation\Exceptions\Renderer\Listener' => \Illuminate\Foundation\Exceptions\Renderer\Listener::class,
             'Illuminate\Foundation\Mix' => \Illuminate\Foundation\Mix::class,
             'Illuminate\Foundation\PackageManifest' => \Illuminate\Foundation\PackageManifest::class,
             'Illuminate\Foundation\Vite' => \Illuminate\Foundation\Vite::class,
+            'Illuminate\Log\Context\Repository' => \Illuminate\Log\Context\Repository::class,
             'Illuminate\Queue\Console\ClearCommand' => \Illuminate\Queue\Console\ClearCommand::class,
             'Illuminate\Queue\Console\FlushFailedCommand' => \Illuminate\Queue\Console\FlushFailedCommand::class,
             'Illuminate\Queue\Console\ForgetFailedCommand' => \Illuminate\Queue\Console\ForgetFailedCommand::class,
@@ -969,6 +992,7 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
+            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\app(0), map([
@@ -1021,9 +1045,11 @@ namespace PHPSTORM_META {
             'Illuminate\Foundation\Console\StubPublishCommand' => \Illuminate\Foundation\Console\StubPublishCommand::class,
             'Illuminate\Foundation\Console\UpCommand' => \Illuminate\Foundation\Console\UpCommand::class,
             'Illuminate\Foundation\Console\ViewCacheCommand' => \Illuminate\Foundation\Console\ViewCacheCommand::class,
+            'Illuminate\Foundation\Exceptions\Renderer\Listener' => \Illuminate\Foundation\Exceptions\Renderer\Listener::class,
             'Illuminate\Foundation\Mix' => \Illuminate\Foundation\Mix::class,
             'Illuminate\Foundation\PackageManifest' => \Illuminate\Foundation\PackageManifest::class,
             'Illuminate\Foundation\Vite' => \Illuminate\Foundation\Vite::class,
+            'Illuminate\Log\Context\Repository' => \Illuminate\Log\Context\Repository::class,
             'Illuminate\Queue\Console\ClearCommand' => \Illuminate\Queue\Console\ClearCommand::class,
             'Illuminate\Queue\Console\FlushFailedCommand' => \Illuminate\Queue\Console\FlushFailedCommand::class,
             'Illuminate\Queue\Console\ForgetFailedCommand' => \Illuminate\Queue\Console\ForgetFailedCommand::class,
@@ -1089,6 +1115,7 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
+            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\resolve(0), map([
@@ -1141,9 +1168,11 @@ namespace PHPSTORM_META {
             'Illuminate\Foundation\Console\StubPublishCommand' => \Illuminate\Foundation\Console\StubPublishCommand::class,
             'Illuminate\Foundation\Console\UpCommand' => \Illuminate\Foundation\Console\UpCommand::class,
             'Illuminate\Foundation\Console\ViewCacheCommand' => \Illuminate\Foundation\Console\ViewCacheCommand::class,
+            'Illuminate\Foundation\Exceptions\Renderer\Listener' => \Illuminate\Foundation\Exceptions\Renderer\Listener::class,
             'Illuminate\Foundation\Mix' => \Illuminate\Foundation\Mix::class,
             'Illuminate\Foundation\PackageManifest' => \Illuminate\Foundation\PackageManifest::class,
             'Illuminate\Foundation\Vite' => \Illuminate\Foundation\Vite::class,
+            'Illuminate\Log\Context\Repository' => \Illuminate\Log\Context\Repository::class,
             'Illuminate\Queue\Console\ClearCommand' => \Illuminate\Queue\Console\ClearCommand::class,
             'Illuminate\Queue\Console\FlushFailedCommand' => \Illuminate\Queue\Console\FlushFailedCommand::class,
             'Illuminate\Queue\Console\ForgetFailedCommand' => \Illuminate\Queue\Console\ForgetFailedCommand::class,
@@ -1209,6 +1238,7 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
+            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\Psr\Container\ContainerInterface::get(0), map([
@@ -1261,9 +1291,11 @@ namespace PHPSTORM_META {
             'Illuminate\Foundation\Console\StubPublishCommand' => \Illuminate\Foundation\Console\StubPublishCommand::class,
             'Illuminate\Foundation\Console\UpCommand' => \Illuminate\Foundation\Console\UpCommand::class,
             'Illuminate\Foundation\Console\ViewCacheCommand' => \Illuminate\Foundation\Console\ViewCacheCommand::class,
+            'Illuminate\Foundation\Exceptions\Renderer\Listener' => \Illuminate\Foundation\Exceptions\Renderer\Listener::class,
             'Illuminate\Foundation\Mix' => \Illuminate\Foundation\Mix::class,
             'Illuminate\Foundation\PackageManifest' => \Illuminate\Foundation\PackageManifest::class,
             'Illuminate\Foundation\Vite' => \Illuminate\Foundation\Vite::class,
+            'Illuminate\Log\Context\Repository' => \Illuminate\Log\Context\Repository::class,
             'Illuminate\Queue\Console\ClearCommand' => \Illuminate\Queue\Console\ClearCommand::class,
             'Illuminate\Queue\Console\FlushFailedCommand' => \Illuminate\Queue\Console\FlushFailedCommand::class,
             'Illuminate\Queue\Console\ForgetFailedCommand' => \Illuminate\Queue\Console\ForgetFailedCommand::class,
@@ -1329,6 +1361,7 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
+            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
 

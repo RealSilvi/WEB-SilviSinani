@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
-import { apiValidationErrors } from '../utils';
+import { apiErrorMessage, apiValidationErrors } from '../utils';
 
 interface FormSubmitProps {
     formId?: string;
@@ -59,11 +59,11 @@ Alpine.data('formSubmit', (props: FormSubmitProps = {}) => {
                 }
 
                 const response = await axios.request({ url: url, data: data, method: method });
-                //TODO fix toasts
-                // this.$dispatch('toast', {
-                //     type: 'success',
-                //     message: response.data.message
-                // });
+
+                this.$dispatch('toast', {
+                    type: 'success',
+                    message: response.data.message,
+                });
 
                 event.target.reset();
                 if (props.onSuccessRedirectUrl) {
@@ -72,22 +72,22 @@ Alpine.data('formSubmit', (props: FormSubmitProps = {}) => {
                     window.location.reload();
                 }
 
-                // this.$dispatch('submitted', {
-                //     formId: props.formId,
-                //     target: event.target,
-                //     data
-                // });
+                this.$dispatch('submitted', {
+                    formId: props.formId,
+                    target: event.target,
+                    data,
+                });
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.errors = apiValidationErrors(e?.response?.data);
 
-                    // this.$dispatch('toast', {
-                    //     type: 'error',
-                    //     message: apiErrorMessage(
-                    //         e?.response?.data,
-                    //         props.messageError ?? 'messages.contact_form_error'//window.polyglot.t('messages.contact_form_error')
-                    //     )
-                    // });
+                    this.$dispatch('toast', {
+                        type: 'error',
+                        message: apiErrorMessage(
+                            e?.response?.data,
+                            props.messageError ?? 'messages.contact_form_error', //window.polyglot.t('messages.contact_form_error')
+                        ),
+                    });
                 }
             } finally {
                 this.saving = false;

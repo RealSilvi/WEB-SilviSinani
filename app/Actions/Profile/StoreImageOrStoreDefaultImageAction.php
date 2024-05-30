@@ -24,9 +24,6 @@ class StoreImageOrStoreDefaultImageAction
      */
     public static function execute(?UploadedFile $image, string $filename, string $profilePathDirectory, string $defaultImagePath): string
     {
-        if (!Storage::disk('public')->exists($defaultImagePath)) {
-            throw new FileNotFoundException('Default image file does not exist' . ' ' . $defaultImagePath);
-        }
 
         if (!Storage::disk('public')->directoryExists($profilePathDirectory)) {
             Storage::disk('public')->createDirectory($profilePathDirectory);
@@ -35,6 +32,9 @@ class StoreImageOrStoreDefaultImageAction
         if ($image) {
             $image->storeAs($profilePathDirectory, $filename, 'public');
         } else {
+            if (!Storage::disk('public')->exists($defaultImagePath)) {
+                throw new FileNotFoundException('Default image file does not exist' . ' ' . $defaultImagePath);
+            }
             Storage::disk('public')->copy($defaultImagePath, $profilePathDirectory . '/' . $filename);
         }
 

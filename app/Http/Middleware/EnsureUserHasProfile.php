@@ -17,9 +17,11 @@ class EnsureUserHasProfile
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if (!Profile::query()->firstWhere('user_id', auth()->id())) {
 
-        if (! Profile::query()->firstWhere('user_id', auth()->id()) ) {
-            return redirect(route('createFirstProfile'));
+            return redirect(
+                route('createFirstProfile'),headers:['redirectUrl' => $request->url()]
+            );
         }
 
         return $next($request);
