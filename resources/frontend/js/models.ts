@@ -14,15 +14,15 @@ export interface Profile {
     bio: string;
     receivedRequestsCount?: number;
     receivedRequests?: Profile[];
-    sentRequestsCount: number;
+    sentRequestsCount?: number;
     sentRequests?: Profile[];
-    allNewsCount: number;
+    allNewsCount?: number;
     allNews?: News[];
-    newsCount: number;
+    newsCount?: number;
     news?: News[];
-    followersCount: number;
+    followersCount?: number;
     followers?: Profile[];
-    followingCount: number;
+    followingCount?: number;
     following?: Profile[];
 }
 
@@ -67,10 +67,16 @@ export interface Post {
     profile?: Profile;
     createdAt: string;
     updatedAt: string;
-    likesCount: number;
+    likesCount?: number;
     likes?: Profile[];
-    commentsCount: number;
+    commentsCount?: number;
     comments?: Comment[];
+}
+
+export interface PostPreview extends Post {
+    doYouLike: boolean;
+    canEdit: boolean;
+    commentPreviews: CommentPreview[];
 }
 
 export interface Comment {
@@ -84,4 +90,9 @@ export interface Comment {
     updatedAt: string;
     likesCount?: number;
     likes?: Profile[];
+}
+
+export interface CommentPreview extends Comment {
+    doYouLike: boolean;
+    canEdit: boolean;
 }

@@ -42,12 +42,14 @@
             @include('partials.profile.info', ['profile' => $profile])
         </section>
 
-
-        @for($i=0;$i<20;$i++)
-            <section class="mt-5 flex items-center justify-center text-3xl border-8 aspect-[3/1]">
-                Post
-            </section>
-        @endfor
+        <section>
+            @include('partials.profile.posts', [
+                'friendshipRequestForm' => $friendshipRequestForm,
+                'profile' => $profile,
+                'authProfile' => $authProfile,
+                'ownership' => $ownership,
+                ])
+        </section>
 
     </main>
 

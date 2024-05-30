@@ -6,7 +6,7 @@ import { ROUTE_PROFILE_EDIT, ROUTE_PROFILE_NEW } from '../routes';
 import { indexProfile } from '../api/profiles';
 
 interface NavbarProps {
-    userId?: number;
+    userId: number;
 }
 
 Alpine.data('sidebar', (props: NavbarProps) => {
@@ -36,7 +36,6 @@ Alpine.data('sidebar', (props: NavbarProps) => {
 
             try {
                 this.profiles = (await indexProfile(props.userId)) ?? ([] as Profile[]);
-
                 this.buildLinks();
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
