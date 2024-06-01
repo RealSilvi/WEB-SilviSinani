@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ImageGenerator
 {
@@ -12,7 +13,7 @@ class ImageGenerator
 
     public function generate(string $endLocation, ?string $filename = null, ?array $filters = []): string
     {
-        $filename = $filename ?? now()->toString();
+        $filename = $filename ?? Str::slug(now()->toString()).'.jpg';
         $url = $this->baseUrl . (count($filters) != 0 ? '?' : '');
         foreach ($filters as $filter) {
             $url = $url . '%20' . $filter;

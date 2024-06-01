@@ -21,9 +21,17 @@ class PostFactory extends Factory
     {
         return [
             'image' => null,
-            'description' => null,
-            'profile_id' => Profile::factory()->create()->id,
+            'description' => fake()->sentence(),
         ];
+    }
+
+    public function configure(): static
+    {
+        return $this->afterMaking(function (Post $post) {
+            if($post->profile_id == null){
+                $post->profile_id=Profile::factory()->create()->id;
+            }
+        });
     }
 
 }

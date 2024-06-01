@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enum\NewsType;
+use App\Models\News;
 use App\Models\Profile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -24,8 +25,20 @@ class NewsFactory extends Factory
             'body' => fake()->realText,
             'seen' => false,
             'profile_id' => Profile::query()->inRandomOrder()->first()?->id ?? Profile::factory()->create()->id,
-            'from' => Profile::factory()->create()->id,
+            'from' => Profile::query()->inRandomOrder()->first()?->id,
             'type' => Arr::random(NewsType::cases()),
         ];
+    }
+
+    public function configure(): static
+    {
+        return $this->afterMaking(function (News $news) {
+            if ($news->profile_id == null) {
+                $news->profile_id = Profile::factory()->create()->id;
+            }
+            if ($news->from == null) {
+                $news->from = Profile::query()->where('id', '!=', $news->profile_id)->inRandomOrder()->first()?->id ?? Profile::factory()->create()->id;
+            }
+        });
     }
 }

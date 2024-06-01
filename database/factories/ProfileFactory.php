@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enum\ProfileType;
+use App\Models\Profile;
 use App\Models\User;
 use App\Support\ImageGenerator;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -30,8 +31,16 @@ class ProfileFactory extends Factory
             'default' => false,
             'type' => Arr::random(ProfileType::cases()),
             'breed' => fake()->name,
-            'user_id' => User::factory()->create()->id,
         ];
+    }
+
+    public function configure(): static
+    {
+        return $this->afterMaking(function (Profile $profile) {
+            if($profile->user_id == null){
+                $profile->user_id=User::factory()->create()->id;
+            }
+        });
     }
 
     public function realImages(): Factory

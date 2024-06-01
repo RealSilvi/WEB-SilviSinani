@@ -13,7 +13,6 @@ return new class extends Migration {
         Schema::create('post_likes', function (Blueprint $table) {
             $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('profile_id');
-            $table->timestamps();
 
             $table->primary(['post_id', 'profile_id']);
             $table->foreign('post_id')->references('id')->on('posts')->cascadeOnDelete();

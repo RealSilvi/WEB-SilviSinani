@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Http\Resources\PostResource;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Profile;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -20,9 +21,19 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            'body' => fake()->realText,
-            'post_id' => Post::factory()->create()->id,
-            'profile_id' => Profile::factory()->create()->id,
+            'body' => fake()->sentence,
         ];
+    }
+
+    public function configure(): static
+    {
+        return $this->afterMaking(function (Comment $comment) {
+            if ($comment->profile_id == null) {
+                $comment->profile_id = Profile::factory()->create()->id;
+            }
+            if ($comment->post_id == null) {
+                $comment->post_id = Post::factory()->create()->id;
+            }
+        });
     }
 }
