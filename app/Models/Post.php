@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Resources\PostResource;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -44,6 +45,15 @@ class Post extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function topComments(): HasMany
+    {
+        return $this->comments()
+            ->withCount('likes')
+            ->orderBy('likes_count', 'desc');
+//            ->limit(2);
+
     }
 
     public function likes(): BelongsToMany

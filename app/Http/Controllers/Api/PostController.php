@@ -36,6 +36,8 @@ class PostController
             ->allowedIncludes([
                 'profile',
                 'comments',
+                'topComments',
+                'topComments.profile',
                 'comments.profile',
                 'likes',
                 'likesCount',

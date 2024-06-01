@@ -29,6 +29,8 @@ export enum IndexPostsIncludeKey {
     Comments = 'comments',
     CommentsProfile = 'comments.profile',
     CommentsCount = 'commentsCount',
+    TopComments = 'topComments',
+    TopCommentsProfile = 'topComments.profile',
     Likes = 'likes',
     LikesCount = 'likesCount',
 }

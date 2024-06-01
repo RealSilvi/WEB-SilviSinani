@@ -71,6 +71,7 @@ export interface Post {
     likes?: Profile[];
     commentsCount?: number;
     comments?: Comment[];
+    topComments?: Comment[];
 }
 
 export interface PostPreview extends Post {

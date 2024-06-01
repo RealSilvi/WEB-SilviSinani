@@ -26,6 +26,7 @@ class PostResource extends JsonResource
             'likes' => ProfileResource::collection($this->whenLoaded('likes')),
             'commentsCount' => $this->whenCounted('comments', $this->resource->comments_count),
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
+            'topComments' => CommentResource::collection($this->whenLoaded('topComments')),
         ];
     }
 }

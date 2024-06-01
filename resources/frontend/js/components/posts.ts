@@ -21,10 +21,7 @@ Alpine.data('posts', (props: PostsProps) => {
             const canEdit = post.profileId == props.authProfileId;
             const profileLink = post.profile ? ROUTE_PROFILE_EDIT(post.profile.nickname) : null;
 
-            const sortedComments = post.comments?.sort(
-                (commentA, commentB) => (commentA.likesCount ?? 0) - (commentB.likesCount ?? 0),
-            );
-            if (sortedComments == null) {
+            if (post.topComments == null) {
                 return {
                     ...post,
                     doYouLike: doYouLike,
@@ -34,7 +31,7 @@ Alpine.data('posts', (props: PostsProps) => {
                 } as PostPreview;
             }
 
-            const commentPreviews = sortedComments.map((comment: Comment) => {
+            const commentPreviews = post.topComments.map((comment: Comment) => {
                 const doYouLike = comment.likes?.find((profile) => profile.id == props.profileId) != null;
                 const canEdit = comment.profileId == props.authProfileId;
                 const profileLink = comment.profile ? ROUTE_PROFILE_EDIT(comment.profile.nickname) : null;
@@ -79,7 +76,8 @@ Alpine.data('posts', (props: PostsProps) => {
                     include: [
                         IndexPostsIncludeKey.LikesCount,
                         IndexPostsIncludeKey.CommentsCount,
-                        IndexPostsIncludeKey.CommentsProfile,
+                        IndexPostsIncludeKey.TopComments,
+                        IndexPostsIncludeKey.TopCommentsProfile,
                         IndexPostsIncludeKey.Profile,
                     ],
                 });
