@@ -22,6 +22,7 @@ const API_USERS_PROFILES__NEWS_STORE = (userId: Decimal, profileId: Decimal, inp
     url: `/api/users/${userId}/profiles/${profileId}/news`,
     method: 'POST',
     data: input,
+    params: null,
 });
 
 export interface CreateNewsInput {
@@ -48,4 +49,5 @@ const API_USERS_PROFILES__NEWS_SEE_ALL = (userId: Decimal, profileId: Decimal): 
     url: `/api/users/${userId}/profiles/${profileId}/news/seeAll`,
     method: 'POST',
     data: null,
+    params: null,
 });

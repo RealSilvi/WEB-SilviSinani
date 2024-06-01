@@ -25,9 +25,10 @@ const API_USERS_PROFILES_POSTS__COMMENTS_INDEX = (
     postId: Decimal,
     input?: IndexCommentInput,
 ): ApiAction => ({
-    url: `api/users/${userId}/profiles/${profileId}/posts/${postId}/comments`,
+    url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/comments`,
     method: 'GET',
-    data: input,
+    params: input,
+    data: null,
 });
 
 export enum IndexCommentIncludeKey {
@@ -64,9 +65,10 @@ const API_USERS_PROFILES_POSTS__COMMENTS_SHOW = (
     commentId: Decimal,
     input?: ShowCommentInput,
 ): ApiAction => ({
-    url: `api/users/${userId}/profiles/${profileId}/posts/${postId}/comments/${commentId}`,
+    url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/comments/${commentId}`,
     method: 'GET',
-    data: input,
+    params: input,
+    data: null,
 });
 
 export enum ShowCommentIncludeKey {
@@ -101,9 +103,10 @@ const API_USERS_PROFILES_POSTS__COMMENTS_STORE = (
     postId: Decimal,
     input: CreateCommentInput,
 ): ApiAction => ({
-    url: `api/users/${userId}/profiles/${profileId}/posts/${postId}/comments`,
+    url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/comments`,
     method: 'POST',
     data: input,
+    params: null,
 });
 
 export interface CreateCommentInput {
@@ -131,7 +134,8 @@ const API_USERS_PROFILES_POSTS__COMMENTS_DESTROY = (
     postId: Decimal,
     commentId: Decimal,
 ): ApiAction => ({
-    url: `api/users/${userId}/profiles/${profileId}/posts/${postId}/comments/${commentId}`,
+    url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/comments/${commentId}`,
     method: 'DELETE',
     data: null,
+    params: null,
 });

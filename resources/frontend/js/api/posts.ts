@@ -14,20 +14,23 @@ export async function indexPosts(
     const response = await (instance ?? axios).request<{ data: Post[] }>({
         ...API_USERS_PROFILES__POSTS_INDEX(userId, profileId, input),
     });
-
     return response.data.data;
 }
 
 const API_USERS_PROFILES__POSTS_INDEX = (userId: Decimal, profileId: Decimal, input?: IndexPostsInput): ApiAction => ({
-    url: `api/users/${userId}/profiles/${profileId}/posts `,
+    url: `/api/users/${userId}/profiles/${profileId}/posts`,
     method: 'GET',
-    data: input,
+    data: null,
+    params: input,
 });
 
 export enum IndexPostsIncludeKey {
     Profile = 'profile',
     Comments = 'comments',
+    CommentsProfile = 'comments.profile',
+    CommentsCount = 'commentsCount',
     Likes = 'likes',
+    LikesCount = 'likesCount',
 }
 
 export interface IndexPostsInput {
@@ -57,9 +60,10 @@ const API_USERS_PROFILES__POSTS_SHOW = (
     postId: Decimal,
     input?: ShowPostsInput,
 ): ApiAction => ({
-    url: `api/users/${userId}/profiles/${profileId}/posts/${postId} `,
+    url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}`,
     method: 'GET',
-    data: input,
+    params: input,
+    data: null,
 });
 
 export enum ShowPostsIncludeKey {
@@ -89,8 +93,9 @@ export async function createPost(
 }
 
 const API_USERS_PROFILES__POSTS_STORE = (userId: Decimal, profileId: Decimal, input: CreatePostInput): ApiAction => ({
-    url: `api/users/${userId}/profiles/${profileId}/posts `,
+    url: `/api/users/${userId}/profiles/${profileId}/posts`,
     method: 'POST',
+    params: null,
     data: input,
 });
 
@@ -110,7 +115,8 @@ export async function destroyPost(userId: Decimal, profileId: Decimal, postId: D
 }
 
 const API_USERS_PROFILES__POSTS_DESTROY = (userId: Decimal, profileId: Decimal, postId: Decimal): ApiAction => ({
-    url: `api/users/${userId}/profiles/${profileId}/posts/${postId} `,
+    url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}`,
     method: 'DELETE',
     data: null,
+    params: null,
 });

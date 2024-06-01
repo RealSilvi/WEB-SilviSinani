@@ -267,8 +267,8 @@ it('can update storage paths', function () {
     $response->assertJson(fn(AssertableJson $json) => $json
         ->has('data', fn(AssertableJson $json) => $json
             ->where('nickname', 'scott')
-            ->where('mainImage', 'profiles/scott/profile.jpg')
-            ->where('secondaryImage', 'profiles/scott/background.jpg')
+            ->where('mainImage', '/profiles/scott/profile.jpg')
+            ->where('secondaryImage', '/profiles/scott/background.jpg')
             ->etc()
         )
     );

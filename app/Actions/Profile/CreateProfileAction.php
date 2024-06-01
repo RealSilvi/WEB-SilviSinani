@@ -92,19 +92,19 @@ class CreateProfileAction
             $mainImage = StoreImageOrStoreDefaultImageAction::execute(
                 $input->mainImage,
                 'profile.jpg',
-                'profiles/' . $input->nickname,
-                'utilities/profileDefault.jpg'
+                '/profiles/' . $input->nickname,
+                '/utilities/profileDefault.jpg'
             );
 
             $secondaryImage = StoreImageOrStoreDefaultImageAction::execute(
                 $input->secondaryImage,
                 'background.jpg',
-                'profiles/' . $input->nickname,
-                'utilities/backgroundDefault.jpg'
+                '/profiles/' . $input->nickname,
+                '/utilities/backgroundDefault.jpg'
             );
         } catch (FilesystemException) {
-            $mainImage = 'utilities/profileDefault.jpg';
-            $secondaryImage = 'utilities/backgroundDefault.jpg';
+            $mainImage = '/utilities/profileDefault.jpg';
+            $secondaryImage = '/utilities/backgroundDefault.jpg';
         }
         return [
             'main_image' => $mainImage,

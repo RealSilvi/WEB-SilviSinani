@@ -16,7 +16,8 @@ export async function indexProfile(userId: Decimal, input?: IndexProfileInput, i
 const API_USERS__PROFILES_INDEX = (userId: Decimal, input?: IndexProfileInput): ApiAction => ({
     url: `/api/users/${userId}/profiles`,
     method: 'GET',
-    data: input,
+    data: null,
+    params: input,
 });
 
 export interface IndexProfileInput {
@@ -58,7 +59,8 @@ export async function showProfile(
 const API_USERS__PROFILES_SHOW = (userId: Decimal, profileId: Decimal, input?: ShowProfileInput): ApiAction => ({
     url: `/api/users/${userId}/profiles/${profileId}`,
     method: 'GET',
-    data: input,
+    data: null,
+    params: input,
 });
 
 export interface ShowProfileInput {
@@ -96,6 +98,7 @@ const API_USERS__PROFILES_STORE = (userId: Decimal, input: CreateProfileInput): 
     url: `/api/users/${userId}/profiles`,
     method: 'POST',
     data: input,
+    params: null,
 });
 
 export interface CreateProfileInput {
@@ -137,6 +140,7 @@ const API_USERS__PROFILES_UPDATE = (userId: Decimal, profileId: Decimal, input: 
     url: `/api/users/${userId}/profiles/${profileId}`,
     method: 'PATCH',
     data: input,
+    params: null,
 });
 
 export interface UpdateProfileInput {
@@ -162,4 +166,5 @@ const API_USERS__PROFILES_DESTROY = (userId: Decimal, profileId: Decimal): ApiAc
     url: `/api/users/${userId}/profiles/${profileId}`,
     method: 'DELETE',
     data: null,
+    params: null,
 });

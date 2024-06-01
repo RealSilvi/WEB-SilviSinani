@@ -20,7 +20,7 @@ class DeleteProfileAction
         DB::transaction(function () use ($user, $profile): void {
             $this->checkAndRestoreDefaults($user, $profile);
             $profile->user()->dissociate();
-            Storage::disk('public')->delete('profiles/' . $profile->nickname);
+            Storage::disk('public')->delete('/profiles/' . $profile->nickname);
 
             $profile->delete();
         });

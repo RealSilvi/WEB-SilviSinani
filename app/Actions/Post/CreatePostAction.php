@@ -79,7 +79,7 @@ class CreatePostAction
             return null;
         }
 
-        $profilePathDirectory = 'profiles/' . $profile->nickname;
+        $profilePathDirectory = '/profiles/' . $profile->nickname;
         $postPathDirectory = $profilePathDirectory . '/posts';
 
         if (!Storage::disk('public')->exists($profilePathDirectory)) {

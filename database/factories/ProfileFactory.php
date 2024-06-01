@@ -47,8 +47,8 @@ class ProfileFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             $type = $attributes['type'];
-            $mainImageEndLocation = 'profiles' . '/' . $attributes['nickname'];
-            $secondaryImageEndLocation = 'profiles' . '/' . $attributes['nickname'];
+            $mainImageEndLocation = '/profiles' . '/' . $attributes['nickname'];
+            $secondaryImageEndLocation = '/profiles' . '/' . $attributes['nickname'];
             return [
                 'main_image' =>app(ImageGenerator::class)->generate($mainImageEndLocation, 'profile.jpg', [$type->value, 'green']),
                 'secondary_image' => app(ImageGenerator::class)->generate($secondaryImageEndLocation, 'background.jpg', ['background', 'green']),

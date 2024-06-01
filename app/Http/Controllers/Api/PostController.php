@@ -36,11 +36,15 @@ class PostController
             ->allowedIncludes([
                 'profile',
                 'comments',
+                'comments.profile',
                 'likes',
+                'likesCount',
+                'commentsCount',
             ])
             ->defaultSort('-created_at')
             ->where('profile_id', $profile->id)
             ->get();
+
 
         return PostResource::collection($posts);
     }

@@ -27,9 +27,10 @@ const API_USERS_PROFILES_POSTS_COMMENTS__LIKES_INDEX = (
     commentId: Decimal,
     input?: IndexCommentLikesInput,
 ): ApiAction => ({
-    url: `api/users/${userId}/profiles/${profileId}/posts/${postId}/comments/${commentId}/likes `,
+    url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/comments/${commentId}/likes`,
     method: 'GET',
     data: null,
+    params: input,
 });
 
 export enum IndexCommentLikesIncludeKey {
@@ -75,9 +76,10 @@ const API_USERS_PROFILES_POSTS_COMMENTS__LIKES_STORE = (
     postId: Decimal,
     commentId: Decimal,
 ): ApiAction => ({
-    url: `api/users/${userId}/profiles/${profileId}/posts/${postId}/comments/${commentId}/likes `,
+    url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/comments/${commentId}/likes`,
     method: 'POST',
     data: null,
+    params: null,
 });
 
 /**
@@ -103,7 +105,8 @@ const API_USERS_PROFILES_POSTS_COMMENTS__LIKES_DESTROY = (
     postId: Decimal,
     commentId: Decimal,
 ): ApiAction => ({
-    url: `api/users/${userId}/profiles/${profileId}/posts/${postId}/comments/${commentId}/likes`,
+    url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/comments/${commentId}/likes`,
     method: 'DELETE',
     data: null,
+    params: null,
 });

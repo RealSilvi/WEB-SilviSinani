@@ -6,6 +6,7 @@ import { destroyPost, indexPosts, IndexPostsIncludeKey } from '../api/posts';
 import { createPostLike, destroyPostLike } from '../api/postLikes';
 import { createCommentLike, destroyCommentLike } from '../api/postCommentLikes';
 import { showProfile } from '../api/profiles';
+import { ROUTE_PROFILE_EDIT, ROUTE_PROFILE_NEW } from '../routes';
 
 interface PostsProps {
     userId: Decimal;
@@ -18,6 +19,7 @@ Alpine.data('posts', (props: PostsProps) => {
         return posts.map((post: Post) => {
             const doYouLike = post.likes?.find((profile) => profile.id == props.profileId) != null;
             const canEdit = post.profileId == props.authProfileId;
+            const profileLink = post.profile ? ROUTE_PROFILE_EDIT(post.profile.nickname) : null;
 
             const sortedComments = post.comments?.sort(
                 (commentA, commentB) => (commentA.likesCount ?? 0) - (commentB.likesCount ?? 0),
@@ -28,16 +30,19 @@ Alpine.data('posts', (props: PostsProps) => {
                     doYouLike: doYouLike,
                     canEdit: canEdit,
                     commentPreviews: [],
+                    profileLink: profileLink,
                 } as PostPreview;
             }
 
             const commentPreviews = sortedComments.map((comment: Comment) => {
                 const doYouLike = comment.likes?.find((profile) => profile.id == props.profileId) != null;
                 const canEdit = comment.profileId == props.authProfileId;
+                const profileLink = comment.profile ? ROUTE_PROFILE_EDIT(comment.profile.nickname) : null;
                 return {
                     ...comment,
                     doYouLike: doYouLike,
                     canEdit: canEdit,
+                    profileLink: profileLink,
                 } as CommentPreview;
             });
 
@@ -46,6 +51,7 @@ Alpine.data('posts', (props: PostsProps) => {
                 doYouLike: doYouLike,
                 canEdit: canEdit,
                 commentPreviews: commentPreviews,
+                profileLink: profileLink,
             } as PostPreview;
         });
     }
@@ -56,9 +62,9 @@ Alpine.data('posts', (props: PostsProps) => {
         postPreviews: [] as PostPreview[],
         authProfile: {} as Profile,
 
-        init() {
-            this.fetchAuthProfile();
-            this.fetchPosts();
+        async init() {
+            await this.fetchAuthProfile();
+            await this.fetchPosts();
         },
 
         async fetchPosts() {
@@ -70,7 +76,12 @@ Alpine.data('posts', (props: PostsProps) => {
 
             try {
                 const posts = await indexPosts(props.userId, props.profileId, {
-                    include: [IndexPostsIncludeKey.Likes, IndexPostsIncludeKey.Comments],
+                    include: [
+                        IndexPostsIncludeKey.LikesCount,
+                        IndexPostsIncludeKey.CommentsCount,
+                        IndexPostsIncludeKey.CommentsProfile,
+                        IndexPostsIncludeKey.Profile,
+                    ],
                 });
                 this.postPreviews = buildPosts(posts);
             } catch (e) {
