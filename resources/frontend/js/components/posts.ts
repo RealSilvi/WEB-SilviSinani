@@ -75,6 +75,7 @@ Alpine.data('posts', (props: PostsProps) => {
                 const posts = await indexPosts(props.userId, props.profileId, {
                     include: [
                         IndexPostsIncludeKey.LikesCount,
+                        IndexPostsIncludeKey.Likes,
                         IndexPostsIncludeKey.CommentsCount,
                         IndexPostsIncludeKey.TopComments,
                         IndexPostsIncludeKey.TopCommentsProfile,
@@ -234,7 +235,7 @@ Alpine.data('posts', (props: PostsProps) => {
                 if (comment.likes && comment.likesCount) {
                     comment.likesCount += 1;
                     comment.likes.push(this.authProfile);
-                    post.doYouLike = true;
+                    comment.doYouLike = true;
                 } else {
                     location.reload();
                 }

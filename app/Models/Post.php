@@ -50,6 +50,7 @@ class Post extends Model
     public function topComments(): HasMany
     {
         return $this->comments()
+            ->with('likes')
             ->withCount('likes')
             ->orderBy('likes_count', 'desc');
 //            ->limit(2);

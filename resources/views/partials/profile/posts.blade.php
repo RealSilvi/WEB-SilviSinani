@@ -47,9 +47,10 @@
                         class="rounded-xl w-full object-cover aspect-[1/1] lg:aspect-[2/1] lg:object-contain bg-primary/10" />
                 </template>
                 <div class="flex flex-row gap-2 lg:gap-3 items-center text-xs lg:text-base lg:px-5">
-                    <div @click=""
-                         class="cursor-pointer">
-                        {{svg('like','h-5 w-5 lg:h-8 lg:w-8 text-primary')}}
+                    <div @click="post.doYouLike ? destroyPostLike(post.id) : createPostLike(post.id)"
+                         :class="post.doYouLike ? 'text-black' : 'text-primary'"
+                         class="cursor-pointer rounded-full">
+                        {{svg('like','h-5 w-5 lg:h-8 lg:w-8')}}
                     </div>
                     <div x-text="post.likesCount ?? '0'"></div>
                     <div></div>
@@ -80,9 +81,10 @@
                                 </div>
 
                                 <div class="flex flex-row gap-2 lg:gap-3 items-center text-xs lg:text-base lg:px-5">
-                                    <div @click=""
+                                    <div @click="comment.doYouLike ? deleteCommentLike(post.id,comment.id) : createCommentLike(post.id,comment.id)"
+                                         :class="comment.doYouLike ? 'text-black' : 'text-primary'"
                                          class="cursor-pointer flex justify-end">
-                                        {{svg('like','h-5 w-5 lg:h-8 lg:w-8 text-primary')}}
+                                        {{svg('like','h-5 w-5 lg:h-8 lg:w-8')}}
                                     </div>
                                     <div x-text="comment.likesCount ?? '0'"></div>
                                 </div>
