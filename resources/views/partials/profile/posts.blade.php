@@ -14,27 +14,23 @@
               profileId: {{$profile->id}},
               authProfileId: {{$authProfile->id}}
             })"
-     class="flex flex-col gap-10">
+    class="flex flex-col gap-10">
 
     <template x-for="post in postPreviews">
         <div class="w-full">
             <div class="flex flex-col gap-3 lg:gap-5 p-5 lg:px-20 lg:py-10 bg-primary/10 rounded-xl">
-                <x-post-preview.post
-                    ::post="post"
-                    ::destroyPostLike="destroyPostLike"
-                    ::createPostLike="createPostLike"
-                ></x-post-preview.post>
+                {{--Divided in partials just for clenner code.--}}
+
+                @include('partials.profile.post-preview.post-details')
+
+                @include('partials.profile.post-preview.interact')
 
                 <div class="flex flex-col gap-2">
                     <template x-for="comment in post.commentPreviews">
-                        <x-post-preview.comment
-                            ::comment="comment"
-                            ::post="post"
-                            ::deleteCommentLike="deleteCommentLike"
-                            ::createCommentLike="createCommentLike"
-                        ></x-post-preview.comment>
+                        @include('partials.profile.post-preview.comment')
                     </template>
                 </div>
+
             </div>
         </div>
     </template>

@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
-import { apiValidationErrors, Decimal } from '../utils';
+import { apiErrorMessage, apiValidationErrors, Decimal } from '../utils';
 import { Comment, CommentPreview, Post, PostPreview, Profile } from '../models';
 import { destroyPost, indexPosts, IndexPostsIncludeKey } from '../api/posts';
 import { createPostLike, destroyPostLike } from '../api/postLikes';
 import { createCommentLike, destroyCommentLike } from '../api/postCommentLikes';
 import { showProfile } from '../api/profiles';
 import { ROUTE_PROFILE_EDIT, ROUTE_PROFILE_NEW } from '../routes';
+import { createComment } from '../api/postComments';
 
 interface PostsProps {
     userId: Decimal;
@@ -31,17 +32,19 @@ Alpine.data('posts', (props: PostsProps) => {
                 } as PostPreview;
             }
 
-            const commentPreviews = post.topComments.map((comment: Comment) => {
-                const doYouLike = comment.likes?.find((profile) => profile.id == props.profileId) != null;
-                const canEdit = comment.profileId == props.authProfileId;
-                const profileLink = comment.profile ? ROUTE_PROFILE_EDIT(comment.profile.nickname) : null;
-                return {
-                    ...comment,
-                    doYouLike: doYouLike,
-                    canEdit: canEdit,
-                    profileLink: profileLink,
-                } as CommentPreview;
-            });
+            const commentPreviews = post.topComments
+                .map((comment: Comment) => {
+                    const doYouLike = comment.likes?.find((profile) => profile.id == props.profileId) != null;
+                    const canEdit = comment.profileId == props.authProfileId;
+                    const profileLink = comment.profile ? ROUTE_PROFILE_EDIT(comment.profile.nickname) : null;
+                    return {
+                        ...comment,
+                        doYouLike: doYouLike,
+                        canEdit: canEdit,
+                        profileLink: profileLink,
+                    } as CommentPreview;
+                })
+                .slice(0, 2);
 
             return {
                 ...post,
@@ -159,7 +162,7 @@ Alpine.data('posts', (props: PostsProps) => {
 
                 await createPostLike(props.userId, props.profileId, postId);
 
-                if (post.likesCount && post.likes) {
+                if (post.likesCount != null && post.likes != null) {
                     post.doYouLike = true;
                     post.likes.push(this.authProfile);
                     post.likesCount += 1;
@@ -193,7 +196,7 @@ Alpine.data('posts', (props: PostsProps) => {
 
                 await destroyPostLike(props.userId, props.profileId, postId);
 
-                if (post.likesCount && post.likes) {
+                if (post.likesCount != null && post.likes != null) {
                     post.likesCount -= 1;
                     post.doYouLike = false;
                     post.likes = post.likes?.filter((profile) => profile.id != props.authProfileId);
@@ -231,8 +234,7 @@ Alpine.data('posts', (props: PostsProps) => {
                 }
 
                 await createCommentLike(props.userId, props.profileId, postId, commentId);
-
-                if (comment.likes && comment.likesCount) {
+                if (comment.likes != null && comment.likesCount != null) {
                     comment.likesCount += 1;
                     comment.likes.push(this.authProfile);
                     comment.doYouLike = true;
@@ -271,7 +273,7 @@ Alpine.data('posts', (props: PostsProps) => {
 
                 await destroyCommentLike(props.userId, props.profileId, postId, commentId);
 
-                if (comment.likes && comment.likesCount) {
+                if (comment.likes != null && comment.likesCount != null) {
                     comment.likesCount -= 1;
                     comment.doYouLike = false;
                     comment.likes = comment.likes.filter((profile) => profile.id != props.authProfileId);
@@ -283,6 +285,69 @@ Alpine.data('posts', (props: PostsProps) => {
                     this.errors = apiValidationErrors(e?.response?.data);
                 }
                 //TODO Gestisci gli errori
+            } finally {
+                this.saving = false;
+            }
+        },
+
+        async createComment(event: SubmitEvent, postId: Decimal) {
+            if (!(event.target instanceof HTMLFormElement)) {
+                return;
+            }
+
+            if (this.saving) {
+                return;
+            }
+
+            this.saving = true;
+            this.errors = {};
+
+            try {
+                const data = new FormData(event.target);
+
+                const comment = await createComment(props.userId, props.authProfileId, postId, {
+                    body: data.get('body')?.toString(),
+                });
+                const post = this.postPreviews.find((post) => post.id == postId);
+
+                post?.commentPreviews?.push({
+                    ...comment,
+                    profile: this.authProfile,
+                    likes: [],
+                    likesCount: 0,
+                    doYouLike: false,
+                    canEdit: true,
+                    profileLink: ROUTE_PROFILE_EDIT(this.authProfile.id),
+                });
+
+                if (post?.commentsCount != null) {
+                    post.commentsCount = (post?.commentsCount ?? 0) + 1;
+                }
+
+                this.$dispatch('toast', {
+                    type: 'success',
+                    message: 'Comment published',
+                });
+
+                event.target.reset();
+
+                this.$dispatch('submitted', {
+                    // formId: props.formId,
+                    target: event.target,
+                    data,
+                });
+            } catch (e) {
+                if (axios.isAxiosError(e) && e?.response?.data) {
+                    this.errors = apiValidationErrors(e?.response?.data);
+
+                    this.$dispatch('toast', {
+                        type: 'error',
+                        message: apiErrorMessage(
+                            e?.response?.data,
+                            // props.messageError ?? 'messages.contact_form_error' //window.polyglot.t('messages.contact_form_error')
+                        ),
+                    });
+                }
             } finally {
                 this.saving = false;
             }
