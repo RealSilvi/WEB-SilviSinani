@@ -127,7 +127,7 @@ Alpine.data('posts', (props: PostsProps) => {
                     console.error('Post not found');
                     return;
                 }
-                if (post.profileId == props.authProfileId) {
+                if (post.profileId != props.authProfileId) {
                     console.error("Cannot delete other's posts");
                     return;
                 }
