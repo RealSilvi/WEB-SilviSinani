@@ -7,7 +7,7 @@ import { createPostLike, destroyPostLike } from '../api/postLikes';
 import { createCommentLike, destroyCommentLike } from '../api/postCommentLikes';
 import { showProfile } from '../api/profiles';
 import { ROUTE_PROFILE_EDIT, ROUTE_PROFILE_NEW } from '../routes';
-import { createComment } from '../api/postComments';
+import { createComment, destroyComment } from '../api/postComments';
 
 interface PostsProps {
     userId: Decimal;
@@ -335,6 +335,50 @@ Alpine.data('posts', (props: PostsProps) => {
                     // formId: props.formId,
                     target: event.target,
                     data,
+                });
+            } catch (e) {
+                if (axios.isAxiosError(e) && e?.response?.data) {
+                    this.errors = apiValidationErrors(e?.response?.data);
+
+                    this.$dispatch('toast', {
+                        type: 'error',
+                        message: apiErrorMessage(
+                            e?.response?.data,
+                            // props.messageError ?? 'messages.contact_form_error' //window.polyglot.t('messages.contact_form_error')
+                        ),
+                    });
+                }
+            } finally {
+                this.saving = false;
+            }
+        },
+
+        async deleteComment(postId: Decimal, commentId: Decimal) {
+            const post = this.postPreviews.find((post) => post.id == postId);
+            if (post == null) {
+                console.error('Post not found');
+                return;
+            }
+
+            if (this.saving) {
+                return;
+            }
+
+            this.saving = true;
+            this.errors = {};
+
+            try {
+                await destroyComment(props.userId, props.authProfileId, postId, commentId);
+
+                post.commentPreviews = post.commentPreviews.filter((comment) => comment.id != commentId);
+
+                if (post?.commentsCount != null) {
+                    post.commentsCount = (post?.commentsCount ?? 1) - 1;
+                }
+
+                this.$dispatch('toast', {
+                    type: 'success',
+                    message: 'Comment published',
                 });
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {

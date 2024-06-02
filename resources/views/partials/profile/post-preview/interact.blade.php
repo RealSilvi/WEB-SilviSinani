@@ -32,7 +32,7 @@
                                      class="placeholder-primary placeholder:font-light text-sm xl:text-lg !border py-2 pr-12 pl-2 rounded-xl flex-shrink" />
                 </x-form.group>
                 <x-form.submit class="absolute right-2 top-0 bg-transparent rounded-full !py-2">
-                    {{svg('send','h-5 w-5 lg:h-8 lg:w-8 text-primary')}}
+                    {{svg('send','h-5 w-5 lg:h-6 lg:w-6 text-primary')}}
                 </x-form.submit>
             </form>
     </div>
