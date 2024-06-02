@@ -38,11 +38,11 @@
                 ])
         </section>
 
-        <section>
+        <section class="mt-10 lg:mt-14">
             @include('partials.profile.info', ['profile' => $profile])
         </section>
 
-        <section>
+        <section class="mt-10 lg:mt-14">
             @include('partials.profile.posts', [
                 'friendshipRequestForm' => $friendshipRequestForm,
                 'profile' => $profile,
