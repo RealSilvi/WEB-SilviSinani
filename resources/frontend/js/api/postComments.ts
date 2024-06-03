@@ -35,6 +35,7 @@ export enum IndexCommentIncludeKey {
     Profile = 'profile',
     Post = 'post',
     Likes = 'likes',
+    LikesCount = 'likesCount',
 }
 
 export interface IndexCommentInput {
@@ -75,6 +76,7 @@ export enum ShowCommentIncludeKey {
     Profile = 'profile',
     Post = 'post',
     Likes = 'likes',
+    LikesCount = 'likesCount',
 }
 
 export interface ShowCommentInput {

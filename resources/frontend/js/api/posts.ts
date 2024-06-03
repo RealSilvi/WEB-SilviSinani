@@ -71,7 +71,12 @@ const API_USERS_PROFILES__POSTS_SHOW = (
 export enum ShowPostsIncludeKey {
     Profile = 'profile',
     Comments = 'comments',
+    CommentsProfile = 'comments.profile',
+    CommentsCount = 'commentsCount',
+    TopComments = 'topComments',
+    TopCommentsProfile = 'topComments.profile',
     Likes = 'likes',
+    LikesCount = 'likesCount',
 }
 
 export interface ShowPostsInput {

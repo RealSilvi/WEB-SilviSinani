@@ -18,7 +18,6 @@
 
         <form x-data="createPost({ userId: {{$user->id}}, profileId: {{$profile->id}} })"
               @submit.prevent="execute"
-              action=""
               enctype="multipart/form-data"
               class="mt-5">
             <div class="relative">

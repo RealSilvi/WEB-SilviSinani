@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
-import { apiErrorMessage, apiValidationErrors, Decimal } from '../utils';
-import { createPost, CreatePostInput } from '../api/posts';
-import { i } from 'vite/dist/node/types.d-aGj9QkWt';
+import { Decimal } from '../utils';
+import { createPost } from '../api/posts';
 
 interface PostsProps {
     userId: Decimal;
@@ -30,6 +29,7 @@ Alpine.data('createPost', (props: PostsProps) => {
                 const data = new FormData(event.target);
 
                 if (!data.has('description') || !data.has('image')) {
+                    console.error('[createPost] description and image input are required');
                     return;
                 }
 
@@ -51,30 +51,34 @@ Alpine.data('createPost', (props: PostsProps) => {
                     image: image,
                 });
 
+                event.target.reset();
+
                 this.$dispatch('toast', {
                     type: 'success',
                     message: 'Post created',
                     post: post,
                 });
 
-                event.target.reset();
-
-                this.$dispatch('submitted', {
-                    // formId: props.formId,
+                this.$dispatch('createPost', {
                     target: event.target,
-                    data,
+                    post: post,
                 });
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
-                    this.errors = apiValidationErrors(e?.response?.data);
-
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: apiErrorMessage(
-                            e?.response?.data,
-                            // props.messageError ?? 'messages.contact_form_error' //window.polyglot.t('messages.contact_form_error')
-                        ),
+                        message: 'General Error',
                     });
+
+                    // this.errors = apiValidationErrors(e?.response?.data);
+
+                    // this.$dispatch('toast', {
+                    //     type: 'error',
+                    //     message: apiErrorMessage(
+                    //         e?.response?.data,
+                    //         props.messageError ?? window.polyglot.t('messages.form_submit_generic_error'),
+                    //     ),
+                    // });
                 }
             } finally {
                 this.saving = false;

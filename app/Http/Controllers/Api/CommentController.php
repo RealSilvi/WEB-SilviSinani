@@ -28,6 +28,7 @@ class CommentController
                 'profile',
                 'post',
                 'likes',
+                'likesCount',
             ])
             ->where('post_id', $post->id)
             ->defaultSort('-created_at')
@@ -44,6 +45,7 @@ class CommentController
                 'profile',
                 'post',
                 'likes',
+                'likesCount',
             ])
             ->findOrFail($comment->id);
 
