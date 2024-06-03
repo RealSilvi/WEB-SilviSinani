@@ -27,6 +27,8 @@
         </footer>
     </div>
 
+    @include('partials.toast')
+
     @stack('body-end')
 </body>
 

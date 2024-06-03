@@ -19,7 +19,7 @@
             @yield('main')
         </div>
     </div>
-
+    @include('partials.toast')
     @stack('body-end')
 </body>
 

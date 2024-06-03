@@ -32,29 +32,10 @@ module.exports = {
             white: colors.white,
 
             gray: colors.stone,
+            red: colors.red,
 
             primary:'#515B3A',
 
-            success: {
-                light: colors.green[100],
-                DEFAULT: colors.green[500],
-                dark: colors.green[800]
-            },
-            error: {
-                light: colors.red[100],
-                DEFAULT: colors.red[500],
-                dark: colors.red[800]
-            },
-            warning: {
-                light: colors.amber[100],
-                DEFAULT: colors.amber[500],
-                dark: colors.amber[800]
-            },
-            info: {
-                light: colors.blue[100],
-                DEFAULT: colors.blue[500],
-                dark: colors.blue[800]
-            }
         },
         extend: {
             fontFamily: {
