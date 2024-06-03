@@ -99,10 +99,13 @@ const API_USERS_PROFILES__POSTS_STORE = (userId: Decimal, profileId: Decimal, in
     method: 'POST',
     params: null,
     data: input,
+    headers: {
+        'Content-Type': 'multipart/form-data',
+    },
 });
 
 export interface CreatePostInput {
-    image?: string;
+    image?: File;
     description?: string;
 }
 

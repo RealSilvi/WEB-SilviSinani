@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Alpine } from '../livewire';
 import { apiErrorMessage, apiValidationErrors, Decimal } from '../utils';
 import { Comment, CommentPreview, Post, PostPreview, Profile } from '../models';
-import { destroyPost, indexPosts, IndexPostsIncludeKey } from '../api/posts';
+import { createPost, destroyPost, indexPosts, IndexPostsIncludeKey } from '../api/posts';
 import { createPostLike, destroyPostLike } from '../api/postLikes';
 import { createCommentLike, destroyCommentLike } from '../api/postCommentLikes';
 import { showProfile } from '../api/profiles';

@@ -38,6 +38,12 @@
                 ])
         </section>
 
+        @if($ownership)
+            <section class="mt-10 lg:mt-14">
+                @include('partials.profile.new-post', ['profile' => $profile])
+            </section>
+        @endif
+
         <section class="mt-10 lg:mt-14">
             @include('partials.profile.info', ['profile' => $profile])
         </section>

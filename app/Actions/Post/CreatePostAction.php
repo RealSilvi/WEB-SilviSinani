@@ -90,7 +90,7 @@ class CreatePostAction
             Storage::disk('public')->createDirectory($postPathDirectory);
         }
 
-        return Storage::disk('public')->put($postPathDirectory, $input->image);
+        return '/'.Storage::disk('public')->put($postPathDirectory, $input->image);
     }
 
 }
