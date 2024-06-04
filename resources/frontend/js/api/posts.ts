@@ -27,10 +27,9 @@ const API_USERS_PROFILES__POSTS_INDEX = (userId: Decimal, profileId: Decimal, in
 export enum IndexPostsIncludeKey {
     Profile = 'profile',
     Comments = 'comments',
+    CommentsLikes = 'comments.likes',
     CommentsProfile = 'comments.profile',
     CommentsCount = 'commentsCount',
-    TopComments = 'topComments',
-    TopCommentsProfile = 'topComments.profile',
     Likes = 'likes',
     LikesCount = 'likesCount',
 }

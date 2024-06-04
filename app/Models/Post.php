@@ -47,16 +47,6 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public function topComments(): HasMany
-    {
-        return $this->comments()
-            ->with('likes')
-            ->withCount('likes')
-            ->orderBy('likes_count', 'desc');
-//            ->limit(2);
-
-    }
-
     public function likes(): BelongsToMany
     {
         return $this->belongsToMany(Profile::class, 'post_likes', 'post_id', 'profile_id');

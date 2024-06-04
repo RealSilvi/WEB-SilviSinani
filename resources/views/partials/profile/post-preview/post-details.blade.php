@@ -4,13 +4,18 @@
             <img
                 alt="profile_image"
                 :src="post.profile.mainImage"
-                class="h-7 w-7 lg:h-14 lg:w-14 rounded-full object-cover"/>
+                class="h-7 w-7 lg:h-14 lg:w-14 rounded-full object-cover" />
             <div x-text="`@${post.profile.nickname}`"></div>
         </a>
 
-        <div x-show="post.canEdit"
-             @click="deletePost(post.id)"
-             class="cursor-pointer text-primary">
+        <div
+            x-show="post.canEdit"
+            x-data="post({
+                 userId: {{$user->id}},
+                 profileId: {{$authProfile->id}},
+             })"
+            @click="deletePost(post.id)"
+            class="cursor-pointer text-primary">
             {{svg('delete','h-5 w-5 lg:h-8 lg:w-8')}}
         </div>
     </div>

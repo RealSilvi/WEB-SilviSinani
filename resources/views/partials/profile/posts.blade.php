@@ -9,14 +9,22 @@
 @endphp
 
 <div
-    x-data="posts({
+    x-data="profilePosts({
               userId: {{$user->id}},
               profileId: {{$profile->id}},
               authProfileId: {{$authProfile->id}}
-            })"
+        })"
+    @create-post.window="onCreatePost($event)"
+    @destroy-post.window="onDestroyPost($event)"
+    @post-liked.window="onPostLiked($event)"
+    @post-liked-removed.window="onPostLikedRemoved($event)"
+    @create-comment.window="onCreateComment($event)"
+    @destroy-comment.window="onDestroyComment($event)"
+    @comment-liked.window="onCommentLiked($event)"
+    @comment-liked-removed.window="onCommentLikedRemoved($event)"
     class="flex flex-col gap-10">
 
-    <template x-for="post in postPreviews">
+    <template x-for="post in posts">
         <div class="w-full">
             <div class="flex flex-col gap-3 lg:gap-5 p-5 lg:px-20 lg:py-10 bg-primary/10 rounded-xl">
                 {{--Divided in partials just for clenner code.--}}
@@ -35,7 +43,7 @@
         </div>
     </template>
 
-    <template x-if="postPreviews.length == 0">
+    <template x-if="posts.length == 0">
         <div class="mt-10 lg:mt-20 w-full h-full flex items-center justify-center text-center text-2xl font-medium ">
             <div class="flex flex-col lg:flex-row items-center justify-center gap-5">
                 <span>

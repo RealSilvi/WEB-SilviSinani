@@ -10,36 +10,38 @@
     x-data="{showInput:false}"
     class="flex flex-col">
     <div class="flex flex-row gap-2 lg:gap-3 items-center text-xs lg:text-base lg:px-5">
-
-        <div x-data="postLikes({
-        userId: {{$user->id}},
-        profileId: {{$authProfile->id}},
-        postId: post.id,
-{{--        doYouLike: post.doYouLike,--}}
-{{--        likesCount: post.likesCount--}}
+        <div x-data="postLike({
+            userId: {{$user->id}},
+            profileId: {{$authProfile->id}},
         })"
              class="flex flex-row gap-2 lg:gap-3 items-center text-xs lg:text-base">
-            <div @click="doYouLike ? unlikePost() : likePost();"
-                 :class="doYouLike ? 'text-black' : 'text-primary'"
+            <div @click="post.doYouLike ? unlikePost(post.id) : likePost(post.id);"
+                 :class="post.doYouLike ? 'text-black' : 'text-primary'"
                  class="cursor-pointer rounded-full">
                 {{svg('like','h-5 w-5 lg:h-8 lg:w-8')}}
             </div>
-            <div x-text="likesCount"></div>
+            <div x-text="post.likesCount"></div>
         </div>
 
         <div></div>
+
         <div @click="showInput=!showInput"
              class="cursor-pointer">
             {{svg('comments','h-5 w-5 lg:h-8 lg:w-8 text-primary')}}
         </div>
         <div x-text="post.commentsCount ?? '0'"></div>
     </div>
-    <div x-show="showInput"
-         x-collapse>
+    <div
+        x-show="showInput"
+        x-collapse
+        x-data="comment({
+                userId: {{$user->id}},
+                profileId: {{$authProfile->id}},
+        })"
+    >
         <form
-            action=""
             @submit.prevent="createComment($event,post.id)"
-            @submitted="showInput=false"
+            @create-comment.window="showInput=false"
             class="relative overflow-hidden mt-5"
         >
             <x-form.group name="body" class="w-full">

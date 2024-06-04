@@ -6,66 +6,17 @@ import { createPostLike, destroyPostLike } from '../api/postLikes';
 import { showComment, ShowCommentIncludeKey } from '../api/postComments';
 import { createCommentLike, destroyCommentLike } from '../api/postCommentLikes';
 
-interface PostsProps {
+interface CommentLikeProps {
     userId: Decimal;
     profileId: Decimal;
-    postId: Decimal;
-    commentId: Decimal;
-    doYouLike?: boolean;
-    likesCount?: number;
 }
 
-Alpine.data('commentLikes', (props: PostsProps) => {
+Alpine.data('commentLike', (props: CommentLikeProps) => {
     return {
         errors: {},
         saving: false,
-        doYouLike: props.doYouLike ?? null,
-        likesCount: props.likesCount ?? null,
 
-        async init() {
-            if (this.doYouLike != null && this.likesCount != null) {
-                return;
-            }
-            this.saving = true;
-            this.errors = {};
-
-            try {
-                const comment = await showComment(props.userId, props.profileId, props.postId, props.commentId, {
-                    include: [ShowCommentIncludeKey.Likes, ShowCommentIncludeKey.LikesCount],
-                });
-
-                this.$dispatch('showComment', {
-                    comment: comment,
-                    postId: props.postId,
-                    profileId: props.profileId,
-                    userId: props.userId,
-                });
-
-                this.likesCount = comment.likesCount ?? 0;
-                this.doYouLike = comment.likes?.find((profile) => profile.id == props.profileId) != null;
-            } catch (e) {
-                if (axios.isAxiosError(e) && e?.response?.data) {
-                    this.$dispatch('toast', {
-                        type: 'error',
-                        message: 'General Error',
-                    });
-
-                    // this.errors = apiValidationErrors(e?.response?.data);
-
-                    // this.$dispatch('toast', {
-                    //     type: 'error',
-                    //     message: apiErrorMessage(
-                    //         e?.response?.data,
-                    //         props.messageError ?? window.polyglot.t('messages.form_submit_generic_error'),
-                    //     ),
-                    // });
-                }
-            } finally {
-                this.saving = false;
-            }
-        },
-
-        async likeComment() {
+        async likeComment(postId: Decimal, commentId: Decimal) {
             if (this.saving) {
                 return;
             }
@@ -73,15 +24,16 @@ Alpine.data('commentLikes', (props: PostsProps) => {
             this.errors = {};
 
             try {
-                const comment = await createCommentLike(props.userId, props.profileId, props.postId, props.commentId);
+                const comment = await createCommentLike(props.userId, props.profileId, postId, commentId);
 
-                this.doYouLike = true;
-                this.likesCount = (this.likesCount ?? 0) + 1;
+                this.$dispatch('toast', {
+                    type: 'success',
+                    message: 'Comment liked',
+                });
 
-                this.$dispatch('commentLikes', {
-                    liked: true,
-                    commentId: comment,
-                    postId: props.postId,
+                this.$dispatch('comment-liked', {
+                    comment: comment,
+                    postId: postId,
                     profileId: props.profileId,
                     userId: props.userId,
                 });
@@ -107,7 +59,7 @@ Alpine.data('commentLikes', (props: PostsProps) => {
             }
         },
 
-        async unlikeComment() {
+        async unlikeComment(postId: Decimal, commentId: Decimal) {
             if (this.saving) {
                 return;
             }
@@ -115,15 +67,16 @@ Alpine.data('commentLikes', (props: PostsProps) => {
             this.errors = {};
 
             try {
-                const comment = await destroyCommentLike(props.userId, props.profileId, props.postId, props.commentId);
+                const comment = await destroyCommentLike(props.userId, props.profileId, postId, commentId);
 
-                this.doYouLike = false;
-                this.likesCount = (this.likesCount ?? 1) - 1;
+                this.$dispatch('toast', {
+                    type: 'success',
+                    message: 'Comment liked removed',
+                });
 
-                this.$dispatch('commentLikes', {
-                    liked: false,
+                this.$dispatch('comment-liked-removed', {
                     comment: comment,
-                    postId: props.postId,
+                    postId: postId,
                     profileId: props.profileId,
                     userId: props.userId,
                 });

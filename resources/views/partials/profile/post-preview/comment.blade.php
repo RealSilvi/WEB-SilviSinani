@@ -19,27 +19,27 @@
                     class="h-10 w-10 rounded-full object-cover hidden lg:block" />
                 <div class="pr-2" x-text="`@${comment.profile.nickname}`"></div>
             </a>
-            <div x-data="commentLikes({
+            <div x-data="commentLike({
                             userId: {{$user->id}},
                             profileId: {{$authProfile->id}},
-                            postId: post.id,
-                            commentId: comment.id,
-{{--                            doYouLike: post.doYouLike,--}}
-{{--                            likesCount: post.likesCount--}}
                         })"
                  class="flex flex-row gap-1 lg:gap-3 items-center text-xs lg:text-base">
                 <div
-                    @click="doYouLike ? unlikeComment() : likeComment()"
-                    :class="doYouLike ? 'text-black' : 'text-primary'"
+                    @click="comment.doYouLike ? unlikeComment(post.id, comment.id) : likeComment(post.id, comment.id)"
+                    :class="comment.doYouLike ? 'text-black' : 'text-primary'"
                     class="cursor-pointer flex justify-end">
                     {{svg('like','h-5 w-5 lg:h-8 lg:w-8')}}
                 </div>
                 <div>
-                    <span x-text="likesCount"></span>
+                    <span x-text="comment.likesCount"></span>
                 </div>
             </div>
         </div>
         <div x-show="comment.canEdit"
+             x-data="comment({
+                 userId: {{$user->id}},
+                 profileId: {{$authProfile->id}},
+             })"
              @click="deleteComment(post.id,comment.id)"
              class="cursor-pointer text-primary">
             {{svg('delete','h-5 w-5 lg:h-8 lg:w-8')}}

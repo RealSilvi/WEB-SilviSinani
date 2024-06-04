@@ -57,9 +57,11 @@ class CommentController
      */
     public function store(User $user, Profile $profile, Post $post, CreateCommentInput $input, CreateCommentAction $action): CommentResource
     {
-        $post = $action->execute($user, $profile, $post, $input);
+        $comment = $action->execute($user, $profile, $post, $input);
 
-        return new CommentResource($post);
+        $comment->load('profile');
+
+        return new CommentResource($comment);
     }
 
     /**
@@ -72,7 +74,6 @@ class CommentController
 
         return response()->noContent();
     }
-
 
 
 }

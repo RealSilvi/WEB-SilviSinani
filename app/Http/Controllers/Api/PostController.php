@@ -15,6 +15,7 @@ use App\Exceptions\NicknameAlreadyExistsException;
 use App\Exceptions\ProfileIsNotAUserProfileException;
 use App\Exceptions\ToManyProfilesException;
 use App\Exceptions\UserHasNotProfilesException;
+use App\Http\QueryBuilder\PostCommentsLikesInclude;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\ProfileResource;
 use App\Models\Post;
@@ -23,6 +24,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Spatie\QueryBuilder\AllowedInclude;
+use Spatie\QueryBuilder\AllowedSort;
+use Spatie\QueryBuilder\Includes\IncludedCallback;
 use Spatie\QueryBuilder\QueryBuilder;
 use Throwable;
 
@@ -35,18 +39,14 @@ class PostController
         $posts = QueryBuilder::for(Post::class, $request)
             ->allowedIncludes([
                 'profile',
-                'comments',
-                'topComments',
-                'topComments.profile',
-                'comments.profile',
                 'likes',
-                'likesCount',
-                'commentsCount',
+                'comments',
+                'comments.profile',
+                'comments.likes',
             ])
             ->defaultSort('-created_at')
             ->where('profile_id', $profile->id)
             ->get();
-
 
         return PostResource::collection($posts);
     }
@@ -58,9 +58,9 @@ class PostController
             ->allowedIncludes([
                 'profile',
                 'comments',
-                'topComments',
-                'topComments.profile',
                 'comments.profile',
+                'comments.likes',
+                'comments.likesCount',
                 'likes',
                 'likesCount',
                 'commentsCount',
@@ -77,6 +77,8 @@ class PostController
     {
 
         $post = $action->execute($user,$profile, $input);
+
+        $post->load('profile');
 
         return new PostResource($post);
     }

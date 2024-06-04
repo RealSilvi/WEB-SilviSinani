@@ -1,7 +1,8 @@
 import './imagePreview';
 import './formSubmit';
-import './createPost';
-import './postLikes';
-import './commentLikes';
 import './sidebar';
-import './posts';
+import './comment';
+import './commentLike';
+import './post';
+import './postLike';
+import './profilePosts';
