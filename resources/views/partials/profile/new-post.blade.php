@@ -2,8 +2,12 @@
     /**
      * @var \App\Models\User $user
      * @var \App\Models\Profile $profile
+     * @var \App\Models\Profile $authProfile
      */
+
     $user = $user ?? auth()->user();
+    $authProfile = $authProfile ?? $user->getDefaultProfile();
+    $profile = $profile ?? $authProfile;
 @endphp
 
 @if($profile)

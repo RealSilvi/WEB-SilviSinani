@@ -1,3 +1,14 @@
+@php
+    /**
+     * @var \App\Models\User $user
+     * @var \App\Models\Profile $profile
+     * @var \App\Models\Profile $authProfile
+     */
+
+    $user = $user ?? auth()->user();
+    $authProfile = $authProfile ?? $user->getDefaultProfile();
+    $profile = $profile ?? $authProfile;
+@endphp
 <div
     class="flex flex-col text-sm lg:text-base lg:gap-2 bg-primary/10 rounded-3xl px-4 lg:px-5 py-1 lg:py-3">
     <a :href="comment.profileLink"  class="flex flex-row items-center lg:gap-3 font-medium">

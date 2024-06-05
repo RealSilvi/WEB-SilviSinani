@@ -31,6 +31,7 @@ class NewsController extends Controller
         return view('pages.news._profile', [
             'user' => $user,
             'profile' => $profile,
+            'authProfile' => $profile,
             'pendingFollowers' => $pendingFollowers,
             'friendshipType' => $friendshipType
         ]);

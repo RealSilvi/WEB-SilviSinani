@@ -1,16 +1,32 @@
 @php
     /**
-     * @var \App\Models\Profile $profile
      * @var \App\Models\User $user
+     * @var \App\Models\Profile $profile
+     * @var \App\Models\Profile $authProfile
+     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $editForm
+     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $deleteForm
      */
-    $editFormId = 'edit_profile_form';
-    $editMethod = 'PATCH';
-    $editActionUrl = route('users.profiles.update',['user'=>$user->id,'profile'=>$profile->id]);
-    $editRedirectUrl=\App\Providers\RouteServiceProvider::HOME;
-    $deleteFormId = 'delete_profile_form';
-    $deleteMethod = 'DELETE';
-    $deleteRedirectUrl = \App\Providers\RouteServiceProvider::HOME;
-    $deleteActionUrl = route('users.profiles.destroy',['user'=>$user->id,'profile'=>$profile->id]);
+
+    $user = $user ?? auth()->user();
+    $authProfile = $authProfile ?? $user->getDefaultProfile();
+    $profile = $profile ?? $authProfile;
+
+    $editForm = [
+            'id' => 'edit_profile',
+            'method' => 'PATCH',
+            'action' => route('users.profiles.update',['user'=>$user->id,'profile'=>$profile->id]),
+            'redirectUrl' => route('home'),
+            'submitLabel' =>  __('form.profile_edit.submit_button'),
+        ];
+
+    $deleteForm = [
+            'id' => 'delete_profile',
+            'method' => 'DELETE',
+            'action' => route('users.profiles.destroy',['user'=>$user->id,'profile'=>$profile->id]),
+            'redirectUrl' => route('home'),
+            'submitLabel' => __('form.profile_edit.delete_button'),
+        ];
+
 @endphp
 @extends('layouts.default')
 
@@ -29,30 +45,27 @@
                 {{ __('pages.profile.edit.title') }}
             </div>
 
-            <form action="{{$deleteActionUrl}}"
-                  method="{{ $deleteMethod }}"
-                  x-data="formSubmit({
-                            formId: '{{ $deleteFormId }}',
-                            url: '{{ $deleteActionUrl }}',
-                            method: '{{ $deleteMethod }}',
-                            onSuccessRedirectUrl: '{{ $deleteRedirectUrl }}',
-                          })"
+            <form x-data="formSubmit({
+                      formId: '{{ $deleteForm['id'] }}',
+                      url: '{{ $deleteForm['action'] }}',
+                      method: '{{ $deleteForm['method'] }}',
+                      onSuccessRedirectUrl: '{{ $deleteForm['redirectUrl'] }}',
+                  })"
                   @submit.prevent="submit">
                 @csrf
                 <x-form.submit class="!bg-error-dark w-full rounded-full font-black">
-                    {{ __('form.profile_edit.delete_button') }}
+                    {{$deleteForm['submitLabel']}}
                 </x-form.submit>
             </form>
-            <form action="{{$editActionUrl}}"
-                  method="PATCH"
+
+            <form class="lg:col-span-2"
                   x-data="formSubmit({
-                            formId: '{{ $editFormId }}',
-                            url: '{{ $editActionUrl }}',
-                            method: '{{ $editMethod }}',
-                            onSuccessRedirectUrl: '{{ $editRedirectUrl }}',
-                          })"
-                  @submit.prevent="submit"
-                  class="lg:col-span-2">
+                      formId: '{{ $editForm['id'] }}',
+                      url: '{{ $editForm['action'] }}',
+                      method: '{{ $editForm['method'] }}',
+                      onSuccessRedirectUrl: '{{ $editForm['redirectUrl'] }}',
+                  })"
+                  @submit.prevent="submit">
                 @csrf
                 <div class="flex flex-col gap-8 lg:grid lg:grid-cols-2 lg:gap-y-14 lg:gap-x-32">
                     <x-form.group name="mainImage" class="w-full">
@@ -123,8 +136,8 @@
 
                     <div class="flex flex-col items-center justify-end ">
                         <x-form.submit class="w-full rounded-full font-black lg:font-medium">
-                            {{ __('form.profile_edit.submit_button') }}
-                            </x-form.submit>
+                            {{ $editForm['submitLabel'] }}
+                        </x-form.submit>
                     </div>
                 </div>
             </form>

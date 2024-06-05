@@ -23,6 +23,7 @@ class SettingsController extends Controller
 
         return view('pages.settings._profile', [
             'user' => $user,
+            'authProfile' => $profile,
             'profile' => $profile,
         ]);
     }

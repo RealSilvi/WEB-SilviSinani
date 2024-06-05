@@ -1,11 +1,17 @@
 @php
     /**
+     * @var \App\Models\User $user
      * @var \App\Models\Profile $profile
      * @var \App\Models\Profile $authProfile
+     * @var boolean $ownership
      * @var \Illuminate\Database\Eloquent\Collection<array-key,\App\Models\Profile> $friendships
      * @var \App\Enum\FriendshipType $friendshipType
-     * @var boolean $ownership
      */
+
+    $user = $user ?? auth()->user();
+    $authProfile = $authProfile ?? $user->getDefaultProfile();
+    $profile = $profile ?? $authProfile;
+    $ownership = $ownership ?? false;
 @endphp
 
 @extends('layouts.default')

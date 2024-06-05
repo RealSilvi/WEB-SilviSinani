@@ -1,10 +1,16 @@
 @php
     /**
+     * @var \App\Models\User $user
      * @var \App\Models\Profile $profile
      * @var \App\Models\Profile $authProfile
      * @var boolean $ownership
      * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $friendshipRequestForm
      */
+
+    $user = $user ?? auth()->user();
+    $authProfile = $authProfile ?? $user->getDefaultProfile();
+    $profile = $profile ?? $authProfile;
+    $ownership = $ownership ?? false;
 @endphp
 
 <div class="mt-5 flex flex-row gap-2 lg:gap-10 justify-between items-center h-full lg:mt-40 lg:text-2xl">
@@ -37,7 +43,6 @@
                 {{ $friendshipRequestForm['submitLabel'] }}
             </x-form.submit>
         </form>
-
     @endif
 
     <a class="bg-primary/10 lg:text-2xl rounded-xl py-2 w-full lg:p-3 lg:w-2/3 h-fit text-center lg:text-start"

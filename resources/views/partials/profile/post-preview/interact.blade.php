@@ -4,8 +4,12 @@
      * @var \App\Models\Profile $profile
      * @var \App\Models\Profile $authProfile
      */
-    $user =  $user ?? auth()->user();
+
+    $user = $user ?? auth()->user();
+    $authProfile = $authProfile ?? $user->getDefaultProfile();
+    $profile = $profile ?? $authProfile;
 @endphp
+
 <div
     x-data="{showInput:false}"
     class="flex flex-col">

@@ -1,9 +1,14 @@
 @php
     /**
+     * @var \App\Models\User $user
      * @var \App\Models\Profile $profile
      * @var boolean $ownership
      * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $quickEditImagesForm
      */
+
+    $user = $user ?? auth()->user();
+    $profile = $profile ?? $user->getDefaultProfile();
+    $ownership = $ownership ?? false;
 @endphp
 
 <div x-cloak
@@ -50,15 +55,13 @@
             </div>
             @if($ownership)
                 <div class="w-full h-16 lg:h-12">
-                    <form action="{{ $quickEditImagesForm['action'] }}"
-                          method="{{ $quickEditImagesForm['method'] }}"
+                    <form class=" h-full w-full flex flex-col items-center justify-between gap-2"
                           x-data="formSubmit({
-                            formId: '{{ $quickEditImagesForm['id'] }}',
-                            url: '{{ $quickEditImagesForm['action'] }}',
-                            method: '{{ $quickEditImagesForm['method'] }}',
+                              formId: '{{ $quickEditImagesForm['id'] }}',
+                              url: '{{ $quickEditImagesForm['action'] }}',
+                              method: '{{ $quickEditImagesForm['method'] }}',
                           })"
-                          @submit.prevent="submit"
-                          class=" h-full w-full flex flex-col items-center justify-between gap-2">
+                          @submit.prevent="submit">
                         @csrf
                         <x-form.group name="secondaryImage" class=" rounded-xl bg-primary px-3 w-fit">
                             <x-form.label sr-only>
@@ -91,15 +94,13 @@
 
             @if($ownership)
                 <div class="w-full h-16 lg:h-12">
-                    <form action="{{ $quickEditImagesForm['action'] }}"
-                          method="{{ $quickEditImagesForm['method'] }}"
-                          x-data="formSubmit({
+                    <form class=" h-full w-full flex flex-col items-center justify-between gap-2"
+                        x-data="formSubmit({
                             formId: '{{ $quickEditImagesForm['id'] }}',
                             url: '{{ $quickEditImagesForm['action'] }}',
                             method: '{{ $quickEditImagesForm['method'] }}',
-                          })"
-                          @submit.prevent="submit"
-                          class=" h-full w-full flex flex-col items-center justify-between gap-2">
+                        })"
+                          @submit.prevent="submit">
                         @csrf
                         <x-form.group name="mainImage" class=" rounded-xl bg-primary px-3 w-fit">
                             <x-form.label sr-only>

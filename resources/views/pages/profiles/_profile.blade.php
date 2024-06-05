@@ -1,11 +1,17 @@
 @php
     /**
+     * @var \App\Models\User $user
      * @var \App\Models\Profile $profile
      * @var \App\Models\Profile $authProfile
      * @var boolean $ownership
      * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $friendshipRequestForm
      * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $quickEditImagesForm
      */
+
+    $user = $user ?? auth()->user();
+    $authProfile = $authProfile ?? $user->getDefaultProfile();
+    $profile = $profile ?? $authProfile;
+    $ownership = $ownership ?? false;
 @endphp
 
 @extends('layouts.default')
@@ -23,36 +29,47 @@
 
         <section>
             @include('partials.profile.images-banner', [
-                'quickEditImagesForm' => $quickEditImagesForm,
+                'user' => $user,
                 'profile' => $profile,
                 'ownership' => $ownership,
+                'quickEditImagesForm' => $quickEditImagesForm,
                 ])
         </section>
 
         <section>
             @include('partials.profile.friendships', [
-                'friendshipRequestForm' => $friendshipRequestForm,
-                'profile' => $profile,
+                'user' => $user,
                 'authProfile' => $authProfile,
+                'profile' => $profile,
                 'ownership' => $ownership,
+                'friendshipRequestForm' => $friendshipRequestForm,
                 ])
         </section>
 
         @if($ownership)
             <section class="mt-10 lg:mt-14">
-                @include('partials.profile.new-post', ['profile' => $profile])
+                @include('partials.profile.new-post', [
+                    'user' => $user,
+                    'authProfile' => $authProfile,
+                    'profile' => $profile,
+                ])
             </section>
         @endif
 
         <section class="mt-10 lg:mt-14">
-            @include('partials.profile.info', ['profile' => $profile])
+            @include('partials.profile.info', [
+                    'user' => $user,
+                    'authProfile' => $authProfile,
+                    'profile' => $profile,
+                    'ownership'=>$ownership
+                ])
         </section>
 
         <section class="mt-10 lg:mt-14">
             @include('partials.profile.posts', [
-                'friendshipRequestForm' => $friendshipRequestForm,
-                'profile' => $profile,
+                'user' => $user,
                 'authProfile' => $authProfile,
+                'profile' => $profile,
                 'ownership' => $ownership,
                 ])
         </section>

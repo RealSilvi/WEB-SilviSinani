@@ -1,3 +1,15 @@
+@php
+    /**
+     * @var \App\Models\User $user
+     * @var \App\Models\Profile $profile
+     * @var \App\Models\Profile $authProfile
+     */
+
+    $user = $user ?? auth()->user();
+    $authProfile = $authProfile ?? $user->getDefaultProfile();
+    $profile = $profile ?? $authProfile;
+@endphp
+
 <div class="flex flex-col gap-3 lg:gap-5">
     <div class="flex justify-between">
         <a :href="post.profileLink" class="flex flex-row gap-2 items-center lg:gap-5 lg:text-xl italic">

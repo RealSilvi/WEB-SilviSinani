@@ -1,10 +1,13 @@
 @php
     /**
-     * @var \App\Models\Profile $profile
      * @var \App\Models\User $user
+     * @var \App\Models\Profile $profile
+     * @var \App\Models\Profile $authProfile
      */
-    $user= $user ?? auth()->user();
-    $profile= $profile ?? $user->getDefaultProfile();
+
+    $user = $user ?? auth()->user();
+    $authProfile = $authProfile ?? $user->getDefaultProfile();
+    $profile = $profile ?? $authProfile;
 @endphp
 <aside x-data="sidebar({ userId: {{auth()->id()}} })"
        class="fixed z-40 w-full bottom-0 right-0 lg:top-0 lg:h-full lg:w-20 h-15 p-2 lg:py-0">

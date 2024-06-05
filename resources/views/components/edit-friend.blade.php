@@ -1,11 +1,17 @@
 @php
     /**
-     * @var \App\Models\Profile $friendProfile
+     * @var \App\Models\User $user
+     * @var \App\Models\Profile $profile
      * @var \App\Models\Profile $authProfile
+     * @var \App\Models\Profile $friendProfile
      * @var bool $onlyDelete
      * @var array{id:string,method:string,action:string} $storeFriendForm
      * @var array{id:string,method:string,action:string} $deleteFriendForm
      */
+
+    $user = $user ?? auth()->user();
+    $authProfile = $authProfile ?? $user->getDefaultProfile();
+    $profile = $profile ?? $authProfile;
 @endphp
 
 <div class="h-full w-full border-b-4 py-5 lg:rounded-full lg:border-4 lg:p-2 lg:hover:bg-primary/50">
@@ -42,7 +48,7 @@
                     <x-form.group name="followerId">
                         <x-form.input type="hidden" value="{{ $friendProfile->id }}"></x-form.input>
                     </x-form.group>
-                    <button @click="submit">
+                    <button>
                         {{ svg('accept', 'h-8 w-8 text-success/75') }}
                     </button>
                 </form>
@@ -57,7 +63,7 @@
                     method: '{{ $deleteFriendForm['method'] }}',
                 })" @submit.prevent="submit" class="h-full w-full items-center justify-center">
                 @csrf
-                <button @click="submit">
+                <button>
                     {{ svg('decline', 'h-8 w-8 text-error/75') }}
                 </button>
             </form>

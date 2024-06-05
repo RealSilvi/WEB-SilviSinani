@@ -1,9 +1,16 @@
 @php
     /**
+     * @var \App\Models\User $user
      * @var \App\Models\Profile $profile
+     * @var \App\Models\Profile $authProfile
+     * @var boolean $ownership
      */
-@endphp
 
+    $user = $user ?? auth()->user();
+    $authProfile = $authProfile ?? $user->getDefaultProfile();
+    $profile = $profile ?? $authProfile;
+    $ownership = $ownership ?? false;
+@endphp
 <div>
     @if($profile->bio)
         <div class="mt-2 flex flex-col justify-end w-full lg:text-2xl gap-1 lg:gap-5">

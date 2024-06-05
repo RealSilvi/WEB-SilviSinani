@@ -1,10 +1,15 @@
 @php
     /**
-     * @var \App\Models\Profile $profile
      * @var \App\Models\User $user
+     * @var \App\Models\Profile $profile
+     * @var \App\Models\Profile $authProfile
      * @var \Illuminate\Database\Eloquent\Collection<array-key,\App\Models\Profile> $pendingFollowers
      * @var \App\Enum\FriendshipType $friendshipType
      */
+
+    $user = $user ?? auth()->user();
+    $authProfile = $authProfile ?? $user->getDefaultProfile();
+    $profile = $profile ?? $authProfile;
 @endphp
 
 @extends('layouts.default')

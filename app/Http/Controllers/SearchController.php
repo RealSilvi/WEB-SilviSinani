@@ -23,6 +23,7 @@ class SearchController extends Controller
         return view('pages.search._profile', [
             'user' => $user,
             'profile' => $profile,
+            'authProfile' => $profile,
             'profiles' => $profiles,
         ]);
     }

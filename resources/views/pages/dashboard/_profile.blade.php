@@ -1,10 +1,12 @@
 @php
     /**
-     * @var \App\Models\Profile $profile
      * @var \App\Models\User $user
+     * @var \App\Models\Profile $profile
+     * @var \App\Models\Profile $authProfile
      */
-    $user= $user ?? auth()->user();
-    $profile= $profile ?? $user->getDefaultProfile();
+    $user = $user ?? auth()->user();
+    $authProfile = $authProfile ?? $user->getDefaultProfile();
+    $profile = $profile ?? $authProfile;
 @endphp
 
 @extends('layouts.default')

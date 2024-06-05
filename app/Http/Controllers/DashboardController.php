@@ -23,6 +23,7 @@ class DashboardController extends Controller
         return view('pages.dashboard._profile', [
             'user' => $user,
             'profile' => $profile,
+            'authProfile' => $profile,
         ]);
     }
 

@@ -31,6 +31,7 @@ class ProfileController extends Controller
         $profile->loadCount(['followers', 'following', 'news']);
 
         return view('pages.profiles._profile', [
+            'user' => $user,
             'profile' => $profile,
             'authProfile' => $authProfile,
             'ownership' => $ownership,
@@ -68,7 +69,7 @@ class ProfileController extends Controller
     {
         return [
             'id' => 'quick_edit_image_form',
-            'submitLabel' => 'Follow',
+            'submitLabel' => 'Change',
             'method' => 'Save',
             'action' => route('users.profiles.update', [
                 'user' => $user->id,
