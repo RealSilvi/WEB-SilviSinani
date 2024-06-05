@@ -1,24 +1,20 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
 import { apiErrorMessage, apiValidationErrors, Decimal } from '../utils';
-import { Comment, CommentPreview, Post, PostPreview, Profile } from '../models';
-import { createPost, destroyPost, indexPosts, IndexPostsIncludeKey } from '../api/posts';
-import { createPostLike, destroyPostLike } from '../api/postLikes';
-import { createCommentLike, destroyCommentLike } from '../api/postCommentLikes';
-import { showProfile } from '../api/profiles';
-import { ROUTE_PROFILE_EDIT, ROUTE_PROFILE_NEW } from '../routes';
-import { createComment, destroyComment } from '../api/postComments';
+import { Comment, CommentPreview, Post, PostPreview } from '../models';
+import { indexPosts, IndexPostsIncludeKey } from '../api/posts';
+import { ROUTE_PROFILE_EDIT } from '../routes';
 
-interface ProfilePostsProps {
+interface ProfilePostsContextProps {
     userId: Decimal;
     profileId: Decimal;
     authProfileId: Decimal;
 }
 
-Alpine.data('profilePosts', (props: ProfilePostsProps) => {
+Alpine.data('profilePostsContext', (props: ProfilePostsContextProps) => {
     function build(posts: Post[]): PostPreview[] {
         return posts.map((post: Post) => {
-            const doYouLike = post.likes?.find((profile) => profile.id == props.profileId) != null;
+            const doYouLike = post.likes?.find((profile) => profile.id == props.authProfileId) != null;
             const canEdit = post.profileId == props.authProfileId;
             const profileLink = post.profile ? ROUTE_PROFILE_EDIT(post.profile.nickname) : null;
 
@@ -34,7 +30,7 @@ Alpine.data('profilePosts', (props: ProfilePostsProps) => {
 
             const commentPreviews = post.comments
                 .map((comment: Comment) => {
-                    const doYouLike = comment.likes?.find((profile) => profile.id == props.profileId) != null;
+                    const doYouLike = comment.likes?.find((profile) => profile.id == props.authProfileId) != null;
                     const canEdit = comment.profileId == props.authProfileId;
                     const profileLink = comment.profile ? ROUTE_PROFILE_EDIT(comment.profile.nickname) : null;
                     const likesCount = comment.likes?.length;
@@ -127,6 +123,9 @@ Alpine.data('profilePosts', (props: ProfilePostsProps) => {
 
             const postPreview = {
                 ...post,
+                likesCount: 0,
+                likes: [],
+                commentsCount: 0,
                 doYouLike: false,
                 canEdit: true,
                 commentPreviews: [],
@@ -214,6 +213,8 @@ Alpine.data('profilePosts', (props: ProfilePostsProps) => {
                 doYouLike: false,
                 canEdit: true,
                 profileLink: profileLink,
+                likesCount: 0,
+                likes: [],
             };
 
             const post = this.posts.find((post: Post) => post.id == postId);

@@ -9,7 +9,7 @@
 @endphp
 
 <div
-    x-data="profilePosts({
+    x-data="profilePostsContext({
               userId: {{$user->id}},
               profileId: {{$profile->id}},
               authProfileId: {{$authProfile->id}}

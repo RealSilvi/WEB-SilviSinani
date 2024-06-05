@@ -9,7 +9,7 @@
 <nav x-cloak
      x-data="{showMenu:false}"
      x-effect="document.body.style.overflow = showMenu ? 'hidden' : ''">
-    <div class="z-30 fixed inset-0 w-full h-20 p-2 lg:pr-22">
+    <div class="z-30 fixed inset-0 w-full h-20 p-2 lg:pr-20">
         <div class="w-full h-full rounded-full bg-white">
             <div class="h-full w-full flex items-center justify-between bg-primary/90 px-5 lg:px-10 rounded-full">
                 <a href="{{route('dashboard',['profile'=>$profile->nickname])}}">{{svg('other-logo','h-6 w-6 lg:h-7 lg:w-7')}}</a>
