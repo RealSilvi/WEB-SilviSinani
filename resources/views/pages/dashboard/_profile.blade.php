@@ -3,6 +3,8 @@
      * @var \App\Models\Profile $profile
      * @var \App\Models\User $user
      */
+    $user= $user ?? auth()->user();
+    $profile= $profile ?? $user->getDefaultProfile();
 @endphp
 
 @extends('layouts.default')

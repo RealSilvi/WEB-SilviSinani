@@ -1,3 +1,17 @@
+@php
+    /**
+     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $tokenForm
+     * @var string $token
+     */
+    $tokenForm = [
+            'id' => 'token',
+            'method' => 'POST',
+            'action' => route('password.update'),
+            'submitLabel' =>  __('form.reset_password.submit_button'),
+        ];
+
+@endphp
+
 @extends('layouts.auth', [
     'title' => __('pages.auth.reset_password.title'),
 ])
@@ -13,7 +27,9 @@
             </div>
 
             <div class="mt-10 lg:mt-15 xl:mt-20 flex flex-col">
-                <form action="{{route('password.update')}}" method="post" class="lg:px-10 xl:px-20">
+                <form class="lg:px-10 xl:px-20"
+                      action="{{$tokenForm['action']}}"
+                      method="{{$tokenForm['method']}}">
                     @csrf
 
                     @error('email')
@@ -47,7 +63,7 @@
 
                         <div class="mt-10 lg:mt-15 xl:mt-20">
                             <x-form.submit class="w-full rounded-full font-black">
-                                {{ __('form.reset_password.submit_button') }}
+                                {{ $tokenForm['submitLabel'] }}
                             </x-form.submit>
                         </div>
                     </div>

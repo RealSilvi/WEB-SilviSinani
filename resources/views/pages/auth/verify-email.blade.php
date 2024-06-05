@@ -1,3 +1,23 @@
+@php
+    /**
+     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $verifyEmailForm
+     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $logoutForm
+     */
+
+    $verifyEmailForm = [
+            'id' => 'verify_email',
+            'method' => 'POST',
+            'action' => route('verification.send'),
+            'submitLabel' =>   __('form.verify_email.submit_button'),
+        ];
+
+    $logoutForm = [
+            'id' => 'logout',
+            'method' => 'POST',
+            'action' => route('logout'),
+            'submitLabel' =>   __('Logout'),
+        ];
+@endphp
 @extends('layouts.auth', [
     'title' => __('pages.auth.forgot_password.title'),
 ])
@@ -10,7 +30,6 @@
                 <div class="flex items-center justify-center">
                     <x-image class="h-12 w-12 lg:h-20 lg:w-20 object-cover rounded-full" filter="logo green" />
                 </div>
-
                 <div class="w-full lg:order-first flex flex-col gap-10">
                     <div class="text-center lg:text-start text-3xl xl:text-4xl font-medium">
                         {{ __('pages.auth.verify_email.title') }}
@@ -19,18 +38,19 @@
                         {{ __('form.verify_email.message') }}
                     </div>
                 </div>
-
             </div>
 
             <div class="mt-10 lg:mt-15 xl:mt-20">
-                <form action="{{route('verification.send')}}" method="post" class="lg:px-10 xl:px-20">
+                <form class="lg:px-10 xl:px-20"
+                      action="{{$verifyEmailForm['action']}}"
+                      method="{{$verifyEmailForm['method']}}">
                     @csrf
                     <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-10 xl:gap-40">
 
                         <div class="mt-11 lg:mt-0">
                             <div class="flex flex-col items-center justify-center">
                                 <x-form.submit class="w-full rounded-full font-black">
-                                    {{ __('form.verify_email.submit_button') }}
+                                    {{$verifyEmailForm['submitLabel'] }}
                                 </x-form.submit>
                             </div>
                         </div>
@@ -44,9 +64,12 @@
             </div>
         </div>
         <div class="absolute right-10 lg:right-20 bottom-10">
-            <form action="{{route('logout')}}" method="POST">
+            <form action="{{$logoutForm['action']}}"
+                  method="{{$logoutForm['method']}}">
                 @csrf
-                <button class="font-medium"> {{ __('Logout') }}</button>
+                <button class="font-medium">
+                    {{$logoutForm['submitLabel'] }}
+                </button>
             </form>
         </div>
     </section>

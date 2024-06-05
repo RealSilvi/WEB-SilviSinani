@@ -1,3 +1,14 @@
+@php
+    /**
+     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $registerForm
+     */
+    $registerForm = [
+            'id' => 'register',
+            'method' => 'POST',
+            'action' => route('register'),
+            'submitLabel' =>  __('form.register.submit_button')
+        ];
+@endphp
 @extends('layouts.auth', [
     'title' => __('pages.auth.register.title'),
 ])
@@ -12,9 +23,10 @@
                 </div>
             </div>
 
-            <div
-                class="mt-10 lg:mt-15 xl:mt-20 flex flex-col">
-                <form action="{{route('register')}}" method="post" class="lg:px-10 xl:px-20">
+            <div class="mt-10 lg:mt-15 xl:mt-20 flex flex-col">
+                <form class="lg:px-10 xl:px-20"
+                      action="{{$registerForm['action']}}"
+                      method="{{$registerForm['method']}}">
                     @csrf
                     <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-10 xl:gap-x-40 gap-y-3">
 
@@ -50,8 +62,8 @@
                                 {{ __('form.register.date_of_birth') }}
                             </x-form.label>
                             <x-form.date required value="{{ old('date_of_birth') }}"
-                                               placeholder="  {{ __('form.register.date_of_birth') }}" autocomplete="bday"
-                                               class="placeholder-primary placeholder:font-light text-sm xl:text-lg" />
+                                         placeholder="  {{ __('form.register.date_of_birth') }}" autocomplete="bday"
+                                         class="placeholder-primary placeholder:font-light text-sm xl:text-lg" />
                         </x-form.group>
 
                         <x-form.group name="password">
@@ -78,7 +90,7 @@
                         <div class="mt-11 xl:mt-20">
                             <div class="flex flex-col items-center justify-center">
                                 <x-form.submit class="w-full rounded-full font-black">
-                                    {{ __('form.register.submit_button') }}
+                                    {{ $registerForm['submitLabel'] }}
                                 </x-form.submit>
 
                                 <div class="mt-3 text-xs lg:mt-6 xl:text-base">

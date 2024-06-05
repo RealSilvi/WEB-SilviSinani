@@ -9,6 +9,7 @@ Alpine.data('imagePreview', function (options: ThisTypedAlpineComponent<ImagePre
         imageUrl: options.defaultUrl ?? '',
         init() {},
         previewFile() {
+            // @ts-ignore
             let file = this.$refs.imageFile.files[0];
             if (!file || file.type.indexOf('image/') === -1) {
                 this.imageUrl = options.defaultUrl ?? '';
@@ -18,7 +19,8 @@ Alpine.data('imagePreview', function (options: ThisTypedAlpineComponent<ImagePre
             let reader = new FileReader();
 
             reader.onload = (e) => {
-                this.imageUrl = e.target.result;
+                // @ts-ignore
+                this.imageUrl = e.target?.result;
             };
 
             reader.readAsDataURL(file);

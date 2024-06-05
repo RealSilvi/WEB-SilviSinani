@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use App\Models\Profile;
-use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,9 +17,11 @@ class EnsureUserHasProfile
     public function handle(Request $request, Closure $next): Response
     {
         if (!Profile::query()->firstWhere('user_id', auth()->id())) {
-
             return redirect(
-                route('createFirstProfile'),headers:['redirectUrl' => $request->url()]
+                route('createFirstProfile'),
+                headers: [
+                    'redirectUrl' => $request->url()
+                ]
             );
         }
 
