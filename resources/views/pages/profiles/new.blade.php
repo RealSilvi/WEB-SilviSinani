@@ -1,8 +1,15 @@
 @php
-    $formId = 'register_profile_form';
-    $method = 'POST';
-    $actionUrl = route('users.profiles.store',['user' => auth()->id()]);
-    $onSuccessRedirect = \App\Providers\RouteServiceProvider::HOME;
+    /**
+     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $createProfileForm
+     */
+
+    $createProfileForm = [
+            'id' => 'create_profile_form',
+            'method' => 'POST',
+            'action' => route('users.profiles.store',['user' => auth()->id()]),
+            'submitLabel' => __('form.profile_create.submit_button') ,
+            'redirectUrl' =>  request()->redirectUrl ?? route('home'),
+        ];
 @endphp
 
 @extends('layouts.default')
@@ -18,13 +25,11 @@
 
     <main class="mx-auto w-full max-w-screen-2xl flex-1 pt-5 pb-10 lg:pt-20 lg:pb-32 px-5 lg:px-20">
         <section class="flex w-full h-full items-center justify-center">
-            <form action="{{ $actionUrl }}"
-                  method="POST"
-                  x-data="formSubmit({
-                            formId: '{{ $formId }}',
-                            method: '{{ $method }}',
-                            url: '{{ $actionUrl }}',
-                            onSuccessRedirectUrl: '{{ $onSuccessRedirect }}',
+            <form x-data="formSubmit({
+                            formId: '{{ $createProfileForm['id'] }}',
+                            method: '{{ $createProfileForm['method'] }}',
+                            url: '{{ $createProfileForm['action'] }}',
+                            onSuccessRedirectUrl: '{{ $createProfileForm['redirectUrl'] }}',
                           })"
                   @submit.prevent="submit">
                 @csrf
@@ -47,8 +52,7 @@
                     <div class="flex flex-col mt-5 lg:mt-0">
                         <div class="lg:order-first lg:pb-10">
                             <x-form.group name="type">
-                                <div
-                                        class="flex flex-row items-center justify-center w-full gap-2 lg:gap-4 flex-wrap ">
+                                <div class="flex flex-row items-center justify-center w-full gap-2 lg:gap-4 flex-wrap">
                                     @foreach(\App\Enum\ProfileType::cases() as $profileType)
                                         <div class="w-1/4">
 
@@ -116,7 +120,7 @@
                         <div class="mt-11 xl:mt-20">
                             <div class="flex flex-col items-center justify-center">
                                 <x-form.submit class="w-full rounded-full font-black">
-                                    {{ __('form.profile_create.submit_button') }}
+                                    {{ $createProfileForm['submitLabel'] }}
                                 </x-form.submit>
                             </div>
                         </div>

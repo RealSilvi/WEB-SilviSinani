@@ -1,8 +1,15 @@
 @php
-    $formId = 'register_profile_form';
-    $method = 'POST';
-    $actionUrl = route('users.profiles.store',['user' => auth()->id()]);
-    $redirectUrl = request()->redirectUrl ?? \App\Providers\RouteServiceProvider::HOME;
+    /**
+     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $createFirstProfileForm
+     */
+
+    $createFirstProfileForm = [
+            'id' => 'create_first_profile_form',
+            'method' => 'POST',
+            'action' => route('users.profiles.store',['user' => auth()->id()]),
+            'submitLabel' => __('form.profile_create.submit_button'),
+            'redirectUrl' =>  request()->redirectUrl ?? route('home'),
+        ];
 @endphp
 
 @extends('layouts.auth', [
@@ -18,13 +25,11 @@
                 </div>
 
                 <div class="mt-10 lg:mt-15  flex flex-col">
-                    <form action="{{$actionUrl}}"
-                          method="{{$method}}"
-                          x-data="formSubmit({
-                            formId: '{{ $formId }}',
-                            method: '{{ $method }}',
-                            url: '{{ $actionUrl }}',
-                            onSuccessRedirectUrl: '{{ $redirectUrl }}',
+                    <form x-data="formSubmit({
+                              formId: '{{ $createFirstProfileForm['id'] }}',
+                              method: '{{ $createFirstProfileForm['method'] }}',
+                              url: '{{ $createFirstProfileForm['action'] }}',
+                              onSuccessRedirectUrl: '{{ $createFirstProfileForm['redirectUrl'] }}',
                           })"
                           @submit.prevent="submit">
                         @csrf
@@ -39,8 +44,8 @@
                                             {{ __('form.profile_create.main_image') }}
                                         </x-form.label>
                                         <x-form.image-picker-preview
-                                                defaultUrlStorage="{{asset('/storage/utilities/profileDefault.jpg')}}"
-                                                class="h-20" />
+                                            defaultUrlStorage="{{asset('/storage/utilities/profileDefault.jpg')}}"
+                                            class="h-20" />
                                     </x-form.group>
                                 </div>
                             </div>
@@ -59,7 +64,7 @@
                                     <x-form.label sr-only>
                                         {{ __('form.register.date_of_birth') }}
                                     </x-form.label>
-                                    <x-form.date required value="{{ old('date_of_birth') }}"
+                                    <x-form.date value="{{ old('date_of_birth') }}"
                                                  placeholder="  {{ __('form.profile_create.date_of_birth') }}"
                                                  autocomplete="bday"
                                                  class="placeholder-primary placeholder:font-light text-sm xl:text-lg" />
@@ -78,18 +83,18 @@
 
                                     <x-form.group name="type">
                                         <div
-                                                class="flex flex-row items-center justify-center w-full gap-2 lg:gap-4 flex-wrap ">
+                                            class="flex flex-row items-center justify-center w-full gap-2 lg:gap-4 flex-wrap ">
                                             @foreach(\App\Enum\ProfileType::cases() as $profileType)
                                                 <div class="w-1/4">
 
                                                     <x-form.radio
-                                                            id="{{ $profileType->value }}"
-                                                            value="{{ $profileType->value }}"
-                                                            class="hidden peer/type" />
+                                                        id="{{ $profileType->value }}"
+                                                        value="{{ $profileType->value }}"
+                                                        class="hidden peer/type" />
 
                                                     <x-form.label
-                                                            for="{{ $profileType->value }}"
-                                                            class="flex items-center justify-center p-2 lg:py-3 lg:px-5 rounded-xl text-primary w-full h-full cursor-pointer text-sm bg-primary/50 peer-checked/type:bg-primary peer-checked/type:text-white">
+                                                        for="{{ $profileType->value }}"
+                                                        class="flex items-center justify-center p-2 lg:py-3 lg:px-5 rounded-xl text-primary w-full h-full cursor-pointer text-sm bg-primary/50 peer-checked/type:bg-primary peer-checked/type:text-white">
                                                         {{ $profileType->value }}
                                                     </x-form.label>
                                                 </div>
@@ -101,7 +106,7 @@
                                 <div class="mt-11 xl:mt-20">
                                     <div class="flex flex-col items-center justify-center">
                                         <x-form.submit class="w-full rounded-full font-black">
-                                            {{ __('form.profile_create.submit_button') }}
+                                            {{ $createFirstProfileForm['submitLabel'] }}
                                         </x-form.submit>
                                     </div>
                                 </div>
