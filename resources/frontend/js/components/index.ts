@@ -5,4 +5,4 @@ import './comment';
 import './commentLike';
 import './post';
 import './postLike';
-import './profilePostsContext';
+import './postListContext';

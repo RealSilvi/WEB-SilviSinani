@@ -36,27 +36,38 @@ class DashboardController
                 $profile->following()->pluck('id')
             );
 
-        $randomAdvicePosts = Post::query()
-            ->whereHas(
-                'profile',
-                function (Builder $p)use ($profile) {
-                    return $p->where('type', $profile->type)
-                        ->whereIn('id', $profile->following()->pluck('id'), not: true);
-                }
-            );
-
-        $postQuery = $friendsPosts->count() > 100 ? $friendsPosts : $friendsPosts->unionAll($randomAdvicePosts);
-
-        $posts = QueryBuilder::for($postQuery, $request)
+        $friendsPosts = QueryBuilder::for($friendsPosts, $request)
             ->allowedIncludes([
                 'profile',
                 'likes',
                 'comments',
                 'comments.profile',
                 'comments.likes',
-            ])
-            ->defaultSort('-created_at')
-            ->get();
+            ]);
+
+        $randomAdvicePosts = Post::query()
+            ->whereHas(
+                'profile',
+                function (Builder $p) use ($profile) {
+                    return $p->where('type', $profile->type)
+                        ->where('profile_id', '!=', $profile->id)
+                        ->whereIn('id', $profile->following()->pluck('id'), not: true);
+                }
+            );
+
+        $randomAdvicePosts = QueryBuilder::for($randomAdvicePosts, $request)
+            ->allowedIncludes([
+                'profile',
+                'likes',
+                'comments',
+                'comments.profile',
+                'comments.likes',
+            ]);
+
+        $postQuery = $friendsPosts->count() > 100 ? $friendsPosts : $friendsPosts->unionAll($randomAdvicePosts);
+
+        $posts = $postQuery->defaultSort('-created_at')->get();
+
 
         return PostResource::collection($posts);
     }

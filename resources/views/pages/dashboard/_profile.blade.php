@@ -29,8 +29,25 @@
     </aside>
 
     <main class="mx-auto w-full max-w-screen-2xl flex-1 pt-5 pb-10 lg:pt-20 lg:pb-32 px-5 lg:px-20">
-        User: {{auth()->user()}}<br><br>
-        Profile: {{$profile}}
+
+        <section class="mt-10 lg:mt-14">
+            @include('partials.posts.new-post', [
+                'user' => $user,
+                'authProfile' => $authProfile,
+                'profile' => $profile,
+            ])
+        </section>
+
+        <section class="mt-10 lg:mt-14">
+            @include('partials.posts.list', [
+                'user' => $user,
+                'authProfile' => $authProfile,
+                'profile' => $profile,
+                'ownership' => true,
+                'context' => 'DASHBOARD',
+                ])
+        </section>
+
     </main>
 
 @endsection

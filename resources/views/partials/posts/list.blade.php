@@ -8,13 +8,15 @@
     $user = $user ?? auth()->user();
     $authProfile = $authProfile ?? $user->getDefaultProfile();
     $profile = $profile ?? $authProfile;
+    $context = $context ?? null
 @endphp
 
 <div class="flex flex-col gap-10"
-     x-data="profilePostsContext({
+     x-data="postListContext({
          userId: {{$user->id}},
          profileId: {{$profile->id}},
-         authProfileId: {{$authProfile->id}}
+         authProfileId: {{$authProfile->id}},
+         context:`{{$context}}`
      })"
      @create-post.window="onCreatePost($event)"
      @destroy-post.window="onDestroyPost($event)"
@@ -30,13 +32,13 @@
             <div class="flex flex-col gap-3 lg:gap-5 p-5 lg:px-20 lg:py-10 bg-primary/10 rounded-xl">
                 {{--Divided in partials for clenner code.--}}
 
-                @include('partials.profile.post-preview.post-details', [
+                @include('partials.posts.post-preview.post-details', [
                     'user' => $user,
                     'authProfile' => $authProfile,
                     'profile' => $profile,
                 ])
 
-                @include('partials.profile.post-preview.interact', [
+                @include('partials.posts.post-preview.interact', [
                     'user' => $user,
                     'authProfile' => $authProfile,
                     'profile' => $profile,
@@ -44,7 +46,7 @@
 
                 <div class="flex flex-col gap-2">
                     <template x-for="comment in post.commentPreviews">
-                        @include('partials.profile.post-preview.comment', [
+                        @include('partials.posts.post-preview.comment', [
                             'user' => $user,
                             'authProfile' => $authProfile,
                             'profile' => $profile,

@@ -39,6 +39,7 @@
             @include('partials.profile.images-banner', [
                 'user' => $user,
                 'profile' => $profile,
+                'authProfile' => $authProfile,
                 'ownership' => $ownership,
                 'quickEditImagesForm' => $quickEditImagesForm,
                 ])
@@ -56,7 +57,7 @@
 
         @if($ownership)
             <section class="mt-10 lg:mt-14">
-                @include('partials.profile.new-post', [
+                @include('partials.posts.new-post', [
                     'user' => $user,
                     'authProfile' => $authProfile,
                     'profile' => $profile,
@@ -74,11 +75,12 @@
         </section>
 
         <section class="mt-10 lg:mt-14">
-            @include('partials.profile.posts', [
+            @include('partials.posts.list', [
                 'user' => $user,
                 'authProfile' => $authProfile,
                 'profile' => $profile,
                 'ownership' => $ownership,
+                'context' => 'PROFILE',
                 ])
         </section>
 

@@ -1,16 +1,13 @@
 <?php
 
 use App\Http\Controllers\Api\DashboardController;
-use App\Http\Controllers\Api\FollowersController;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
-use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
-use function Pest\Laravel\postJson;
 
 it('can fetch dashboard posts', function () {
     $user = User::factory()->create();
@@ -36,7 +33,7 @@ it('can fetch dashboard posts', function () {
         'user' => $user->id,
         'profile' => $profile->id,
     ]));
-
+    
     $response->assertSuccessful();
 
     $response->assertJson(fn(AssertableJson $json) => $json
