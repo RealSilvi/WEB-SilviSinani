@@ -3,11 +3,19 @@
      * @var \App\Models\User $user
      * @var \App\Models\Profile $profile
      * @var \App\Models\Profile $authProfile
+     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $logoutForm
      */
 
     $user = $user ?? auth()->user();
     $authProfile = $authProfile ?? $user->getDefaultProfile();
     $profile = $profile ?? $authProfile;
+
+    $logoutForm = [
+        'id' => 'logout',
+        'method' => 'POST',
+        'action' => route('logout'),
+        'submitLabel' =>   __('Logout'),
+    ];
 @endphp
 
 <nav x-cloak
@@ -16,7 +24,7 @@
     <div class="z-30 fixed inset-0 w-full h-20 p-2 lg:pr-20">
         <div class="w-full h-full rounded-full bg-white">
             <div class="h-full w-full flex items-center justify-between bg-primary/90 px-5 lg:px-10 rounded-full">
-                <a href="{{route('dashboard',['profile'=>$profile->nickname])}}">{{svg('other-logo','h-6 w-6 lg:h-7 lg:w-7')}}</a>
+                <a href="{{route('dashboard',['profile'=>$authProfile->nickname])}}">{{svg('other-logo','h-6 w-6 lg:h-7 lg:w-7')}}</a>
                 <form method="get" action="{{ route('search',['profile'=>$profile->nickname]) }}"
                       x-data
                       @submit="if($refs.input.value.trim() === '') {$event.preventDefault(); $refs.input.focus()}"
@@ -29,7 +37,7 @@
                         {{ svg('search', 'w-6 h-6 text-black') }}
                     </button>
                 </form>
-                <a href="{{route('settings',['profile'=>$profile->nickname])}}" class="hidden lg:block">
+                <a href="{{route('settings',['profile'=>$authProfile->nickname])}}" class="hidden lg:block">
                     {{svg('settings','lg:h-7 lg:w-7')}}
                 </a>
                 <div @click="showMenu=!showMenu" x-transition.duration.300ms class="lg:hidden cursor-pointer">
@@ -45,26 +53,29 @@
     </div>
     <div x-show="showMenu" class="lg:hidden fixed inset-0 w-full h-full bg-black/50 pb-17 pt-22 px-4 ">
         <div
-                class="w-full h-full flex justify-end overflow-hidden">
+            class="w-full h-full flex justify-end overflow-hidden">
             <div
-                    x-show="showMenu"
-                    x-transition:enter-start="translate-x-full"
-                    x-transition:leave-end="translate-x-full"
-                    class="w-14 h-full flex flex-col items-center justify-around transition-all ease-in-out duration-300">
+                x-show="showMenu"
+                x-transition:enter-start="translate-x-full"
+                x-transition:leave-end="translate-x-full"
+                class="w-14 h-full flex flex-col items-center justify-around transition-all ease-in-out duration-300">
                 <div x-on:click.outside="showMenu=false" class="w-full aspect-[1/1] bg-primary/90 rounded-xl">
-                    <a href="{{route('news',['profile'=>$profile->nickname])}}"
+                    <a href="{{route('news',['profile'=>$authProfile->nickname])}}"
                        class="w-full h-full flex items-center justify-center">
                         {{svg('heart','h-6 w-6')}}
                     </a>
                 </div>
                 <div x-on:click.outside="showMenu=false" class="w-full aspect-[1/1] bg-primary/90 rounded-xl">
-                    <a href="{{route('settings',['profile'=>$profile->nickname])}}"
+                    <a href="{{route('settings',['profile'=>$authProfile->nickname])}}"
                        class="w-full h-full flex items-center justify-center">
                         {{svg('settings','h-6 w-6')}}
                     </a>
                 </div>
                 <div x-on:click.outside="showMenu=false" class="w-full aspect-[1/1] bg-primary/90 rounded-xl">
-                    <form action="{{ route('logout') }}" method="POST" class="w-full h-full">
+                    <form class="w-full h-full"
+                          action="{{ $logoutForm['action'] }}"
+                          method="{{$logoutForm['method']}}"
+                    >
                         @csrf
                         <button class="w-full h-full flex items-center justify-center">
                             {{svg('logout',' h-6 w-6')}}
