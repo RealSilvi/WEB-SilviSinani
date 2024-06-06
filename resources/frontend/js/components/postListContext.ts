@@ -14,11 +14,12 @@ interface postListContextProps {
 }
 
 Alpine.data('postListContext', (props: postListContextProps) => {
-
     return {
         errors: {},
         saving: false,
         posts: [] as PostPreview[],
+        page: 1,
+        lastPage: false,
 
         async init() {
             if (props.context === 'PROFILE') {
@@ -46,19 +47,26 @@ Alpine.data('postListContext', (props: postListContextProps) => {
                         IndexPostsIncludeKey.Comments,
                         IndexPostsIncludeKey.CommentsLikes,
                         IndexPostsIncludeKey.CommentsCount,
-                        IndexPostsIncludeKey.CommentsProfile
-                    ]
+                        IndexPostsIncludeKey.CommentsProfile,
+                    ],
+                    page: this.page,
                 });
-                this.posts = postsToPostPreviews(posts, props.authProfileId);
+
+                if (posts.length == 0) {
+                    this.lastPage = true;
+                    return;
+                }
+
+                this.posts = [...this.posts, ...postsToPostPreviews(posts, props.authProfileId)];
 
                 this.$dispatch('toast', {
                     type: 'success',
-                    message: 'Posts loaded'
+                    message: 'Posts loaded',
                 });
 
                 this.$dispatch('fetchProfilePosts', {
                     profileId: props.profileId,
-                    userId: props.userId
+                    userId: props.userId,
                 });
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
@@ -67,9 +75,9 @@ Alpine.data('postListContext', (props: postListContextProps) => {
                     this.$dispatch('toast', {
                         type: 'error',
                         message: apiErrorMessage(
-                            e?.response?.data
+                            e?.response?.data,
                             // props.messageError ?? 'messages.contact_form_error' //window.polyglot.t('messages.contact_form_error')
-                        )
+                        ),
                     });
                 }
             } finally {
@@ -94,18 +102,25 @@ Alpine.data('postListContext', (props: postListContextProps) => {
                         ShowDashboardIncludeKey.CommentsProfile,
                         ShowDashboardIncludeKey.LikesCount,
                         ShowDashboardIncludeKey.CommentsCount,
-                    ]
+                    ],
+                    page: this.page,
                 });
-                this.posts = postsToPostPreviews(posts, props.authProfileId);
+
+                if (posts.length == 0) {
+                    this.lastPage = true;
+                    return;
+                }
+
+                this.posts = [...this.posts, ...postsToPostPreviews(posts, props.authProfileId)];
 
                 this.$dispatch('toast', {
                     type: 'success',
-                    message: 'Posts loaded'
+                    message: 'Posts loaded',
                 });
 
                 this.$dispatch('fetchDashboardPosts', {
                     profileId: props.profileId,
-                    userId: props.userId
+                    userId: props.userId,
                 });
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
@@ -114,13 +129,29 @@ Alpine.data('postListContext', (props: postListContextProps) => {
                     this.$dispatch('toast', {
                         type: 'error',
                         message: apiErrorMessage(
-                            e?.response?.data
+                            e?.response?.data,
                             // props.messageError ?? 'messages.contact_form_error' //window.polyglot.t('messages.contact_form_error')
-                        )
+                        ),
                     });
                 }
             } finally {
                 this.saving = false;
+            }
+        },
+
+        async loadMore() {
+            if (this.lastPage) {
+                return;
+            }
+
+            this.page += 1;
+
+            if (props.context === 'PROFILE') {
+                await this.fetchProfilePosts();
+            }
+
+            if (props.context === 'DASHBOARD') {
+                await this.fetchDashboardPosts();
             }
         },
 
@@ -143,7 +174,7 @@ Alpine.data('postListContext', (props: postListContextProps) => {
                 doYouLike: false,
                 canEdit: true,
                 commentPreviews: [],
-                profileLink: profileLink
+                profileLink: profileLink,
             };
 
             this.posts = [postPreview, ...this.posts];
@@ -173,7 +204,7 @@ Alpine.data('postListContext', (props: postListContextProps) => {
             const postPreview = this.posts.find((p: Post) => p.id == post.id);
 
             if (postPreview == null || postPreview.likesCount == null || postPreview.likes == null) {
-                console.error('[onPostLiked] post can\'t refresh');
+                console.error("[onPostLiked] post can't refresh");
                 return;
             }
             postPreview.doYouLike = true;
@@ -193,7 +224,7 @@ Alpine.data('postListContext', (props: postListContextProps) => {
             const postPreview = this.posts.find((p: Post) => p.id == post.id);
 
             if (postPreview == null || postPreview.likesCount == null || postPreview.likes == null) {
-                console.error('[onPostLikedRemoved] post can\'t refresh');
+                console.error("[onPostLikedRemoved] post can't refresh");
                 return;
             }
             postPreview.doYouLike = false;
@@ -228,7 +259,7 @@ Alpine.data('postListContext', (props: postListContextProps) => {
                 canEdit: true,
                 profileLink: profileLink,
                 likesCount: 0,
-                likes: []
+                likes: [],
             };
 
             const post = this.posts.find((post: Post) => post.id == postId);
@@ -305,7 +336,7 @@ Alpine.data('postListContext', (props: postListContextProps) => {
             const commentPreview = postPreview?.commentPreviews.find((c: CommentPreview) => c.id == comment.id);
 
             if (commentPreview == null || commentPreview.likesCount == null || commentPreview.likes == null) {
-                console.error('[onCommentLiked] comment can\'t refresh');
+                console.error("[onCommentLiked] comment can't refresh");
                 return;
             }
             commentPreview.doYouLike = true;
@@ -337,12 +368,12 @@ Alpine.data('postListContext', (props: postListContextProps) => {
             const commentPreview = postPreview?.commentPreviews.find((c: CommentPreview) => c.id == comment.id);
 
             if (commentPreview == null || commentPreview.likesCount == null || commentPreview.likes == null) {
-                console.error('[onCommentLikedRemoved] comment can\'t refresh');
+                console.error("[onCommentLikedRemoved] comment can't refresh");
                 return;
             }
             commentPreview.doYouLike = false;
             commentPreview.likes.push(comment.profile);
             commentPreview.likesCount = commentPreview.likesCount == 0 ? 0 : commentPreview.likesCount - 1;
-        }
+        },
     };
 });

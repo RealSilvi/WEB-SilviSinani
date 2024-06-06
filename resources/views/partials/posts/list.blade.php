@@ -69,4 +69,8 @@
             </div>
         </div>
     </template>
+
+    <section x-show="!lastPage" x-intersect="loadMore()">
+        Loading...
+    </section>
 </div>

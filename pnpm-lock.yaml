@@ -11,6 +11,9 @@ importers:
       '@alpinejs/collapse':
         specifier: ^3.14.0
         version: 3.14.0
+      '@alpinejs/intersect':
+        specifier: ^3.14.0
+        version: 3.14.0
       '@tailwindcss/aspect-ratio':
         specifier: ^0.4.2
         version: 0.4.2(tailwindcss@3.4.3)
@@ -54,6 +57,9 @@ packages:
 
   '@alpinejs/collapse@3.14.0':
     resolution: {integrity: sha512-KB/rS3sGxDiV4bk9/I/96rxbWdwcD+MhxPleK1+/Ky0ptFuU+Zgf5YA3Biy5cr8sGyIER7fROCjSYR0TbZwvLA==}
+
+  '@alpinejs/intersect@3.14.0':
+    resolution: {integrity: sha512-QrAEB3rjcKsSO5rcDYrEeSq0Z+wDhro85yAxmDsdwK8FcDIdFbIZXM1dZbdmiqsfuPegTfxRH22FoJFS3khmtw==}
 
   '@babel/runtime-corejs3@7.24.6':
     resolution: {integrity: sha512-tbC3o8uHK9xMgMsvUm9qGqxVpbv6yborMBLbDteHIc7JDNHsTV0vDMQ5j1O1NXvO+BDELtL9KgoWYaUVIVGt8w==}
@@ -1302,6 +1308,8 @@ snapshots:
   '@alloc/quick-lru@5.2.0': {}
 
   '@alpinejs/collapse@3.14.0': {}
+
+  '@alpinejs/intersect@3.14.0': {}
 
   '@babel/runtime-corejs3@7.24.6':
     dependencies:

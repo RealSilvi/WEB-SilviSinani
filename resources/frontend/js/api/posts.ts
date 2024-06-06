@@ -36,6 +36,7 @@ export enum IndexPostsIncludeKey {
 
 export interface IndexPostsInput {
     include?: IndexPostsIncludeKey[];
+    page?: number;
 }
 
 /**

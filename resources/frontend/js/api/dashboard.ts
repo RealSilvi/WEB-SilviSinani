@@ -2,7 +2,6 @@ import axios, { AxiosInstance } from 'axios';
 import { Post } from '../models';
 import { ApiAction, Decimal } from '../utils';
 
-
 /**
  * API_USERS_PROFILES__DASHBOARD_SHOW
  */
@@ -42,4 +41,5 @@ export enum ShowDashboardIncludeKey {
 
 export interface ShowDashboardInput {
     include?: ShowDashboardIncludeKey[];
+    page?: number;
 }

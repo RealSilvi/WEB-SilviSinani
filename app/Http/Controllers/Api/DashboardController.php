@@ -66,8 +66,9 @@ class DashboardController
 
         $postQuery = $friendsPosts->count() > 100 ? $friendsPosts : $friendsPosts->unionAll($randomAdvicePosts);
 
-        $posts = $postQuery->defaultSort('-created_at')->get();
-
+        $posts = $postQuery
+            ->defaultSort('-created_at')
+            ->simplePaginate(10);
 
         return PostResource::collection($posts);
     }

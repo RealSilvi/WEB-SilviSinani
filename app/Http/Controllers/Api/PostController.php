@@ -46,7 +46,7 @@ class PostController
             ])
             ->defaultSort('-created_at')
             ->where('profile_id', $profile->id)
-            ->get();
+            ->simplePaginate(10);
 
         return PostResource::collection($posts);
     }

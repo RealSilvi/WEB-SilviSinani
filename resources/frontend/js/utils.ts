@@ -5,7 +5,7 @@ import { ROUTE_PROFILE_EDIT } from './routes';
 export type ApiAction = Pick<AxiosRequestConfig, 'url' | 'method' | 'params' | 'data' | 'headers'>;
 export type Decimal = string | number;
 
-export function postsToPostPreviews(posts: Post[],authProfileId:Decimal): PostPreview[] {
+export function postsToPostPreviews(posts: Post[], authProfileId: Decimal): PostPreview[] {
     return posts.map((post: Post) => {
         const doYouLike = post.likes?.find((profile) => profile.id == authProfileId) != null;
         const canEdit = post.profileId == authProfileId;

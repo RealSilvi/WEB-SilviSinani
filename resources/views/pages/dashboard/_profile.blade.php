@@ -30,7 +30,7 @@
 
     <main class="mx-auto w-full max-w-screen-2xl flex-1 pt-5 pb-10 lg:pt-20 lg:pb-32 px-5 lg:px-20">
 
-        <section class="mt-10 lg:mt-14">
+        <section>
             @include('partials.posts.new-post', [
                 'user' => $user,
                 'authProfile' => $authProfile,
@@ -47,6 +47,7 @@
                 'context' => 'DASHBOARD',
                 ])
         </section>
+
 
     </main>
 
