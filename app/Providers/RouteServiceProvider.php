@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
@@ -25,15 +26,21 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+            return Limit::perMinute(100)->by($request->user()?->id ?: $request->ip());
         });
 
-        $this->routes(function () {
+        $this->routes(function (Request $request) {
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
+            $locale = null;
+            if(in_array($request->segment(1), config('app.available_locales'))){
+                $locale = $request->segment(1);
+            }
+
             Route::middleware('web')
+                ->prefix($locale)
                 ->group(base_path('routes/web.php'));
         });
     }

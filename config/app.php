@@ -109,7 +109,12 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'it_IT',
+
+    'available_locales' => [
+        'English' => 'en',
+        'Italian' => 'it',
+    ],
 
     /*
     |--------------------------------------------------------------------------

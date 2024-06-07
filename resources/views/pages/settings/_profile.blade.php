@@ -53,19 +53,6 @@
                 {{ __('pages.profile.edit.title') }}
             </div>
 
-            <form x-data="formSubmit({
-                      formId: '{{ $deleteForm['id'] }}',
-                      url: '{{ $deleteForm['action'] }}',
-                      method: '{{ $deleteForm['method'] }}',
-                      onSuccessRedirectUrl: '{{ $deleteForm['redirectUrl'] }}',
-                  })"
-                  @submit.prevent="submit">
-                @csrf
-                <x-form.submit class="!bg-error-dark w-full rounded-full font-black">
-                    {{$deleteForm['submitLabel']}}
-                </x-form.submit>
-            </form>
-
             <form class="lg:col-span-2"
                   x-data="formSubmit({
                       formId: '{{ $editForm['id'] }}',
@@ -113,8 +100,8 @@
                             {{ __('form.profile_edit.animal') }}
                         </x-form.label>
                         <x-form.select
-                                placeholder="{{$profile->type->value}}"
-                                class="!text-primary !font-light text-sm lg:text-xl">
+                            placeholder="{{$profile->type->value}}"
+                            class="!text-primary !font-light text-sm lg:text-xl">
                             @foreach(\App\Enum\ProfileType::cases() as $profileType)
                                 @if($profileType != $profile->type)
                                     <option value="{{$profileType->value}}">
@@ -149,6 +136,50 @@
                     </div>
                 </div>
             </form>
+
+            <hr class=" border-primary col-span-2">
+
+            <div class="flex flex-col gap-10 lg:gap-10">
+                <div class="text-center lg:text-start text-4xl xl:text-4xl w-full font-medium">
+                    Elimina profilo
+                </div>
+
+                <div class="text-pretty lg:text-2xl font-medium text-primary">
+                    Attezione eliminerai definitivamente il tuo profilo. Non vi e possibilita di recupero
+                </div>
+            </div>
+            <form class="flex items-end" x-data="formSubmit({
+                      formId: '{{ $deleteForm['id'] }}',
+                      url: '{{ $deleteForm['action'] }}',
+                      method: '{{ $deleteForm['method'] }}',
+                      onSuccessRedirectUrl: '{{ $deleteForm['redirectUrl'] }}',
+                  })"
+                  @submit.prevent="submit">
+                @csrf
+
+                <x-form.submit class="!bg-red-900 w-full rounded-full font-black">
+                    {{$deleteForm['submitLabel']}}
+                </x-form.submit>
+            </form>
+
+            <hr class="border-primary col-span-2">
+
+            <div class="text-center lg:text-start text-4xl xl:text-4xl w-full font-medium">
+                Cambia lingua
+            </div>
+
+            <div class="flex flex-row justify-around">
+                @foreach(config('app.available_locales') as $key => $value)
+                    <a
+                        class="w-1/3 flex items-center justify-center p-2 lg:py-3 lg:px-5 rounded-full h-full lg:text-sm font-black
+                         {{App::currentLocale()==$value?'bg-primary text-white':'text-primary bg-primary/50'}}"
+                        href="{{ route('locales', [ 'locale' => $value ]) }}">
+                        {{$key}}
+                    </a>
+                @endforeach
+                <script>console.log(`{{App::currentLocale()}}`);</script>
+            </div>
+
         </div>
     </main>
 
