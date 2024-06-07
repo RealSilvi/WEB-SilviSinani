@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
-import { apiValidationErrors } from '../utils';
 import { Profile, ProfileLink } from '../models';
-import { ROUTE_PROFILE_EDIT, ROUTE_PROFILE_NEW } from '../routes';
+import { ROUTE_PROFILE_EDIT } from '../routes';
 import { indexProfile } from '../api/profiles';
 
 interface NavbarProps {
     userId: number;
+    onSuccessMessage?: string;
+    onFailMessage?: string;
 }
 
 Alpine.data('sidebar', (props: NavbarProps) => {
@@ -17,8 +18,8 @@ Alpine.data('sidebar', (props: NavbarProps) => {
         profileLinks: [] as ProfileLink[],
         errors: {},
 
-        init() {
-            this.fetchProfiles();
+        async init() {
+            await this.fetchProfiles();
         },
 
         async fetchProfiles() {
@@ -36,12 +37,21 @@ Alpine.data('sidebar', (props: NavbarProps) => {
 
             try {
                 this.profiles = (await indexProfile(props.userId)) ?? ([] as Profile[]);
+
+                if (props.onSuccessMessage) {
+                    this.$dispatch('toast', {
+                        type: 'success',
+                        message: props.onSuccessMessage,
+                    });
+                }
                 this.buildLinks();
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
-                    this.errors = apiValidationErrors(e?.response?.data);
+                    this.$dispatch('toast', {
+                        type: 'error',
+                        message: props.onFailMessage ?? 'Error',
+                    });
                 }
-                //TODO Gestisci gli errori
             } finally {
                 this.saving = false;
             }

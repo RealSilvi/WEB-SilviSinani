@@ -19,7 +19,9 @@
 @endphp
 
 <aside class="fixed z-40 w-full bottom-0 right-0 lg:top-0 lg:h-full lg:w-20 h-15 p-2 lg:py-0"
-       x-data="sidebar({ userId: {{$user->id}} })">
+       x-data="sidebar({
+            userId: {{$user->id}},
+       })">
     <div class="w-full h-full bg-white rounded-full lg:flex lg:flex-col">
 
         <div class="hidden lg:block w-full pt-2 h-22">

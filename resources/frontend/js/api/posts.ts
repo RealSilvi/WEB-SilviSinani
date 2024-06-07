@@ -20,7 +20,6 @@ export async function indexPosts(
 const API_USERS_PROFILES__POSTS_INDEX = (userId: Decimal, profileId: Decimal, input?: IndexPostsInput): ApiAction => ({
     url: `/api/users/${userId}/profiles/${profileId}/posts`,
     method: 'GET',
-    data: null,
     params: input,
 });
 
@@ -65,7 +64,6 @@ const API_USERS_PROFILES__POSTS_SHOW = (
     url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}`,
     method: 'GET',
     params: input,
-    data: null,
 });
 
 export enum ShowPostsIncludeKey {
@@ -102,7 +100,6 @@ export async function createPost(
 const API_USERS_PROFILES__POSTS_STORE = (userId: Decimal, profileId: Decimal, input: CreatePostInput): ApiAction => ({
     url: `/api/users/${userId}/profiles/${profileId}/posts`,
     method: 'POST',
-    params: null,
     data: input,
     headers: {
         'Content-Type': 'multipart/form-data',
@@ -127,6 +124,4 @@ export async function destroyPost(userId: Decimal, profileId: Decimal, postId: D
 const API_USERS_PROFILES__POSTS_DESTROY = (userId: Decimal, profileId: Decimal, postId: Decimal): ApiAction => ({
     url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}`,
     method: 'DELETE',
-    data: null,
-    params: null,
 });

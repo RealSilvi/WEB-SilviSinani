@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     'login' => [
         'email' => 'Mail',
         'password' => 'Password',
@@ -30,8 +31,8 @@ return [
     ],
 
     'reset_password' => [
-        'password' => 'password',
-        'password_confirmation' => 'ripeti password',
+        'password' => 'Password',
+        'password_confirmation' => 'Ripeti password',
         'submit_button' => 'Reset password',
     ],
 
@@ -42,7 +43,7 @@ return [
         'onsuccess' => 'Mail inviata nuovamente!',
     ],
 
-    'profile_create'=>[
+    'profile_create' => [
         'choose_animal_type' => 'Scegli il tuo animale',
         'nickname' => 'Nickname',
         'breed' => 'Razza',
@@ -52,7 +53,8 @@ return [
         'default' => 'Segna come profilo principale',
         'submit_button' => 'Crea',
     ],
-    'profile_edit'=>[
+
+    'profile_edit' => [
         'choose_animal_type' => 'Scegli il tuo animale',
         'nickname' => 'Nickname',
         'animal' => 'Animale',

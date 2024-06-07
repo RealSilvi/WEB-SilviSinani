@@ -20,7 +20,9 @@
         ];
 @endphp
 
-@extends('layouts.default')
+@extends('layouts.default',[
+    'title'=> __('pages.profiles.new.title')
+])
 
 @section('main')
     <header>

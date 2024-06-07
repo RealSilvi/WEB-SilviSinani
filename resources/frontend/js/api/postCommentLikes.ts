@@ -29,7 +29,6 @@ const API_USERS_PROFILES_POSTS_COMMENTS__LIKES_INDEX = (
 ): ApiAction => ({
     url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/comments/${commentId}/likes`,
     method: 'GET',
-    data: null,
     params: input,
 });
 
@@ -78,8 +77,6 @@ const API_USERS_PROFILES_POSTS_COMMENTS__LIKES_STORE = (
 ): ApiAction => ({
     url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/comments/${commentId}/likes`,
     method: 'POST',
-    data: null,
-    params: null,
 });
 
 /**
@@ -107,6 +104,4 @@ const API_USERS_PROFILES_POSTS_COMMENTS__LIKES_DESTROY = (
 ): ApiAction => ({
     url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/comments/${commentId}/likes`,
     method: 'DELETE',
-    data: null,
-    params: null,
 });

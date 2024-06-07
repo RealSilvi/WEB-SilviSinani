@@ -14,7 +14,9 @@
     $ownership = $ownership ?? false;
 @endphp
 
-@extends('layouts.default')
+@extends('layouts.default',[
+    'title'=>__('pages.profile.friendships.title')
+])
 
 @section('main')
     <header>
@@ -35,11 +37,10 @@
 
     <main class="mx-auto w-full max-w-screen-2xl flex-1 pt-5 pb-10 lg:pt-20 lg:pb-32 px-5 lg:px-20">
         @if($friendships->isEmpty())
-
             <section class="w-full h-full flex items-center justify-center text-center text-2xl font-medium ">
                 <div class="flex flex-col lg:flex-row items-center justify-center gap-5">
                     <span>
-                        Non hai richieste
+                        {{__('pages.profile.friendships.no_result')}}
                     </span>
                     <a href="{{route('dashboard',['profile'=>$authProfile->nickname])}}">{{svg('other-logo','h-8 w-8 lg:h-10 lg:w-10')}}</a>
                 </div>

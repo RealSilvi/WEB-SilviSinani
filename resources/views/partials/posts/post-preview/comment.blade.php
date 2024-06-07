@@ -28,7 +28,9 @@
                         })"
                  class="flex flex-row gap-1 lg:gap-3 items-center text-xs lg:text-base">
                 <div
-                    @click="comment.doYouLike ? unlikeComment(post.id, comment.id) : likeComment(post.id, comment.id)"
+                    @click="comment.doYouLike ?
+                    unlikeComment(post.id, comment.id, '{{__('messages.unlike_comment.on_success')}}', '{{__('messages.unlike_comment.on_fail')}}') :
+                    likeComment(post.id, comment.id, '{{__('messages.like_comment.on_success')}}', '{{__('messages.like_comment.on_fail')}}' );"
                     :class="comment.doYouLike ? 'text-black' : 'text-primary'"
                     class="cursor-pointer flex justify-end">
                     {{svg('like','h-5 w-5 lg:h-8 lg:w-8')}}
@@ -43,7 +45,9 @@
                  userId: {{$user->id}},
                  profileId: {{$authProfile->id}},
              })"
-             @click="deleteComment(post.id,comment.id)"
+             @click="deleteComment(post.id,comment.id,
+                 '{{__('messages.delete_comment.on_success')}}',
+                 '{{__('messages.delete_comment.on_fail')}}')"
              class="cursor-pointer text-primary">
             {{svg('delete','h-5 w-5 lg:h-8 lg:w-8')}}
         </div>

@@ -27,7 +27,6 @@ const API_USERS_PROFILES_POSTS__LIKES_INDEX = (
 ): ApiAction => ({
     url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/likes`,
     method: 'GET',
-    data: null,
     params: input,
 });
 
@@ -64,8 +63,6 @@ export async function createPostLike(userId: Decimal, profileId: Decimal, postId
 const API_USERS_PROFILES_POSTS__LIKES_STORE = (userId: Decimal, profileId: Decimal, postId: Decimal): ApiAction => ({
     url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/likes`,
     method: 'POST',
-    data: null,
-    params: null,
 });
 
 /**
@@ -83,6 +80,4 @@ export async function destroyPostLike(userId: Decimal, profileId: Decimal, postI
 const API_USERS_PROFILES_POSTS__LIKES_DESTROY = (userId: Decimal, profileId: Decimal, postId: Decimal): ApiAction => ({
     url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/likes`,
     method: 'DELETE',
-    params: null,
-    data: null,
 });

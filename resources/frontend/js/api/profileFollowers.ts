@@ -27,7 +27,6 @@ const API_USERS_PROFILES__FOLLOWERS_INDEX = (
     url: `/api/users/${userId}/profiles/${profileId}/followers`,
     method: 'GET',
     params: input,
-    data: null,
 });
 
 export enum IndexFollowersIncludeKey {
@@ -75,7 +74,6 @@ const API_USERS_PROFILES__FOLLOWERS_STORE = (
     url: `/api/users/${userId}/profiles/${profileId}/followers`,
     method: 'POST',
     data: input,
-    params: null,
 });
 
 export interface AcceptFollowRequestInput {
@@ -105,6 +103,4 @@ const API_USERS_PROFILES__FOLLOWERS_DESTROY = (
 ): ApiAction => ({
     url: `/api/users/${userId}/profiles/${profileId}/followers/${followerId}`,
     method: 'DELETE',
-    data: null,
-    params: null,
 });

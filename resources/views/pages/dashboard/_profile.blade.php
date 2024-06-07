@@ -9,7 +9,9 @@
     $profile = $profile ?? $authProfile;
 @endphp
 
-@extends('layouts.default')
+@extends('layouts.default',[
+    'title' => __('pages.dashboard.title'),
+])
 
 @section('main')
     <header>

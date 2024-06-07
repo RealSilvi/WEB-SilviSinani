@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
-import { apiErrorMessage, apiValidationErrors, Decimal, postsToPostPreviews } from '../utils';
+import { Decimal, postsToPostPreviews } from '../utils';
 import { Comment, CommentPreview, Post, PostPreview } from '../models';
 import { indexPosts, IndexPostsIncludeKey } from '../api/posts';
 import { ROUTE_PROFILE_EDIT } from '../routes';
@@ -11,6 +11,8 @@ interface postListContextProps {
     profileId: Decimal;
     authProfileId: Decimal;
     context: 'PROFILE' | 'DASHBOARD';
+    onSuccessMessage?: string;
+    onFailMessage?: string;
 }
 
 Alpine.data('postListContext', (props: postListContextProps) => {
@@ -61,7 +63,7 @@ Alpine.data('postListContext', (props: postListContextProps) => {
 
                 this.$dispatch('toast', {
                     type: 'success',
-                    message: 'Posts loaded',
+                    message: props.onSuccessMessage ?? 'Success',
                 });
 
                 this.$dispatch('fetchProfilePosts', {
@@ -70,14 +72,9 @@ Alpine.data('postListContext', (props: postListContextProps) => {
                 });
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
-                    this.errors = apiValidationErrors(e?.response?.data);
-
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: apiErrorMessage(
-                            e?.response?.data,
-                            // props.messageError ?? 'messages.contact_form_error' //window.polyglot.t('messages.contact_form_error')
-                        ),
+                        message: props.onFailMessage ?? 'Error',
                     });
                 }
             } finally {
@@ -115,7 +112,7 @@ Alpine.data('postListContext', (props: postListContextProps) => {
 
                 this.$dispatch('toast', {
                     type: 'success',
-                    message: 'Posts loaded',
+                    message: props.onSuccessMessage ?? 'Success',
                 });
 
                 this.$dispatch('fetchDashboardPosts', {
@@ -124,14 +121,9 @@ Alpine.data('postListContext', (props: postListContextProps) => {
                 });
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
-                    this.errors = apiValidationErrors(e?.response?.data);
-
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: apiErrorMessage(
-                            e?.response?.data,
-                            // props.messageError ?? 'messages.contact_form_error' //window.polyglot.t('messages.contact_form_error')
-                        ),
+                        message: props.onFailMessage ?? 'Error',
                     });
                 }
             } finally {

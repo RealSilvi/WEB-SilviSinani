@@ -26,7 +26,6 @@ const API_USERS_PROFILES__DASHBOARD_SHOW = (
     url: `/api/users/${userId}/profiles/${profileId}/dashboard/`,
     method: 'GET',
     params: input,
-    data: null,
 });
 
 export enum ShowDashboardIncludeKey {

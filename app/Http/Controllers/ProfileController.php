@@ -46,22 +46,26 @@ class ProfileController extends Controller
         return $friendshipStatus == FriendshipStatus::NONE ?
             [
                 'id' => 'follow_request_form',
-                'submitLabel' => 'Follow',
+                'submitLabel' => __('Follow'),
                 'method' => 'POST',
                 'action' => route('users.profiles.following.store', [
                     'user' => $user->id,
                     'profile' => $authProfile->id
                 ]),
+                'onSuccessMessage'=> __('messages.send_follow_request.on_success'),
+                'onFailMessage'=> __('messages.send_follow_request.on_fail')
             ] :
             [
                 'id' => 'unfollow_request_form',
                 'method' => 'DELETE',
-                'submitLabel' => $friendshipStatus == \App\Enum\FriendshipStatus::WAITING ? 'Waiting' : 'Unfollow',
+                'submitLabel' => $friendshipStatus == \App\Enum\FriendshipStatus::WAITING ? __('Waiting') : __('Unfollow'),
                 'action' => route('users.profiles.following.destroy', [
                     'user' => $user->id,
                     'profile' => $authProfile->id,
                     'following' => $profile->id
                 ]),
+                'onSuccessMessage'=> __('messages.delete_following.on_success'),
+                'onFailMessage'=> __('messages.delete_following.on_fail')
             ];
     }
 
@@ -69,12 +73,14 @@ class ProfileController extends Controller
     {
         return [
             'id' => 'quick_edit_image_form',
-            'submitLabel' => 'Change',
+            'submitLabel' => __('Edit'),
             'method' => 'Save',
             'action' => route('users.profiles.update', [
                 'user' => $user->id,
                 'profile' => $authProfile->id
             ]),
+            'onSuccessMessage'=> __('messages.edit_image.on_success'),
+            'onFailMessage'=> __('messages.edit_image.on_fail')
         ];
     }
 

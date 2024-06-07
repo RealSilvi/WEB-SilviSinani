@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
-import { apiErrorMessage, apiValidationErrors, Decimal } from '../utils';
+import { Decimal } from '../utils';
 import { createPost, destroyPost } from '../api/posts';
 
 interface PostProps {
@@ -13,7 +13,7 @@ Alpine.data('post', (props: PostProps) => {
         errors: {},
         saving: false,
 
-        async createPost(event: SubmitEvent) {
+        async createPost(event: SubmitEvent, onSuccessMessage?: string, onFailMessage?: string) {
             if (!(event.target instanceof HTMLFormElement)) {
                 return;
             }
@@ -55,7 +55,7 @@ Alpine.data('post', (props: PostProps) => {
 
                 this.$dispatch('toast', {
                     type: 'success',
-                    message: 'Post created',
+                    message: onSuccessMessage ?? 'Success',
                 });
 
                 this.$dispatch('create-post', {
@@ -67,25 +67,15 @@ Alpine.data('post', (props: PostProps) => {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: 'General Error',
+                        message: onFailMessage ?? 'Error',
                     });
-
-                    // this.errors = apiValidationErrors(e?.response?.data);
-
-                    // this.$dispatch('toast', {
-                    //     type: 'error',
-                    //     message: apiErrorMessage(
-                    //         e?.response?.data,
-                    //         props.messageError ?? window.polyglot.t('messages.form_submit_generic_error'),
-                    //     ),
-                    // });
                 }
             } finally {
                 this.saving = false;
             }
         },
 
-        async deletePost(postId: Decimal) {
+        async deletePost(postId: Decimal, onSuccessMessage?: string, onFailMessage?: string) {
             if (this.saving) {
                 return;
             }
@@ -97,7 +87,7 @@ Alpine.data('post', (props: PostProps) => {
 
                 this.$dispatch('toast', {
                     type: 'success',
-                    message: 'Post deleted',
+                    message: onSuccessMessage ?? 'Success',
                 });
 
                 this.$dispatch('destroy-post', {
@@ -107,14 +97,9 @@ Alpine.data('post', (props: PostProps) => {
                 });
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
-                    this.errors = apiValidationErrors(e?.response?.data);
-
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: apiErrorMessage(
-                            e?.response?.data,
-                            // props.messageError ?? 'messages.contact_form_error' //window.polyglot.t('messages.contact_form_error')
-                        ),
+                        message: onFailMessage ?? 'Error',
                     });
                 }
             } finally {

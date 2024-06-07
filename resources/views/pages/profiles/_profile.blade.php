@@ -14,7 +14,9 @@
     $ownership = $ownership ?? false;
 @endphp
 
-@extends('layouts.default')
+@extends('layouts.default',[
+    'title'=>__('pages.profiles.title')
+])
 
 @section('main')
     <header>

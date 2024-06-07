@@ -4,7 +4,7 @@
      * @var \App\Models\Profile $profile
      * @var \App\Models\Profile $authProfile
      * @var boolean $ownership
-     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $friendshipRequestForm
+     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string, onSuccessMessage:string, onFailMessage:string} $friendshipRequestForm
      */
 
     $user = $user ?? auth()->user();
@@ -20,19 +20,19 @@
             'profile'=>$profile->nickname,
             'friendshipType'=>\App\Enum\FriendshipType::FOLLOWER->value,
             'authProfile'=>$authProfile->nickname]) }}">
-        Followers <br class="lg:hidden"> {{ $profile->followers_count }}
+        {{__('pages.profile.followers')}}  <br class="lg:hidden"> {{ $profile->followers_count }}
     </a>
 
     @if(!$ownership)
-        <form action="{{ $friendshipRequestForm['action'] }}"
-              method="{{ $friendshipRequestForm['method'] }}"
-              x-data="formSubmit({
+        <form class="w-full h-full"
+            x-data="formSubmit({
                   formId: '{{ $friendshipRequestForm['id'] }}',
                   url: '{{ $friendshipRequestForm['action'] }}',
                   method: '{{ $friendshipRequestForm['method'] }}',
+                  onSuccessMessage: '{{ $friendshipRequestForm['onSuccessMessage'] }}',
+                  onFailMessage: '{{ $friendshipRequestForm['onFailMessage'] }}',
                   })"
-              @submit.prevent="submit"
-              class="w-full h-full">
+              @submit.prevent="submit">
             @csrf
             <x-form.group name="followerId">
                 <x-form.input type="hidden" value="{{ $profile->id }}"></x-form.input>
@@ -50,6 +50,6 @@
             'profile' => $profile->nickname,
             'friendshipType' => \App\Enum\FriendshipType::FOLLOWING->value,
             'authProfile' => $authProfile->nickname]) }}">
-        Following <br class="lg:hidden"> {{ $profile->following_count }}
+        {{__('pages.profile.following')}} <br class="lg:hidden"> {{ $profile->following_count }}
     </a>
 </div>

@@ -13,7 +13,7 @@ Alpine.data('postLike', (props: PostLikeProps) => {
         errors: {},
         saving: false,
 
-        async likePost(postId: Decimal) {
+        async likePost(postId: Decimal, onSuccessMessage?: string, onFailMessage?: string) {
             if (this.saving) {
                 return;
             }
@@ -25,7 +25,7 @@ Alpine.data('postLike', (props: PostLikeProps) => {
 
                 this.$dispatch('toast', {
                     type: 'success',
-                    message: 'Post liked',
+                    message: onSuccessMessage ?? 'Success',
                 });
 
                 this.$dispatch('post-liked', {
@@ -37,25 +37,15 @@ Alpine.data('postLike', (props: PostLikeProps) => {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: 'General Error',
+                        message: onFailMessage ?? 'Error',
                     });
-
-                    // this.errors = apiValidationErrors(e?.response?.data);
-
-                    // this.$dispatch('toast', {
-                    //     type: 'error',
-                    //     message: apiErrorMessage(
-                    //         e?.response?.data,
-                    //         props.messageError ?? window.polyglot.t('messages.form_submit_generic_error'),
-                    //     ),
-                    // });
                 }
             } finally {
                 this.saving = false;
             }
         },
 
-        async unlikePost(postId: Decimal) {
+        async unlikePost(postId: Decimal, onSuccessMessage?: string, onFailMessage?: string) {
             if (this.saving) {
                 return;
             }
@@ -67,7 +57,7 @@ Alpine.data('postLike', (props: PostLikeProps) => {
 
                 this.$dispatch('toast', {
                     type: 'success',
-                    message: 'Post like removed',
+                    message: onSuccessMessage ?? 'Success',
                 });
 
                 this.$dispatch('post-liked-removed', {
@@ -79,18 +69,8 @@ Alpine.data('postLike', (props: PostLikeProps) => {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: 'General Error',
+                        message: onFailMessage ?? 'Error',
                     });
-
-                    // this.errors = apiValidationErrors(e?.response?.data);
-
-                    // this.$dispatch('toast', {
-                    //     type: 'error',
-                    //     message: apiErrorMessage(
-                    //         e?.response?.data,
-                    //         props.messageError ?? window.polyglot.t('messages.form_submit_generic_error'),
-                    //     ),
-                    // });
                 }
             } finally {
                 this.saving = false;

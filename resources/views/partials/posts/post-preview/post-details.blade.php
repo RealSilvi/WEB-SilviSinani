@@ -26,7 +26,9 @@
                  userId: {{$user->id}},
                  profileId: {{$authProfile->id}},
              })"
-            @click="deletePost(post.id)"
+            @click="deletePost(post.id,
+                 '{{__('messages.delete_post.on_success')}}',
+                 '{{__('messages.delete_post.on_fail')}}',)"
             class="cursor-pointer text-primary">
             {{svg('delete','h-5 w-5 lg:h-8 lg:w-8')}}
         </div>

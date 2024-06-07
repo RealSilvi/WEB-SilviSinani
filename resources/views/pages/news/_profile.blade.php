@@ -12,7 +12,9 @@
     $profile = $profile ?? $authProfile;
 @endphp
 
-@extends('layouts.default')
+@extends('layouts.default', [
+    'title' => __('pages.news.title'),
+])
 
 @section('main')
     <header>
@@ -36,7 +38,7 @@
             <section class="w-full h-full flex items-center justify-center text-center text-2xl font-medium ">
                 <div class="flex flex-col lg:flex-row items-center justify-center gap-5">
                     <span>
-                        Non hai richieste
+                        {{__('pages.news.no_results')}}
                     </span>
                     <a href="{{route('dashboard',['profile'=>$profile->nickname])}}">{{svg('other-logo','h-8 w-8 lg:h-10 lg:w-10')}}</a>
                 </div>

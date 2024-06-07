@@ -59,7 +59,6 @@ export async function showProfile(
 const API_USERS__PROFILES_SHOW = (userId: Decimal, profileId: Decimal, input?: ShowProfileInput): ApiAction => ({
     url: `/api/users/${userId}/profiles/${profileId}`,
     method: 'GET',
-    data: null,
     params: input,
 });
 
@@ -98,7 +97,6 @@ const API_USERS__PROFILES_STORE = (userId: Decimal, input: CreateProfileInput): 
     url: `/api/users/${userId}/profiles`,
     method: 'POST',
     data: input,
-    params: null,
 });
 
 export interface CreateProfileInput {
@@ -140,7 +138,6 @@ const API_USERS__PROFILES_UPDATE = (userId: Decimal, profileId: Decimal, input: 
     url: `/api/users/${userId}/profiles/${profileId}`,
     method: 'PATCH',
     data: input,
-    params: null,
 });
 
 export interface UpdateProfileInput {
@@ -165,6 +162,4 @@ export async function destroyProfile(userId: Decimal, profileId: Decimal, instan
 const API_USERS__PROFILES_DESTROY = (userId: Decimal, profileId: Decimal): ApiAction => ({
     url: `/api/users/${userId}/profiles/${profileId}`,
     method: 'DELETE',
-    data: null,
-    params: null,
 });

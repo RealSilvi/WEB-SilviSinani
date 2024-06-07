@@ -1,9 +1,6 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
 import { Decimal } from '../utils';
-import { showPosts, ShowPostsIncludeKey } from '../api/posts';
-import { createPostLike, destroyPostLike } from '../api/postLikes';
-import { showComment, ShowCommentIncludeKey } from '../api/postComments';
 import { createCommentLike, destroyCommentLike } from '../api/postCommentLikes';
 
 interface CommentLikeProps {
@@ -16,7 +13,7 @@ Alpine.data('commentLike', (props: CommentLikeProps) => {
         errors: {},
         saving: false,
 
-        async likeComment(postId: Decimal, commentId: Decimal) {
+        async likeComment(postId: Decimal, commentId: Decimal, onSuccessMessage?: string, onFailMessage?: string) {
             if (this.saving) {
                 return;
             }
@@ -28,7 +25,7 @@ Alpine.data('commentLike', (props: CommentLikeProps) => {
 
                 this.$dispatch('toast', {
                     type: 'success',
-                    message: 'Comment liked',
+                    message: onSuccessMessage ?? 'Success',
                 });
 
                 this.$dispatch('comment-liked', {
@@ -41,25 +38,15 @@ Alpine.data('commentLike', (props: CommentLikeProps) => {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: 'General Error',
+                        message: onFailMessage ?? 'Error',
                     });
-
-                    // this.errors = apiValidationErrors(e?.response?.data);
-
-                    // this.$dispatch('toast', {
-                    //     type: 'error',
-                    //     message: apiErrorMessage(
-                    //         e?.response?.data,
-                    //         props.messageError ?? window.polyglot.t('messages.form_submit_generic_error'),
-                    //     ),
-                    // });
                 }
             } finally {
                 this.saving = false;
             }
         },
 
-        async unlikeComment(postId: Decimal, commentId: Decimal) {
+        async unlikeComment(postId: Decimal, commentId: Decimal, onSuccessMessage?: string, onFailMessage?: string) {
             if (this.saving) {
                 return;
             }
@@ -71,7 +58,7 @@ Alpine.data('commentLike', (props: CommentLikeProps) => {
 
                 this.$dispatch('toast', {
                     type: 'success',
-                    message: 'Comment liked removed',
+                    message: onSuccessMessage ?? 'Success',
                 });
 
                 this.$dispatch('comment-liked-removed', {
@@ -84,18 +71,8 @@ Alpine.data('commentLike', (props: CommentLikeProps) => {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: 'General Error',
+                        message: onFailMessage ?? 'Error',
                     });
-
-                    // this.errors = apiValidationErrors(e?.response?.data);
-
-                    // this.$dispatch('toast', {
-                    //     type: 'error',
-                    //     message: apiErrorMessage(
-                    //         e?.response?.data,
-                    //         props.messageError ?? window.polyglot.t('messages.form_submit_generic_error'),
-                    //     ),
-                    // });
                 }
             } finally {
                 this.saving = false;

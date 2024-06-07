@@ -16,7 +16,9 @@
          userId: {{$user->id}},
          profileId: {{$profile->id}},
          authProfileId: {{$authProfile->id}},
-         context:`{{$context}}`
+         context:`{{$context}}`,
+         onSuccessMessage:'{{__('messages.load_posts.on_success')}}',
+         onFailMessage:'{{__('messages.load_posts.on_fail')}}'
      })"
      @create-post.window="onCreatePost($event)"
      @destroy-post.window="onDestroyPost($event)"
@@ -61,7 +63,7 @@
         <div class="mt-10 lg:mt-20 w-full h-full flex items-center justify-center text-center text-2xl font-medium ">
             <div class="flex flex-col lg:flex-row items-center justify-center gap-5">
                 <span>
-                    Non sono stati trovati post
+                    {{__('pages.profile.no_posts')}}
                 </span>
                 <a href="{{route('dashboard',['profile'=>$authProfile->nickname])}}">
                     {{svg('other-logo','h-8 w-8 lg:h-10 lg:w-10')}}
@@ -70,7 +72,7 @@
         </div>
     </template>
 
-    <section x-show="!lastPage" x-intersect="loadMore()">
-        Loading...
+    <section x-show="!lastPage" x-intersect="loadMore()" class="w-full text-center italic">
+        {{__('pages.profile.loading')}}
     </section>
 </div>

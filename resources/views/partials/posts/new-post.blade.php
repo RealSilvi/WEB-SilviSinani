@@ -21,16 +21,18 @@
         </a>
 
         <form x-data="post({ userId: {{$user->id}}, profileId: {{$profile->id}} })"
-              @submit.prevent="createPost"
-              enctype="multipart/form-data"
+              @submit.prevent="createPost($event,
+                 '{{__('messages.create_post.on_success')}}',
+                 '{{__('messages.create_post.on_fail')}}',
+              )"
               class="mt-5">
             <div class="relative">
                 <x-form.group name="description">
                     <x-form.label sr-only>
-                        crea post
+                        {{__('pages.profile.new_post')}}
                     </x-form.label>
                     <x-form.textarea rows="1"
-                                     placeholder="Create post"
+                                     placeholder=" {{__('pages.profile.new_post')}}"
                                      class="placeholder-primary placeholder:font-light text-sm xl:text-lg !border py-2 pr-12 pl-2 rounded-xl flex-shrink" />
                 </x-form.group>
                 <x-form.submit class="absolute right-2 top-0 bg-transparent rounded-full !py-2">
@@ -40,7 +42,7 @@
 
             <x-form.group name="image" class="w-full">
                 <x-form.label sr-only>
-                    image
+                    {{__('pages.profile.image')}}
                 </x-form.label>
                 <x-form.image-picker
                     defaultUrlStorage="{{asset('/storage/utilities/profileDefault.jpg')}}"

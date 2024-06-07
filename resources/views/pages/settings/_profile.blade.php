@@ -3,8 +3,8 @@
      * @var \App\Models\User $user
      * @var \App\Models\Profile $profile
      * @var \App\Models\Profile $authProfile
-     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $editForm
-     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $deleteForm
+     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string, onSuccessMessage:string, onFailMessage:string} $editForm
+     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string, onSuccessMessage:string, onFailMessage:string} $deleteForm
      */
 
     $user = $user ?? auth()->user();
@@ -17,6 +17,8 @@
             'action' => route('users.profiles.update',['user'=>$user->id,'profile'=>$profile->id]),
             'redirectUrl' => route('home'),
             'submitLabel' =>  __('form.profile_edit.submit_button'),
+            'onSuccessMessage'=> __('messages.edit_profile.on_success'),
+            'onFailMessage'=> __('messages.edit_profile.on_fail')
         ];
 
     $deleteForm = [
@@ -25,10 +27,15 @@
             'action' => route('users.profiles.destroy',['user'=>$user->id,'profile'=>$profile->id]),
             'redirectUrl' => route('home'),
             'submitLabel' => __('form.profile_edit.delete_button'),
+            'onSuccessMessage'=> __('messages.delete_profile.on_success'),
+            'onFailMessage'=> __('messages.delete_profile.on_fail')
         ];
 
 @endphp
-@extends('layouts.default')
+
+@extends('layouts.default',[
+    'title'=> __('pages.settings.title')
+])
 
 @section('main')
     <header>
@@ -50,7 +57,7 @@
     <main class="mx-auto w-full max-w-screen-2xl flex-1 pt-5 pb-10 lg:pt-20 lg:pb-32 px-5 lg:px-20">
         <div class="flex flex-col gap-10 lg:grid lg:grid-cols-2 lg:gap-x-32 lg:gap-y-20">
             <div class="text-center lg:text-start text-4xl xl:text-4xl w-full font-medium">
-                {{ __('pages.profile.edit.title') }}
+                {{ __('pages.settings.edit_profile') }}
             </div>
 
             <form class="lg:col-span-2"
@@ -141,11 +148,11 @@
 
             <div class="flex flex-col gap-10 lg:gap-10">
                 <div class="text-center lg:text-start text-4xl xl:text-4xl w-full font-medium">
-                    Elimina profilo
+                    {{ __('pages.settings.delete_profile') }}
                 </div>
 
                 <div class="text-pretty lg:text-2xl font-medium text-primary">
-                    Attezione eliminerai definitivamente il tuo profilo. Non vi e possibilita di recupero
+                    {{ __('pages.settings.delete_message') }}
                 </div>
             </div>
             <form class="flex items-end" x-data="formSubmit({
@@ -165,7 +172,7 @@
             <hr class="border-primary col-span-2">
 
             <div class="text-center lg:text-start text-4xl xl:text-4xl w-full font-medium">
-                Cambia lingua
+                {{ __('pages.settings.edit_language') }}
             </div>
 
             <div class="flex flex-row justify-around">
@@ -177,7 +184,6 @@
                         {{$key}}
                     </a>
                 @endforeach
-                <script>console.log(`{{App::currentLocale()}}`);</script>
             </div>
 
         </div>

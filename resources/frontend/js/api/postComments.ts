@@ -28,7 +28,6 @@ const API_USERS_PROFILES_POSTS__COMMENTS_INDEX = (
     url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/comments`,
     method: 'GET',
     params: input,
-    data: null,
 });
 
 export enum IndexCommentIncludeKey {
@@ -69,7 +68,6 @@ const API_USERS_PROFILES_POSTS__COMMENTS_SHOW = (
     url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/comments/${commentId}`,
     method: 'GET',
     params: input,
-    data: null,
 });
 
 export enum ShowCommentIncludeKey {
@@ -108,7 +106,6 @@ const API_USERS_PROFILES_POSTS__COMMENTS_STORE = (
     url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/comments`,
     method: 'POST',
     data: input,
-    params: null,
 });
 
 export interface CreateCommentInput {
@@ -138,6 +135,4 @@ const API_USERS_PROFILES_POSTS__COMMENTS_DESTROY = (
 ): ApiAction => ({
     url: `/api/users/${userId}/profiles/${profileId}/posts/${postId}/comments/${commentId}`,
     method: 'DELETE',
-    data: null,
-    params: null,
 });

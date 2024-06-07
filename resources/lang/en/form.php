@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     'login' => [
         'email' => 'mail',
         'password' => 'Password',
@@ -43,6 +44,7 @@ return [
         'submit_button' => 'Resend email',
         'onsuccess' => 'New email resented successfully ',
     ],
+
     'profile_create'=>[
         'choose_animal_type' => 'Choose your animal',
         'nickname' => 'Nickname',
@@ -52,5 +54,22 @@ return [
         'date_of_birth' => 'Birthday',
         'default' => 'Sign as main profile',
         'submit_button' => 'Sign up',
+
     ],
+
+    'profile_edit' => [
+        'choose_animal_type' => 'Choose your animal',
+        'nickname' => 'Nickname',
+        'animal' => 'Animal',
+        'breed' => 'Breed',
+        'bio' => 'Bio',
+        'main_image' => 'Profile image',
+        'secondary_image' => 'Secondary image',
+        'date_of_birth' => 'Birth date',
+        'default' => 'Default profile',
+        'submit_button' => 'Save profile',
+        'delete_button' => 'Delete profile',
+
+    ],
+
 ];

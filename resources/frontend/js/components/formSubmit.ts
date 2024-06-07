@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { Alpine } from '../livewire';
-import { apiErrorMessage, apiValidationErrors } from '../utils';
 
 type AxiosBaseConfigAction = Pick<AxiosRequestConfig, 'url' | 'method' | 'data'>;
 
@@ -22,7 +21,7 @@ interface FormSubmitProps {
         | 'PATCH';
     onSuccessRedirectUrl?: string;
     onSuccessMessage?: string;
-    onErrorMessage?: string;
+    onFailMessage?: string;
     submitEventName?: string;
 }
 
@@ -71,11 +70,12 @@ Alpine.data('formSubmit', (props: FormSubmitProps = {}) => {
                 if (props.onSuccessRedirectUrl) {
                     window.location.replace(props.onSuccessRedirectUrl);
                 }
-
-                this.$dispatch('toast', {
-                    type: 'success',
-                    message: props.onSuccessMessage ?? 'Success',
-                });
+                if (props.onSuccessMessage) {
+                    this.$dispatch('toast', {
+                        type: 'success',
+                        message: props.onSuccessMessage,
+                    });
+                }
 
                 this.$dispatch(props.submitEventName ?? 'submitted', {
                     formId: props.formId,
@@ -83,11 +83,9 @@ Alpine.data('formSubmit', (props: FormSubmitProps = {}) => {
                 });
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
-                    this.errors = apiValidationErrors(e?.response?.data);
-
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: apiErrorMessage(e?.response?.data, props.onErrorMessage ?? 'Error'),
+                        message: props.onFailMessage ?? 'Error',
                     });
                 }
             } finally {

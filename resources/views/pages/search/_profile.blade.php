@@ -12,7 +12,7 @@
 @endphp
 
 @extends('layouts.default', [
-    'title' => __('Search results'),
+    'title' => __('pages.search.title'),
 ])
 
 @section('main')
@@ -38,7 +38,7 @@
             <section class="w-full h-full flex items-center justify-center text-center text-2xl font-medium ">
                 <div class="flex flex-col lg:flex-row items-center justify-center gap-5">
                     <span>
-                        Non sono stati trovati profili con il nickname indicato
+                  {{__('pages.search.no_results')}}
                     </span>
                     <a href="{{route('dashboard',['profile'=>$profile->nickname])}}">{{svg('other-logo','h-8 w-8 lg:h-10 lg:w-10')}}</a>
                 </div>

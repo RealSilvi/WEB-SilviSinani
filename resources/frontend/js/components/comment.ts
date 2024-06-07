@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
-import { apiErrorMessage, apiValidationErrors, Decimal } from '../utils';
+import { Decimal } from '../utils';
 import { createComment, destroyComment } from '../api/postComments';
 
 interface CommentProps {
@@ -13,7 +13,7 @@ Alpine.data('comment', (props: CommentProps) => {
         errors: {},
         saving: false,
 
-        async createComment(event: SubmitEvent, postId: Decimal) {
+        async createComment(event: SubmitEvent, postId: Decimal, onSuccessMessage?: string, onFailMessage?: string) {
             if (!(event.target instanceof HTMLFormElement)) {
                 return;
             }
@@ -50,7 +50,7 @@ Alpine.data('comment', (props: CommentProps) => {
 
                 this.$dispatch('toast', {
                     type: 'success',
-                    message: 'Comment created',
+                    message: onSuccessMessage ?? 'Success',
                 });
 
                 this.$dispatch('create-comment', {
@@ -63,25 +63,15 @@ Alpine.data('comment', (props: CommentProps) => {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: 'General Error',
+                        message: onFailMessage ?? 'Error',
                     });
-
-                    // this.errors = apiValidationErrors(e?.response?.data);
-
-                    // this.$dispatch('toast', {
-                    //     type: 'error',
-                    //     message: apiErrorMessage(
-                    //         e?.response?.data,
-                    //         props.messageError ?? window.polyglot.t('messages.form_submit_generic_error'),
-                    //     ),
-                    // });
                 }
             } finally {
                 this.saving = false;
             }
         },
 
-        async deleteComment(postId: Decimal, commentId: Decimal) {
+        async deleteComment(postId: Decimal, commentId: Decimal, onSuccessMessage?: string, onFailMessage?: string) {
             if (this.saving) {
                 return;
             }
@@ -94,7 +84,7 @@ Alpine.data('comment', (props: CommentProps) => {
 
                 this.$dispatch('toast', {
                     type: 'success',
-                    message: 'Comment deleted',
+                    message: onSuccessMessage ?? 'Success',
                 });
 
                 this.$dispatch('destroy-comment', {
@@ -105,14 +95,9 @@ Alpine.data('comment', (props: CommentProps) => {
                 });
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
-                    this.errors = apiValidationErrors(e?.response?.data);
-
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: apiErrorMessage(
-                            e?.response?.data,
-                            // props.messageError ?? 'messages.contact_form_error' //window.polyglot.t('messages.contact_form_error')
-                        ),
+                        message: onFailMessage ?? 'Error',
                     });
                 }
             } finally {

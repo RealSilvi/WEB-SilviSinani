@@ -73,7 +73,7 @@
 
                             <div class="w-full flex justify-between mt-5">
                                 <div class="grow border-b border-primary"></div>
-                                <div class="translate-y-1.5 text-xs px-2">oppure</div>
+                                <div class="translate-y-1.5 text-xs px-2">{{ __('or') }}</div>
                                 <div class="grow border-b border-primary"></div>
                             </div>
 

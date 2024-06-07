@@ -3,7 +3,7 @@
      * @var \App\Models\User $user
      * @var \App\Models\Profile $profile
      * @var boolean $ownership
-     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $quickEditImagesForm
+     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string, onSuccessMessage:string, onFailMessage:string} $quickEditImagesForm
      */
 
     $user = $user ?? auth()->user();
@@ -60,6 +60,8 @@
                               formId: '{{ $quickEditImagesForm['id'] }}',
                               url: '{{ $quickEditImagesForm['action'] }}',
                               method: '{{ $quickEditImagesForm['method'] }}',
+                              onSuccessMessage: '{{ $quickEditImagesForm['onSuccessMessage'] }}',
+                              onFailMessage: '{{ $quickEditImagesForm['onFailMessage'] }}',
                           })"
                           @submit.prevent="submit">
                         @csrf
@@ -99,6 +101,8 @@
                             formId: '{{ $quickEditImagesForm['id'] }}',
                             url: '{{ $quickEditImagesForm['action'] }}',
                             method: '{{ $quickEditImagesForm['method'] }}',
+                            onSuccessMessage: '{{ $quickEditImagesForm['onSuccessMessage'] }}',
+                            onFailMessage: '{{ $quickEditImagesForm['onFailMessage'] }}',
                         })"
                           @submit.prevent="submit">
                         @csrf
