@@ -32,7 +32,7 @@ class CommentController
             ])
             ->where('post_id', $post->id)
             ->defaultSort('-created_at')
-            ->get();
+            ->simplePaginate(10);
 
         return CommentResource::collection($comments);
     }

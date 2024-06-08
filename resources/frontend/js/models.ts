@@ -78,6 +78,7 @@ export interface PostPreview extends Post {
     doYouLike: boolean;
     canEdit: boolean;
     profileLink?: string;
+    postLink?: string;
     commentPreviews: CommentPreview[];
 }
 

@@ -37,6 +37,10 @@ return [
         'on_success' => 'Post caricati',
         'on_fail' => 'Si è verificato un errore',
     ],
+    'load_comments' => [
+        'on_success' => 'Commenti caricati',
+        'on_fail' => 'Si è verificato un errore',
+    ],
     'sidebar' => [
         'on_success' => 'Profili caricati',
         'on_fail' => 'Si è verificato un errore',

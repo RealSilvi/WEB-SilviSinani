@@ -37,6 +37,10 @@ return [
         'on_success' => 'Post loaded',
         'on_fail' => 'Error occurred',
     ],
+    'load_comments' => [
+        'on_success' => 'Comment loaded',
+        'on_fail' => 'Si è verificato un errore',
+    ],
     'sidebar' => [
         'on_success' => 'Profiles loaded',
         'on_fail' => 'Error occurred',

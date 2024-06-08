@@ -39,6 +39,7 @@ export enum IndexCommentIncludeKey {
 
 export interface IndexCommentInput {
     include?: IndexCommentIncludeKey[];
+    page?: number;
 }
 
 /**

@@ -33,7 +33,6 @@
     <template x-for="post in posts">
         <div class="w-full">
             <div class="flex flex-col gap-3 lg:gap-5 p-5 lg:px-20 lg:py-10 bg-primary/10 rounded-xl">
-                {{--Divided in partials for clenner code.--}}
 
                 @include('partials.posts.post-preview.post-details', [
                     'user' => $user,

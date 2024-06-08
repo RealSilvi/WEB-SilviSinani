@@ -15,7 +15,7 @@
 
 <div class="mt-5 flex flex-row gap-2 lg:gap-10 justify-between items-center h-full lg:mt-40 lg:text-2xl">
 
-    <a class="bg-primary/10 lg:text-2xl rounded-xl py-2 w-full lg:p-3 lg:w-2/3 h-fit text-center lg:text-start"
+    <a class="bg-primary/10 lg:text-2xl rounded-xl py-2 w-full lg:p-3 lg:w-2/3 h-fit text-center"
        href="{{ route('friendships',[
             'profile'=>$profile->nickname,
             'friendshipType'=>\App\Enum\FriendshipType::FOLLOWER->value,
@@ -45,7 +45,7 @@
         </form>
     @endif
 
-    <a class="bg-primary/10 lg:text-2xl rounded-xl py-2 w-full lg:p-3 lg:w-2/3 h-fit text-center lg:text-start"
+    <a class="bg-primary/10 lg:text-2xl rounded-xl py-2 w-full lg:p-3 lg:w-2/3 h-fit text-center"
        href="{{ route('friendships', [
             'profile' => $profile->nickname,
             'friendshipType' => \App\Enum\FriendshipType::FOLLOWING->value,

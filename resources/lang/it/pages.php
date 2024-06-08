@@ -48,6 +48,9 @@ return [
         'title' => 'News',
         'no_results' => 'Non ci sono notifiche',
     ],
+    'posts' => [
+        'title' => 'Post',
+    ],
     'search' => [
         'title' => 'Cerca',
         'no_results' => 'Nessun risultato disponibile',

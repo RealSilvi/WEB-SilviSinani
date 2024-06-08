@@ -1,40 +1,38 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
 import { Decimal, postsToPostPreviews } from '../utils';
-import { CommentPreview, Post, PostPreview } from '../models';
-import { indexPosts, IndexPostsIncludeKey } from '../api/posts';
-import { ROUTE_POST_SHOW, ROUTE_PROFILE_EDIT } from '../routes';
+import { Comment, CommentPreview, Post, PostPreview } from '../models';
+import { indexPosts, IndexPostsIncludeKey, showPosts, ShowPostsIncludeKey } from '../api/posts';
+import { ROUTE_DASHBOARD, ROUTE_PROFILE_EDIT } from '../routes';
 import { showDashboard, ShowDashboardIncludeKey } from '../api/dashboard';
+import { indexComment, IndexCommentIncludeKey } from '../api/postComments';
 
-interface postListContextProps {
+interface postContextProps {
     userId: Decimal;
     profileId: Decimal;
     authProfileId: Decimal;
+    postId: Decimal;
     authProfileNickname: string;
-    context: 'PROFILE' | 'DASHBOARD';
     onSuccessMessage?: string;
     onFailMessage?: string;
+    onCommentSuccessMessage?: string;
+    onCommentFailMessage?: string;
 }
 
-Alpine.data('postListContext', (props: postListContextProps) => {
+Alpine.data('postContext', (props: postContextProps) => {
     return {
         errors: {},
         saving: false,
-        posts: [] as PostPreview[],
+        post: {} as PostPreview,
         page: 0,
-        lastPage: false,
+        lastCommentPage: false,
 
         async init() {
-            if (props.context === 'PROFILE') {
-                await this.fetchProfilePosts();
-            }
-
-            if (props.context === 'DASHBOARD') {
-                await this.fetchDashboardPosts();
-            }
+            await this.fetchPost();
+            await this.fetchComments();
         },
 
-        async fetchProfilePosts() {
+        async fetchPost() {
             if (this.saving) {
                 return;
             }
@@ -42,32 +40,28 @@ Alpine.data('postListContext', (props: postListContextProps) => {
             this.errors = {};
 
             try {
-                const posts = await indexPosts(props.userId, props.profileId, {
+                const post = await showPosts(props.userId, props.profileId, props.postId, {
                     include: [
-                        IndexPostsIncludeKey.Profile,
-                        IndexPostsIncludeKey.LikesCount,
-                        IndexPostsIncludeKey.Likes,
-                        IndexPostsIncludeKey.Comments,
-                        IndexPostsIncludeKey.CommentsLikes,
-                        IndexPostsIncludeKey.CommentsCount,
-                        IndexPostsIncludeKey.CommentsProfile
-                    ],
-                    page: this.page
+                        ShowPostsIncludeKey.Profile,
+                        ShowPostsIncludeKey.Likes,
+                        ShowPostsIncludeKey.LikesCount,
+                        ShowPostsIncludeKey.CommentsCount
+                    ]
                 });
 
-                if (posts.length == 0) {
-                    this.lastPage = true;
+                const postPreview = postsToPostPreviews([post], props.authProfileId, props.authProfileNickname).pop();
+                if (postPreview == null) {
                     return;
                 }
 
-                this.posts = [...this.posts, ...postsToPostPreviews(posts, props.authProfileId, props.authProfileNickname)];
+                this.post = postPreview;
 
                 this.$dispatch('toast', {
                     type: 'success',
                     message: props.onSuccessMessage ?? 'Success'
                 });
 
-                this.$dispatch('fetchProfilePosts', {
+                this.$dispatch('fetch-post', {
                     profileId: props.profileId,
                     userId: props.userId
                 });
@@ -83,7 +77,7 @@ Alpine.data('postListContext', (props: postListContextProps) => {
             }
         },
 
-        async fetchDashboardPosts() {
+        async fetchComments() {
             if (this.saving) {
                 return;
             }
@@ -91,34 +85,37 @@ Alpine.data('postListContext', (props: postListContextProps) => {
             this.errors = {};
 
             try {
-                const posts = await showDashboard(props.userId, props.profileId, {
+                const comments = await indexComment(props.userId, props.profileId, props.postId, {
                     include: [
-                        ShowDashboardIncludeKey.Profile,
-                        ShowDashboardIncludeKey.Likes,
-                        ShowDashboardIncludeKey.Comments,
-                        ShowDashboardIncludeKey.CommentsLikes,
-                        ShowDashboardIncludeKey.CommentsProfile,
-                        ShowDashboardIncludeKey.LikesCount,
-                        ShowDashboardIncludeKey.CommentsCount
+                        IndexCommentIncludeKey.Profile,
+                        IndexCommentIncludeKey.LikesCount,
+                        IndexCommentIncludeKey.Likes
                     ],
                     page: this.page
                 });
 
-                if (posts.length == 0) {
-                    this.lastPage = true;
+                if (comments.length == 0) {
+                    this.lastCommentPage = true;
                     return;
                 }
 
-                posts.forEach((post) => post.comments = post.comments?.slice(0, 2));
+                this.post.comments = [...(this.post.comments ?? []), ...comments];
 
-                this.posts = [...this.posts, ...postsToPostPreviews(posts, props.authProfileId, props.authProfileNickname)];
+                const postPreview = postsToPostPreviews([this.post], props.authProfileId, props.authProfileNickname).pop();
+                if (postPreview == null) {
+                    return;
+                }
 
-                this.$dispatch('toast', {
-                    type: 'success',
-                    message: props.onSuccessMessage ?? 'Success'
-                });
+                this.post = postPreview;
 
-                this.$dispatch('fetchDashboardPosts', {
+                if (props.onCommentSuccessMessage) {
+                    this.$dispatch('toast', {
+                        type: 'success',
+                        message: props.onCommentSuccessMessage
+                    });
+                }
+
+                this.$dispatch('fetch-post-comments', {
                     profileId: props.profileId,
                     userId: props.userId
                 });
@@ -126,7 +123,7 @@ Alpine.data('postListContext', (props: postListContextProps) => {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: props.onFailMessage ?? 'Error'
+                        message: props.onCommentFailMessage ?? 'Error'
                     });
                 }
             } finally {
@@ -134,59 +131,18 @@ Alpine.data('postListContext', (props: postListContextProps) => {
             }
         },
 
-        async loadMore() {
-            if (this.lastPage) {
+        async loadMoreComments() {
+            if (this.lastCommentPage) {
                 return;
             }
 
             this.page += 1;
 
-            if (props.context === 'PROFILE') {
-                await this.fetchProfilePosts();
-            }
-
-            if (props.context === 'DASHBOARD') {
-                await this.fetchDashboardPosts();
-            }
+            await this.fetchComments();
         },
 
-        onCreatePost(event: Event) {
-            // @ts-ignore
-            if (!event.detail.post) {
-                console.error('[onCreatePost] post is required');
-                return;
-            }
-            // @ts-ignore
-            const post = event.detail.post;
-
-            const profileLink = post.profile ? ROUTE_PROFILE_EDIT(post.profile.nickname) : null;
-            const postLink = location + ROUTE_POST_SHOW(post.id, props.authProfileNickname);
-
-            const postPreview = {
-                ...post,
-                likesCount: 0,
-                likes: [],
-                commentsCount: 0,
-                doYouLike: false,
-                canEdit: true,
-                commentPreviews: [],
-                profileLink: profileLink,
-                postLink: postLink
-            } as PostPreview;
-
-            this.posts = [postPreview, ...this.posts];
-        },
-
-        onDestroyPost(event: Event) {
-            // @ts-ignore
-            if (!event.detail.postId) {
-                console.error('[onDestroyPost] postId is required');
-                return;
-            }
-            // @ts-ignore
-            const postId = event.detail.postId;
-
-            this.posts = this.posts.filter((post: Post) => post.id != postId);
+        onDestroyPost() {
+            window.location.replace(ROUTE_DASHBOARD(props.authProfileNickname));
         },
 
         onPostLiked(event: Event) {
@@ -198,15 +154,14 @@ Alpine.data('postListContext', (props: postListContextProps) => {
             // @ts-ignore
             const post = event.detail.post;
 
-            const postPreview = this.posts.find((p: Post) => p.id == post.id);
-
-            if (postPreview == null || postPreview.likesCount == null || postPreview.likes == null) {
+            if (post.id != this.post.id || this.post.likesCount == null || this.post.likes == null) {
                 console.error('[onPostLiked] post can\'t refresh');
                 return;
             }
-            postPreview.doYouLike = true;
-            postPreview.likes.push(post.profile);
-            postPreview.likesCount += 1;
+
+            this.post.doYouLike = true;
+            this.post.likes.push(post.profile);
+            this.post.likesCount += 1;
         },
 
         onPostLikedRemoved(event: Event) {
@@ -218,15 +173,14 @@ Alpine.data('postListContext', (props: postListContextProps) => {
             // @ts-ignore
             const post = event.detail.post;
 
-            const postPreview = this.posts.find((p: Post) => p.id == post.id);
 
-            if (postPreview == null || postPreview.likesCount == null || postPreview.likes == null) {
+            if (this.post.id != post.id || this.post.likesCount == null || this.post.likes == null) {
                 console.error('[onPostLikedRemoved] post can\'t refresh');
                 return;
             }
-            postPreview.doYouLike = false;
-            postPreview.likes.push(post.profile);
-            postPreview.likesCount = postPreview.likesCount == 0 ? 0 : postPreview.likesCount - 1;
+            this.post.doYouLike = false;
+            this.post.likes.push(post.profile);
+            this.post.likesCount = this.post.likesCount == 0 ? 0 : this.post.likesCount - 1;
         },
 
         onCreateComment(event: Event) {
@@ -257,21 +211,18 @@ Alpine.data('postListContext', (props: postListContextProps) => {
                 profileLink: profileLink,
                 likesCount: 0,
                 likes: []
-            } as CommentPreview;
-
-            const post = this.posts.find((post: Post) => post.id == postId);
-
-            if (post?.commentPreviews == null) {
+            };
+            if (this.post.id != postId || this.post?.commentPreviews == null) {
                 console.error('[onCreateComment] commentPreviews not found');
                 return;
             }
-            post.commentPreviews = [commentPreview, ...post.commentPreviews];
+            this.post.commentPreviews = [commentPreview, ...this.post.commentPreviews];
 
-            if (post?.commentsCount == null) {
+            if (this.post?.commentsCount == null) {
                 console.error('[onCreateComment] commentsCount not found');
                 return;
             }
-            post.commentsCount += post.commentsCount == 0 ? 0 : 1;
+            this.post.commentsCount += this.post.commentsCount == 0 ? 0 : 1;
         },
 
         onDestroyComment(event: Event) {
@@ -293,20 +244,19 @@ Alpine.data('postListContext', (props: postListContextProps) => {
             // @ts-ignore
             const postId = event.detail.postId;
 
-            const post = this.posts.find((post: Post) => post.id == postId);
 
-            if (post?.commentPreviews == null) {
+            if (this.post.id != postId || this.post?.commentPreviews == null) {
                 console.error('[onDestroyComment] commentPreviews not found');
                 return;
             }
 
-            post.commentPreviews = post.commentPreviews.filter((comment: CommentPreview) => comment.id != commentId);
+            this.post.commentPreviews = this.post.commentPreviews.filter((comment: CommentPreview) => comment.id != commentId);
 
-            if (post?.commentsCount == null) {
+            if (this.post?.commentsCount == null) {
                 console.error('[onDestroyComment] commentsCount not found');
                 return;
             }
-            post.commentsCount -= post.commentsCount == 0 ? 0 : 1;
+            this.post.commentsCount -= this.post.commentsCount == 0 ? 0 : 1;
         },
 
         onCommentLiked(event: Event) {
@@ -328,11 +278,9 @@ Alpine.data('postListContext', (props: postListContextProps) => {
             // @ts-ignore
             const postId = event.detail.postId;
 
-            const postPreview = this.posts.find((p: PostPreview) => p.id == postId);
+            const commentPreview = this.post?.commentPreviews.find((c: CommentPreview) => c.id == comment.id);
 
-            const commentPreview = postPreview?.commentPreviews.find((c: CommentPreview) => c.id == comment.id);
-
-            if (commentPreview == null || commentPreview.likesCount == null || commentPreview.likes == null) {
+            if (postId != this.post.id || commentPreview == null || commentPreview.likesCount == null || commentPreview.likes == null) {
                 console.error('[onCommentLiked] comment can\'t refresh');
                 return;
             }
@@ -360,11 +308,10 @@ Alpine.data('postListContext', (props: postListContextProps) => {
             // @ts-ignore
             const postId = event.detail.postId;
 
-            const postPreview = this.posts.find((p: PostPreview) => p.id == postId);
 
-            const commentPreview = postPreview?.commentPreviews.find((c: CommentPreview) => c.id == comment.id);
+            const commentPreview = this.post?.commentPreviews.find((c: CommentPreview) => c.id == comment.id);
 
-            if (commentPreview == null || commentPreview.likesCount == null || commentPreview.likes == null) {
+            if (postId != this.post.id || commentPreview == null || commentPreview.likesCount == null || commentPreview.likes == null) {
                 console.error('[onCommentLikedRemoved] comment can\'t refresh');
                 return;
             }

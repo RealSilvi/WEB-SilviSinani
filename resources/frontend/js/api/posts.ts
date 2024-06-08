@@ -71,8 +71,7 @@ export enum ShowPostsIncludeKey {
     Comments = 'comments',
     CommentsProfile = 'comments.profile',
     CommentsCount = 'commentsCount',
-    TopComments = 'topComments',
-    TopCommentsProfile = 'topComments.profile',
+    CommentsLikes = 'comments.likes',
     Likes = 'likes',
     LikesCount = 'likesCount',
 }

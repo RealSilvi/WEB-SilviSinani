@@ -35,7 +35,9 @@
              class="cursor-pointer">
             {{svg('comments','h-5 w-5 lg:h-8 lg:w-8 text-primary')}}
         </div>
-        <div x-text="post.commentsCount ?? '0'"></div>
+        <a :href="post.postLink" class="px-1">
+            <div x-text="post.commentsCount ?? '0'"></div>
+        </a>
     </div>
     <div
         x-show="showInput"
