@@ -3,6 +3,7 @@ import { Alpine } from '../livewire';
 import { Profile, ProfileLink } from '../models';
 import { ROUTE_PROFILE_EDIT } from '../routes';
 import { indexProfile } from '../api/profiles';
+import { getCurrentLocale } from '../utils';
 
 interface NavbarProps {
     userId: number;
@@ -41,7 +42,7 @@ Alpine.data('sidebar', (props: NavbarProps) => {
                 if (props.onSuccessMessage) {
                     this.$dispatch('toast', {
                         type: 'success',
-                        message: props.onSuccessMessage,
+                        message: props.onSuccessMessage
                     });
                 }
                 this.buildLinks();
@@ -49,7 +50,7 @@ Alpine.data('sidebar', (props: NavbarProps) => {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: props.onFailMessage ?? 'Error',
+                        message: props.onFailMessage ?? 'Error'
                     });
                 }
             } finally {
@@ -58,17 +59,18 @@ Alpine.data('sidebar', (props: NavbarProps) => {
         },
 
         buildLinks() {
+            const locale = getCurrentLocale();
             this.profileLinks = this.profiles.map((profile: Profile) => {
                 return {
                     profileId: profile.id,
                     src: `${window.location.origin}/${profile.mainImage}`,
                     alt: `Profile image ${profile.nickname}`,
-                    href: ROUTE_PROFILE_EDIT(profile.nickname),
-                    nickname: profile.nickname,
+                    href: locale + ROUTE_PROFILE_EDIT(profile.nickname),
+                    nickname: profile.nickname
                 } as ProfileLink;
             });
 
             this.canAddProfile = this.profileLinks.length < 4;
-        },
+        }
     };
 });

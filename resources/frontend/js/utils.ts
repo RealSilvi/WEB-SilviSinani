@@ -17,7 +17,7 @@ export function postsToPostPreviews(posts: Post[], authProfileId: Decimal): Post
                 doYouLike: doYouLike,
                 canEdit: canEdit,
                 commentPreviews: [],
-                profileLink: profileLink,
+                profileLink: profileLink
             } as PostPreview;
         }
 
@@ -32,7 +32,7 @@ export function postsToPostPreviews(posts: Post[], authProfileId: Decimal): Post
                     likesCount: likesCount,
                     doYouLike: doYouLike,
                     canEdit: canEdit,
-                    profileLink: profileLink,
+                    profileLink: profileLink
                 } as CommentPreview;
             })
             .slice(0, 2);
@@ -42,7 +42,17 @@ export function postsToPostPreviews(posts: Post[], authProfileId: Decimal): Post
             doYouLike: doYouLike,
             canEdit: canEdit,
             commentPreviews: commentPreviews,
-            profileLink: profileLink,
+            profileLink: profileLink
         } as PostPreview;
     });
+}
+
+export function getCurrentLocale(): string {
+
+    const defaultLanguage = 'en';
+    const languages = ['it', 'en'];
+    const path = window.location.pathname;
+    const lang = path.split('/',2).pop();
+
+    return '/' + (languages.find((l) => l === lang) ?? defaultLanguage);
 }
