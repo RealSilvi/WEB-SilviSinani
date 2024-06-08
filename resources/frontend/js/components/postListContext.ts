@@ -10,6 +10,7 @@ interface postListContextProps {
     userId: Decimal;
     profileId: Decimal;
     authProfileId: Decimal;
+    authProfileNickname: string;
     context: 'PROFILE' | 'DASHBOARD';
     onSuccessMessage?: string;
     onFailMessage?: string;
@@ -59,7 +60,7 @@ Alpine.data('postListContext', (props: postListContextProps) => {
                     return;
                 }
 
-                this.posts = [...this.posts, ...postsToPostPreviews(posts, props.authProfileId)];
+                this.posts = [...this.posts, ...postsToPostPreviews(posts, props.authProfileId, props.authProfileNickname)];
 
                 this.$dispatch('toast', {
                     type: 'success',
@@ -108,7 +109,7 @@ Alpine.data('postListContext', (props: postListContextProps) => {
                     return;
                 }
 
-                this.posts = [...this.posts, ...postsToPostPreviews(posts, props.authProfileId)];
+                this.posts = [...this.posts, ...postsToPostPreviews(posts, props.authProfileId, props.authProfileNickname)];
 
                 this.$dispatch('toast', {
                     type: 'success',

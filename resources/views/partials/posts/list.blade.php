@@ -16,6 +16,7 @@
          userId: {{$user->id}},
          profileId: {{$profile->id}},
          authProfileId: {{$authProfile->id}},
+         authProfileNickname: '{{$authProfile->nickname}}',
          context:`{{$context}}`,
          onSuccessMessage:'{{__('messages.load_posts.on_success')}}',
          onFailMessage:'{{__('messages.load_posts.on_fail')}}'
