@@ -57,6 +57,7 @@ export interface ProfileLink {
     alt: string;
     href: string;
     nickname: string;
+    currentActive: boolean;
 }
 
 export interface Post {

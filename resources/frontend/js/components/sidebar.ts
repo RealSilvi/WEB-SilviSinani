@@ -21,6 +21,7 @@ Alpine.data('sidebar', (props: NavbarProps) => {
 
         async init() {
             await this.fetchProfiles();
+
         },
 
         async fetchProfiles() {
@@ -60,15 +61,32 @@ Alpine.data('sidebar', (props: NavbarProps) => {
 
         buildLinks() {
             const locale = getCurrentLocale();
+            let currentProfileFound = false;
+
             this.profileLinks = this.profiles.map((profile: Profile) => {
+
+                const explicitActive = window.location.pathname.includes(`/${profile.nickname}`);
+                if (explicitActive) {
+                    currentProfileFound = true;
+                }
+
                 return {
                     profileId: profile.id,
                     src: `${window.location.origin}/${profile.mainImage}`,
                     alt: `Profile image ${profile.nickname}`,
                     href: locale + ROUTE_PROFILE_EDIT(profile.nickname),
-                    nickname: profile.nickname
+                    nickname: profile.nickname,
+                    currentActive: explicitActive
                 } as ProfileLink;
             });
+
+            if (!currentProfileFound) {
+                const defaultProfileId = this.profiles.find((profile: Profile) => profile.default)?.id ?? '-1';
+                const defaultLink = this.profileLinks.find((link: ProfileLink) => link.profileId === defaultProfileId);
+                if (defaultLink) {
+                    defaultLink.currentActive = true;
+                }
+            }
 
             this.canAddProfile = this.profileLinks.length < 4;
         }
