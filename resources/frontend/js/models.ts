@@ -80,6 +80,7 @@ export interface PostPreview extends Post {
     profileLink?: string;
     postLink?: string;
     commentPreviews: CommentPreview[];
+    likePreviews: LikePreview[];
 }
 
 export interface Comment {
@@ -98,5 +99,12 @@ export interface Comment {
 export interface CommentPreview extends Comment {
     doYouLike: boolean;
     canEdit: boolean;
+    profileLink?: string;
+    likePreviews: LikePreview[];
+}
+
+export type Like = Profile;
+
+export interface LikePreview extends Like {
     profileLink?: string;
 }

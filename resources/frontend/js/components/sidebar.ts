@@ -21,7 +21,6 @@ Alpine.data('sidebar', (props: NavbarProps) => {
 
         async init() {
             await this.fetchProfiles();
-
         },
 
         async fetchProfiles() {
@@ -43,7 +42,7 @@ Alpine.data('sidebar', (props: NavbarProps) => {
                 if (props.onSuccessMessage) {
                     this.$dispatch('toast', {
                         type: 'success',
-                        message: props.onSuccessMessage
+                        message: props.onSuccessMessage,
                     });
                 }
                 this.buildLinks();
@@ -51,7 +50,7 @@ Alpine.data('sidebar', (props: NavbarProps) => {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: props.onFailMessage ?? 'Error'
+                        message: props.onFailMessage ?? 'Error',
                     });
                 }
             } finally {
@@ -64,7 +63,6 @@ Alpine.data('sidebar', (props: NavbarProps) => {
             let currentProfileFound = false;
 
             this.profileLinks = this.profiles.map((profile: Profile) => {
-
                 const explicitActive = window.location.pathname.includes(`/${profile.nickname}`);
                 if (explicitActive) {
                     currentProfileFound = true;
@@ -76,7 +74,7 @@ Alpine.data('sidebar', (props: NavbarProps) => {
                     alt: `Profile image ${profile.nickname}`,
                     href: locale + ROUTE_PROFILE_EDIT(profile.nickname),
                     nickname: profile.nickname,
-                    currentActive: explicitActive
+                    currentActive: explicitActive,
                 } as ProfileLink;
             });
 
@@ -89,6 +87,6 @@ Alpine.data('sidebar', (props: NavbarProps) => {
             }
 
             this.canAddProfile = this.profileLinks.length < 4;
-        }
+        },
     };
 });

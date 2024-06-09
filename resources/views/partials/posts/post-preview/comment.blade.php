@@ -35,8 +35,30 @@
                     class="cursor-pointer flex justify-end">
                     {{svg('like','h-5 w-5 lg:h-8 lg:w-8')}}
                 </div>
-                <div>
-                    <span x-text="comment.likesCount"></span>
+
+                <div x-data="{showLikeList:false}"
+                     x-init="$watch('showLikeList', () =>  document.body.style.overflow = showLikeList ? 'hidden' : '')">
+                    <button @click="showLikeList = true" x-text="comment.likesCount"></button>
+
+                    <div x-show="showLikeList"
+                         class="fixed h-screen w-screen bg-black/50 z-50 inset-0 px-5 pb-16 pt-20 lg:pb-5 lg:pr-20">
+                        <div
+                            class="relative shrink-0 h-full w-full bg-black/50 rounded-xl inset-0 content-center py-10 px-5 lg:p-12">
+                            <button class="absolute right-4 top-3 lg:right-10 lg:top-3" @click="showLikeList = false">
+                                {{ svg('close','h-6 w-6 lg:h-7 lg:w-7 text-white') }}
+                            </button>
+
+                            <div class="w-full h-full overflow-auto pr-5 lg:pr-12">
+                                <div class="flex flex-col lg:flex-row w-full justify-center lg:flex-wrap">
+                                    <template x-for="profile in comment.likePreviews">
+                                        <div class="lg:w-1/3 lg:p-5">
+                                            @include('partials.profile.profile-preview')
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
