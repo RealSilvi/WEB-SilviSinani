@@ -3,33 +3,11 @@
      * @var \App\Models\User $user
      * @var \App\Models\Profile $profile
      * @var \App\Models\Profile $authProfile
-     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string, onSuccessMessage:string, onFailMessage:string} $editForm
-     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string, onSuccessMessage:string, onFailMessage:string} $deleteForm
      */
 
     $user = $user ?? auth()->user();
     $authProfile = $authProfile ?? $user->getDefaultProfile();
     $profile = $profile ?? $authProfile;
-
-    $editForm = [
-            'id' => 'edit_profile',
-            'method' => 'PATCH',
-            'action' => route('users.profiles.update',['user'=>$user->id,'profile'=>$profile->id]),
-            'redirectUrl' => route('home'),
-            'submitLabel' =>  __('form.profile_edit.submit_button'),
-            'onSuccessMessage'=> __('messages.edit_profile.on_success'),
-            'onFailMessage'=> __('messages.edit_profile.on_fail')
-        ];
-
-    $deleteForm = [
-            'id' => 'delete_profile',
-            'method' => 'DELETE',
-            'action' => route('users.profiles.destroy',['user'=>$user->id,'profile'=>$profile->id]),
-            'redirectUrl' => route('home'),
-            'submitLabel' => __('form.profile_edit.delete_button'),
-            'onSuccessMessage'=> __('messages.delete_profile.on_success'),
-            'onFailMessage'=> __('messages.delete_profile.on_fail')
-        ];
 
 @endphp
 
@@ -54,20 +32,17 @@
         ])
     </aside>
 
-    <main class="mx-auto w-full max-w-screen-2xl flex-1 pt-5 pb-10 lg:pt-20 lg:pb-32 px-5 lg:px-20">
+    <main  x-data="profile({ userId: {{ $user->id }} })"
+        class="mx-auto w-full max-w-screen-2xl flex-1 pt-5 pb-10 lg:pt-20 lg:pb-32 px-5 lg:px-20">
         <div class="flex flex-col gap-10 lg:grid lg:grid-cols-2 lg:gap-x-32 lg:gap-y-20">
             <div class="text-center lg:text-start text-4xl xl:text-4xl w-full font-medium">
                 {{ __('pages.settings.edit_profile') }}
             </div>
 
             <form class="lg:col-span-2"
-                  x-data="formSubmit({
-                      formId: '{{ $editForm['id'] }}',
-                      url: '{{ $editForm['action'] }}',
-                      method: '{{ $editForm['method'] }}',
-                      onSuccessRedirectUrl: '{{ $editForm['redirectUrl'] }}',
-                  })"
-                  @submit.prevent="submit">
+                  @submit.prevent="updateProfile($event,{{$profile->id}})"
+                  @update-profile="window.location.replace('/')"
+            >
                 @csrf
                 <div class="flex flex-col gap-8 lg:grid lg:grid-cols-2 lg:gap-y-14 lg:gap-x-32">
                     <x-form.group name="mainImage" class="w-full">
@@ -127,19 +102,31 @@
                                       class="placeholder-primary placeholder:font-light text-sm lg:text-xl" />
                     </x-form.group>
 
+
                     <x-form.group name="bio">
                         <x-form.label class="lg:text-2xl lg:font-medium">
                             {{ __('form.profile_edit.bio') }}
                         </x-form.label>
-                        <x-form.textarea rows="3"
+                        <x-form.textarea rows="5"
                                          placeholder="{{$profile->bio}}"
                                          class="placeholder-primary placeholder:font-light text-sm lg:text-xl" />
                     </x-form.group>
 
-                    <div class="flex flex-col items-center justify-end ">
-                        <x-form.submit class="w-full rounded-full font-black lg:font-medium">
-                            {{ $editForm['submitLabel'] }}
-                        </x-form.submit>
+                    <div class="flex-1 flex flex-col justify-end gap-10">
+                        @if(!$authProfile->default)
+                            <x-form.group name="default" type="checkbox" class="mt-5">
+                                <x-form.checkbox value="{{old('default')}}" value="1" />
+                                <x-form.label class="text-primary font-bold text-sm xl:text-lg">
+                                    {{ __('form.profile_create.default') }}
+                                </x-form.label>
+                            </x-form.group>
+                        @endif
+
+                        <div class="flex items-end">
+                            <x-form.submit class="w-full rounded-full font-black lg:font-medium">
+                                {{ __('form.profile_edit.submit_button')}}
+                            </x-form.submit>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -155,17 +142,14 @@
                     {{ __('pages.settings.delete_message') }}
                 </div>
             </div>
-            <form class="flex items-end" x-data="formSubmit({
-                      formId: '{{ $deleteForm['id'] }}',
-                      url: '{{ $deleteForm['action'] }}',
-                      method: '{{ $deleteForm['method'] }}',
-                      onSuccessRedirectUrl: '{{ $deleteForm['redirectUrl'] }}',
-                  })"
-                  @submit.prevent="submit">
+            <form class="flex items-end"
+                  @submit.prevent="destroyProfile({{$profile->id}})"
+                  @destroy-profile="window.location.replace('/')"
+            >
                 @csrf
 
                 <x-form.submit class="!bg-red-900 w-full rounded-full font-black">
-                    {{$deleteForm['submitLabel']}}
+                    {{__('form.profile_edit.delete_button')}}
                 </x-form.submit>
             </form>
 
@@ -185,7 +169,6 @@
                     </a>
                 @endforeach
             </div>
-
         </div>
     </main>
 

@@ -7,3 +7,4 @@ import './post';
 import './postLike';
 import './postListContext';
 import './postContext';
+import './profile';

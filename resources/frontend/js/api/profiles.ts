@@ -13,6 +13,7 @@ export async function indexProfile(userId: Decimal, input?: IndexProfileInput, i
 
     return response.data.data;
 }
+
 const API_USERS__PROFILES_INDEX = (userId: Decimal, input?: IndexProfileInput): ApiAction => ({
     url: `/api/users/${userId}/profiles`,
     method: 'GET',
@@ -56,6 +57,7 @@ export async function showProfile(
 
     return response.data.data;
 }
+
 const API_USERS__PROFILES_SHOW = (userId: Decimal, profileId: Decimal, input?: ShowProfileInput): ApiAction => ({
     url: `/api/users/${userId}/profiles/${profileId}`,
     method: 'GET',
@@ -93,10 +95,14 @@ export async function createProfile(userId: Decimal, input: CreateProfileInput, 
 
     return response.data.data;
 }
+
 const API_USERS__PROFILES_STORE = (userId: Decimal, input: CreateProfileInput): ApiAction => ({
     url: `/api/users/${userId}/profiles`,
     method: 'POST',
     data: input,
+    headers: {
+        'Content-Type': 'multipart/form-data',
+    },
 });
 
 export interface CreateProfileInput {
@@ -105,8 +111,8 @@ export interface CreateProfileInput {
     default?: boolean;
     dateOfBirth?: string;
     breed?: string;
-    mainImage?: string;
-    secondaryImage?: string;
+    mainImage?: File;
+    secondaryImage?: File;
     bio?: string;
 }
 
@@ -131,13 +137,21 @@ export async function updateProfile(
     const response = await (instance ?? axios).request<{ data: Profile }>({
         ...API_USERS__PROFILES_UPDATE(userId, profileId, input),
     });
+    console.log(API_USERS__PROFILES_UPDATE(userId, profileId, input));
 
     return response.data.data;
 }
+
 const API_USERS__PROFILES_UPDATE = (userId: Decimal, profileId: Decimal, input: UpdateProfileInput): ApiAction => ({
     url: `/api/users/${userId}/profiles/${profileId}`,
-    method: 'PATCH',
-    data: input,
+    method: 'POST',
+    data: {
+        _method: 'patch',
+        ...input,
+    },
+    headers: {
+        'Content-Type': 'multipart/form-data',
+    },
 });
 
 export interface UpdateProfileInput {
@@ -145,8 +159,8 @@ export interface UpdateProfileInput {
     default?: boolean;
     dateOfBirth?: string;
     breed?: string;
-    mainImage?: string;
-    secondaryImage?: string;
+    mainImage?: File;
+    secondaryImage?: File;
     bio?: string;
 }
 

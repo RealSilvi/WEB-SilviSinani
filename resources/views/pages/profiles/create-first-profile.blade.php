@@ -1,15 +1,9 @@
 @php
     /**
-     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $createFirstProfileForm
+     * @var \App\Models\User $user
      */
 
-    $createFirstProfileForm = [
-            'id' => 'create_first_profile_form',
-            'method' => 'POST',
-            'action' => route('users.profiles.store',['user' => auth()->id()]),
-            'submitLabel' => __('form.profile_create.submit_button'),
-            'redirectUrl' =>  request()->redirectUrl ?? route('home'),
-        ];
+    $user=$user?? auth()->user();
 @endphp
 
 @extends('layouts.auth', [
@@ -25,13 +19,10 @@
                 </div>
 
                 <div class="mt-10 lg:mt-15  flex flex-col">
-                    <form x-data="formSubmit({
-                              formId: '{{ $createFirstProfileForm['id'] }}',
-                              method: '{{ $createFirstProfileForm['method'] }}',
-                              url: '{{ $createFirstProfileForm['action'] }}',
-                              onSuccessRedirectUrl: '{{ $createFirstProfileForm['redirectUrl'] }}',
-                          })"
-                          @submit.prevent="submit">
+                    <form x-data="profile({ userId: {{ $user->id }} })"
+                          @submit.prevent="createProfile"
+                          @create-profile="window.location.replace('/')"
+                    >
                         @csrf
                         <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-10 xl:gap-x-40 gap-y-3">
                             <div class="flex flex-col gap-7 lg:gap-10">
@@ -106,7 +97,7 @@
                                 <div class="mt-11 xl:mt-20">
                                     <div class="flex flex-col items-center justify-center">
                                         <x-form.submit class="w-full rounded-full font-black">
-                                            {{ $createFirstProfileForm['submitLabel'] }}
+                                            {{ __('form.profile_create.submit_button') }}
                                         </x-form.submit>
                                     </div>
                                 </div>

@@ -4,20 +4,12 @@
      * @var \App\Models\User $user
      * @var \App\Models\Profile $profile
      * @var \App\Models\Profile $authProfile
-     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $createProfileForm
      */
 
     $user = $user ?? auth()->user();
     $authProfile = $authProfile ?? $user->getDefaultProfile();
     $profile = $profile ?? $authProfile;
 
-    $createProfileForm = [
-            'id' => 'create_profile_form',
-            'method' => 'POST',
-            'action' => route('users.profiles.store',['user' => auth()->id()]),
-            'submitLabel' => __('form.profile_create.submit_button') ,
-            'redirectUrl' =>  request()->redirectUrl ?? route('home'),
-        ];
 @endphp
 
 @extends('layouts.default',[
@@ -43,13 +35,9 @@
 
     <main class="mx-auto w-full max-w-screen-2xl flex-1 pt-5 pb-10 lg:pt-20 lg:pb-32 px-5 lg:px-20">
         <section class="flex w-full h-full items-center justify-center">
-            <form x-data="formSubmit({
-                            formId: '{{ $createProfileForm['id'] }}',
-                            method: '{{ $createProfileForm['method'] }}',
-                            url: '{{ $createProfileForm['action'] }}',
-                            onSuccessRedirectUrl: '{{ $createProfileForm['redirectUrl'] }}',
-                          })"
-                  @submit.prevent="submit">
+            <form x-data="profile({ userId: {{ $user->id }} })"
+                  @submit.prevent="createProfile"
+                  @create-profile="window.location.replace('/')" >
                 @csrf
                 <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-10 xl:gap-x-40 gap-y-3">
                     <div class="flex flex-col gap-7 lg:gap-10">
@@ -138,7 +126,7 @@
                         <div class="mt-11 xl:mt-20">
                             <div class="flex flex-col items-center justify-center">
                                 <x-form.submit class="w-full rounded-full font-black">
-                                    {{ $createProfileForm['submitLabel'] }}
+                                    {{  __('form.profile_create.submit_button') , }}
                                 </x-form.submit>
                             </div>
                         </div>
