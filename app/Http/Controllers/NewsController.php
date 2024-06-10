@@ -8,11 +8,12 @@ use App\Enum\FriendshipType;
 use App\Models\Profile;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Throwable;
 
 class NewsController extends Controller
 {
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function __invoke(Request $request, ?Profile $profile = null): mixed
     {

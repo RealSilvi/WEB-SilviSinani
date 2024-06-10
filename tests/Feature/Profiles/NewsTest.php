@@ -15,6 +15,81 @@ use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
 
+it('can fetch news', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    $profile = Profile::factory()->for($user)->create();
+
+    News::factory()->for($profile)->create();
+    News::factory()->for($profile)->create();
+    $news = News::factory()->for($profile)->create(['created_at' => now()->addDay()]);
+
+    $response = getJson(action([NewsController::class, 'index'], [
+        'user' => $user->id,
+        'profile' => $profile->id,
+        'include' => []
+    ]));
+
+    $response->assertOk();
+    $response->assertJson(fn(AssertableJson $json) => $json
+        ->has('data', 3, fn(AssertableJson $json) => $json
+            ->where('id', $news->id)
+            ->where('title', $news->title)
+            ->where('body', $news->body)
+            ->where('profileId', $profile->id)
+            ->etc()
+        )
+        ->etc()
+    );
+});
+
+it('can fetch news full', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    $profile = Profile::factory()->for($user)->create();
+    $profileB = Profile::factory()->create();
+
+    News::factory()->for($profile)->create();
+    News::factory()->for($profile)->create();
+    $news = News::factory()->for($profile)->create([
+        'created_at' => now()->addDay(),
+        'from_id' => $profileB->id,
+        'from_type' => Profile::class,
+        'type' => NewsType::FOLLOW_REQUEST
+    ]);
+
+    $response = getJson(action([NewsController::class, 'index'], [
+        'user' => $user->id,
+        'profile' => $profile->id,
+        'include' => [
+            'profile',
+            'from',
+        ]
+    ]));
+
+    $response->assertOk();
+
+    $response->assertJson(fn(AssertableJson $json) => $json
+        ->has('data', 3, fn(AssertableJson $json) => $json
+            ->where('id', $news->id)
+            ->where('fromId', $profileB->id)
+            ->where('fromType', Profile::class)
+            ->where('type', NewsType::FOLLOW_REQUEST->value)
+            ->where('id', $news->id)
+            ->has('profile', fn(AssertableJson $json) => $json
+                ->where('id', $profile->id)
+                ->etc())
+            ->has('from', fn(AssertableJson $json) => $json
+                ->where('id', $profileB->id)
+                ->etc())
+            ->etc()
+        )
+        ->etc()
+    );
+});
+
 it('can store a follow request news ', function () {
     $user = User::factory()->create();
     Sanctum::actingAs($user);
@@ -106,7 +181,7 @@ it('can store a comment like news ', function () {
     $profileD = Profile::factory()->for($userB)->create();
 
     $post = Post::factory()->for($profile)->create();
-    $comment= Comment::factory()->for($profileB)->for($post)->create();
+    $comment = Comment::factory()->for($profileB)->for($post)->create();
     $response = postJson(action([NewsController::class, 'store'], ['user' => $userB->id, 'profile' => $profileB->id,]), [
         'fromId' => $comment->id,
         'fromType' => Comment::class,
@@ -147,7 +222,7 @@ it('can store a comment news ', function () {
     $profileD = Profile::factory()->for($userB)->create();
 
     $post = Post::factory()->for($profile)->create();
-    $comment= Comment::factory()->for($profileB)->for($post)->create();
+    $comment = Comment::factory()->for($profileB)->for($post)->create();
     $response = postJson(action([NewsController::class, 'store'], ['user' => $userB->id, 'profile' => $profileB->id,]), [
         'fromId' => $comment->id,
         'fromType' => Comment::class,

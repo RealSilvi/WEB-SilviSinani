@@ -7,12 +7,30 @@ use App\Actions\Profile\CreateNewsAction;
 use App\Actions\Profile\CreateProfileFollowerAction;
 use App\Actions\Profile\SeeAllNewsAction;
 use App\Http\Resources\NewsResource;
+use App\Models\News;
 use App\Models\Profile;
 use App\Models\User;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Spatie\QueryBuilder\QueryBuilder;
 use Throwable;
+use Illuminate\Http\Request;
 
 class NewsController
 {
+
+    public function index(Request $request, User $user, Profile $profile): AnonymousResourceCollection
+    {
+        $news = QueryBuilder::for(News::class, $request)
+            ->allowedIncludes([
+                'profile',
+                'from',
+            ])
+            ->defaultSort('-created_at')
+            ->where('profile_id', $profile->id)
+            ->simplePaginate(10);
+
+        return NewsResource::collection($news);
+    }
     /**
      * @throws Throwable
      */

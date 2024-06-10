@@ -1,3 +1,6 @@
+import { ProfileType } from './api/profiles';
+import { NewsType } from './api/profileNews';
+
 export interface Profile {
     id: number;
     nickname: string;
@@ -30,13 +33,15 @@ export interface News {
     id: number;
     title?: string;
     body?: string;
-    type: string;
+    fromId: string;
+    fromType: string;
+    type: NewsType;
     seen: boolean;
     seenAt: string;
     createdAt: string;
     updatedAt: string;
     profileId: number;
-    from: number;
+    from: Profile | Comment | Post;
     profile?: Profile;
 }
 

@@ -3,6 +3,32 @@ import { News } from '../models';
 import { ApiAction, Decimal } from '../utils';
 
 /**
+ * API_USERS_PROFILES__NEWS_INDEX
+ */
+export async function indexNews(userId: Decimal, profileId: Decimal, input?: IndexNewsInput, instance?: AxiosInstance) {
+    const response = await (instance ?? axios).request<{ data: News[] }>({
+        ...API_USERS_PROFILES__NEWS_INDEX(userId, profileId, input),
+    });
+    return response.data.data;
+}
+
+const API_USERS_PROFILES__NEWS_INDEX = (userId: Decimal, profileId: Decimal, input?: IndexNewsInput): ApiAction => ({
+    url: `/api/users/${userId}/profiles/${profileId}/news`,
+    method: 'GET',
+    params: input,
+});
+
+export enum IndexNewsIncludeKey {
+    Profile = 'profile',
+    From = 'from',
+}
+
+export interface IndexNewsInput {
+    include?: IndexNewsIncludeKey[];
+    page?: number;
+}
+
+/**
  * API_USERS_PROFILES__NEWS_STORE
  */
 export async function createNews(
@@ -33,6 +59,9 @@ export interface CreateNewsInput {
 
 export enum NewsType {
     FollowRequest = 'Follow request',
+    PostLike = 'Post like',
+    CommentLike = 'Comment like',
+    Comment = 'Comment',
 }
 
 /**
