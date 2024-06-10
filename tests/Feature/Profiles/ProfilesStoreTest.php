@@ -60,7 +60,7 @@ it('can create a full profile', function () {
         'default' => true,
         'type' => ProfileType::DOG,
         'dateOfBirth' => $date,
-        'breed' => ProfileBreedDog::GOLDEN_RETRIEVER,
+        'breed' => 'golden retriver',
         'mainImage' => $mainUrl,
         'secondaryImage' => $secondaryUrl,
         'bio' => 'Scott it is an awesome dog.',
@@ -76,7 +76,7 @@ it('can create a full profile', function () {
             ->where('userId', $user->id)
             ->where('type', ProfileType::DOG->value)
             ->where('dateOfBirth', $date)
-            ->where('breed', ProfileBreedDog::GOLDEN_RETRIEVER->value)
+            ->where('breed', 'golden retriver')
             ->where('mainImage', '/profiles/scott/profile.jpg')
             ->where('secondaryImage', '/profiles/scott/background.jpg')
             ->where('bio', 'Scott it is an awesome dog.')

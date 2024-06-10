@@ -14,8 +14,10 @@ use Spatie\LaravelData\Support\Validation\ValidationContext;
 class CreateNewsInput extends Data
 {
     public function __construct(
-        public NewsType $type,
+        public int      $fromId,
+        public string   $fromType,
         public int      $profileId,
+        public NewsType $type,
         public ?string  $title = null,
         public ?string  $body = null,
     )

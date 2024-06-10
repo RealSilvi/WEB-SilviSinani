@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Actions\Data\CreateCommentInput;
+use App\Actions\Data\CreateNewsInput;
+use App\Actions\Profile\CreateNewsAction;
+use App\Enum\NewsType;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\ProfileResource;
@@ -52,11 +55,22 @@ class PostLikeController
     }
 
 
+    /**
+     * @throws \Throwable
+     */
     public function store(User $user, Profile $profile, Post $post): PostResource
     {
         $profile->postLikes()->attach($post);
         $post = $post->fresh();
         $post->load('likes');
+
+        app(CreateNewsAction::class)->execute($user, $profile, new CreateNewsInput(
+            fromId: $post->id,
+            fromType: Post::class,
+            profileId: $post->profile_id,
+            type: NewsType::POST_LIKE,
+            title: $profile->nickname . ' likes your post.',
+        ));
 
         return new PostResource($post);
     }

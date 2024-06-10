@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Actions\Post;
 
 use App\Actions\Data\CreateCommentInput;
+use App\Actions\Data\CreateNewsInput;
 use App\Actions\Data\CreatePostInput;
+use App\Actions\Profile\CreateNewsAction;
+use App\Enum\NewsType;
 use App\Exceptions\CannotCreateAnEmptyPostException;
 use App\Models\Comment;
 use App\Models\Post;
@@ -39,6 +42,7 @@ class CreateCommentAction
      * @param Post $post
      * @param CreateCommentInput $input
      * @return Comment
+     * @throws Throwable
      */
     public function createComment(User $user, Profile $profile, Post $post, CreateCommentInput $input): Comment
     {
@@ -49,6 +53,14 @@ class CreateCommentAction
         ]);
 
         $comment->save();
+
+        app(CreateNewsAction::class)->execute($user, $profile, new CreateNewsInput(
+            fromId: $comment->id,
+            fromType: Comment::class,
+            profileId: $post->profile_id,
+            type: NewsType::COMMENT,
+            title: $profile->nickname . ' commented your post.',
+        ));
 
         return $comment;
     }

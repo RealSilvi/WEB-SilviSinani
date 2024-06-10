@@ -25,7 +25,7 @@
         <div class="w-full h-full rounded-full bg-white">
             <div class="h-full w-full flex items-center justify-between bg-primary/90 px-5 lg:px-10 rounded-full">
                 <a href="{{route('dashboard',['profile'=>$authProfile->nickname])}}">{{svg('other-logo','h-6 w-6 lg:h-7 lg:w-7')}}</a>
-                <form method="get" action="{{ route('search',['profile'=>$profile->nickname]) }}"
+                <form method="get" action="{{ route('search', ['profile'=>$profile->nickname]) }}"
                       x-data
                       @submit="if($refs.input.value.trim() === '') {$event.preventDefault(); $refs.input.focus()}"
                       class="flex items-center relative">

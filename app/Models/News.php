@@ -3,15 +3,13 @@
 namespace App\Models;
 
 use App\Enum\NewsType;
-use Carbon\Traits\Date;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use phpDocumentor\Reflection\Types\Boolean;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 
 /**
- *
  *
  * @property int $id
  * @property NewsType $type
@@ -32,7 +30,6 @@ class News extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'type' => NewsType::class,
         'seen_at' => 'datetime',
         'seen' => 'boolean',
         'created_at' => 'datetime',
@@ -42,5 +39,10 @@ class News extends Model
     public function profile(): BelongsTo
     {
         return $this->belongsTo(Profile::class);
+    }
+
+    public function from(): MorphTo
+    {
+        return $this->morphTo();
     }
 }

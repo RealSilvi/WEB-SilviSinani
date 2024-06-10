@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
             $table->string('title')->nullable();
             $table->string('body')->nullable();
             $table->boolean('seen')->default(false);
             $table->string('seen_at')->nullable();
             $table->unsignedBigInteger('profile_id');
-            $table->unsignedBigInteger('from');
+            $table->unsignedBigInteger('from_id');
+            $table->string('from_type');
+            $table->string('type');
             $table->timestamps();
 
             $table->foreign('profile_id')->references('id')->on('profiles')->cascadeOnDelete();

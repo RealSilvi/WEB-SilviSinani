@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Actions\Profile;
 
 use App\Actions\Data\CreateNewsInput;
+use App\Enum\NewsType;
 use App\Exceptions\ProfileNotFoundException;
+use App\Models\Comment;
 use App\Models\News;
 use App\Models\Profile;
 use App\Models\User;
@@ -36,11 +38,12 @@ class CreateNewsAction
     public function createNews(User $user, Profile $profile, CreateNewsInput $input): News
     {
         $news = new News([
-            'type' => $input->type,
+            'from_id' => $input->fromId,
+            'from_type' => $input->fromType,
             'profile_id' => $input->profileId,
-            'from' => $profile->id,
             'title' => $input->title,
             'body' => $input->body,
+            'type' => $input->type,
         ]);
 
         $news->save();
@@ -54,7 +57,7 @@ class CreateNewsAction
     protected function validateProfile(CreateNewsInput $input): void
     {
         if (!Profile::query()->find($input->profileId)) {
-            throw new ProfileNotFoundException('Nickname already exists');
+            throw new ProfileNotFoundException('Profile not found');
         }
 
     }

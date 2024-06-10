@@ -1,5 +1,6 @@
 <?php
 
+use App\Enum\NewsType;
 use App\Enum\ProfileBreedDog;
 use App\Enum\ProfileType;
 use App\Http\Controllers\Api\CommentController;
@@ -46,5 +47,33 @@ it('can create a comment', function () {
     $post = $post->fresh();
     expect($post->comments()->where('profile_id', $profile->id)->first())
         ->body->toBe('Comment Test');
+
+});
+
+it('a comment can generate a news', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    $profile = Profile::factory()->for($user)->create();
+    Post::factory()->for($profile)->count(15)->create();
+    $post = $profile->lastPost()->first();
+    $profileB = Profile::factory()->for($user)->create();
+
+    $response = postJson(action(
+        [CommentController::class, 'store'],
+        ['user' => $user->id, 'profile' => $profileB->id, 'post' => $post->id,'body' => 'Comment Test'],
+    ));
+    $response->assertCreated();
+
+    $profileB = $profileB->fresh();
+    expect($profile)->news->not()->toBeNull();
+
+    $new = $profile->news()->first();
+
+    expect($new->seen)->toBeFalse()
+        ->and($new->profile_id)->toBe($profile->id)
+        ->and($new->from_id)->toBe($response->json('data.id'))
+        ->and($new->from_type)->toBe(Comment::class)
+        ->and($new->type)->toBe(NewsType::COMMENT->value);
 
 });

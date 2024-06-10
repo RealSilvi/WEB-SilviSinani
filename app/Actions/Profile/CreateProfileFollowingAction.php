@@ -46,8 +46,10 @@ class CreateProfileFollowingAction
     public function sendNews(User $user, Profile $profile, ProfileFollowInput $input): void
     {
         app(CreateNewsAction::class)->execute($user, $profile, new CreateNewsInput(
-            type: NewsType::FOLLOW_REQUEST,
+            fromId: $profile->id,
+            fromType: Profile::class,
             profileId: $input->followerId,
+            type: NewsType::FOLLOW_REQUEST,
             title: $profile->nickname . ' wants to follow you.',
         ));
     }

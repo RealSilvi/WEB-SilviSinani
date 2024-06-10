@@ -3,7 +3,9 @@
 namespace Database\Factories;
 
 use App\Enum\NewsType;
+use App\Models\Comment;
 use App\Models\News;
+use App\Models\Post;
 use App\Models\Profile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -24,8 +26,6 @@ class NewsFactory extends Factory
             'title' => fake()->title,
             'body' => fake()->realText,
             'seen' => false,
-            'profile_id' => Profile::query()->inRandomOrder()->first()?->id ?? Profile::factory()->create()->id,
-            'from' => Profile::query()->inRandomOrder()->first()?->id,
             'type' => Arr::random(NewsType::cases()),
         ];
     }
@@ -37,7 +37,15 @@ class NewsFactory extends Factory
                 $news->profile_id = Profile::factory()->create()->id;
             }
             if ($news->from == null) {
-                $news->from = Profile::query()->where('id', '!=', $news->profile_id)->inRandomOrder()->first()?->id ?? Profile::factory()->create()->id;
+
+                $from = match ($news->type) {
+                    NewsType::POST_LIKE => Post::query()->inRandomOrder()->first() ?? Post::factory()->create(),
+                    NewsType::COMMENT_LIKE, NewsType::COMMENT => Comment::query()->inRandomOrder()->first() ?? Comment::factory()->create(),
+                    NewsType::FOLLOW_REQUEST => Profile::query()->where('id', '!=', $news->profile_id)->inRandomOrder()->first() ?? Profile::factory()->create(),
+                };
+
+                $news->from_id = $from->id;
+                $news->from_type = get_class($from) ;
             }
         });
     }

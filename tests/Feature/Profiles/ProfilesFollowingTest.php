@@ -1,9 +1,7 @@
 <?php
 
 use App\Enum\NewsType;
-use App\Http\Controllers\Api\FollowersController;
 use App\Http\Controllers\Api\FollowingController;
-use App\Http\Controllers\Api\NewsController;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
@@ -172,5 +170,32 @@ it('can delete a follow request', function () {
     $profile = $profile->fresh();
     expect($profile->following()->find($profileB))->toBeNull();
     expect($profile->sentRequests()->find($profileB))->toBeNull();
+
+});
+
+it('a follow request generate a news', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    $profile = Profile::factory()->for($user)->create();
+
+    $userB = User::factory()->create();
+    $profileB = Profile::factory()->for($userB)->create();
+
+    $response = postJson(action([FollowingController::class, 'store'], ['user' => $user->id, 'profile' => $profile->id,]), [
+        'followerId' => $profileB->id,
+    ]);
+    $response->assertSuccessful();
+
+    $profileB = $profileB->fresh();
+    expect($profileB)->news->not()->toBeNull();
+
+    $new = $profileB->news()->first();
+
+    expect($new->seen)->toBeFalse()
+        ->and($new->profile_id)->toBe($profileB->id)
+        ->and($new->from_id)->toBe($profile->id)
+        ->and($new->from_type)->toBe(Profile::class)
+        ->and($new->type)->toBe(NewsType::FOLLOW_REQUEST->value);
 
 });

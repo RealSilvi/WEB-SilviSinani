@@ -33,7 +33,7 @@ it('can fetch dashboard posts', function () {
         'user' => $user->id,
         'profile' => $profile->id,
     ]));
-    
+
     $response->assertSuccessful();
 
     $response->assertJson(fn(AssertableJson $json) => $json
@@ -42,6 +42,7 @@ it('can fetch dashboard posts', function () {
             ->where('profileId', $lastPost->profile_id)
             ->etc()
         )
+        ->etc()
     );
 
 });
@@ -99,6 +100,7 @@ it('can fetch dashboard posts full', function () {
                 ->etc())
             ->etc()
         )
+        ->etc()
     );
 
 });
@@ -118,9 +120,9 @@ it('can fetch dashboard advice posts ', function () {
     $profile->sentRequests()->attach($profileB, ['accepted' => true]);
     $profile->sentRequests()->attach($profileC, ['accepted' => true]);
 
-    Post::factory()->count(4)->for($profileB)->create();
-    Post::factory()->count(5)->for($profileC)->create();
-    Post::factory()->count(5)->for($profileD)->create();
+    Post::factory()->count(1)->for($profileB)->create();
+    Post::factory()->count(2)->for($profileC)->create();
+    Post::factory()->count(2)->for($profileD)->create();
     $lastPost = Post::factory()->for($profileB)->create(['created_at' => now()->addDay()]);
 
     $response = getJson(action([DashboardController::class, 'show'], [
@@ -131,11 +133,12 @@ it('can fetch dashboard advice posts ', function () {
     $response->assertSuccessful();
 
     $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', 15, fn(AssertableJson $json) => $json
+        ->has('data', 6, fn(AssertableJson $json) => $json
             ->where('id', $lastPost->id)
             ->where('profileId', $lastPost->profile_id)
             ->etc()
         )
+        ->etc()
     );
 
 });

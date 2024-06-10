@@ -22,7 +22,7 @@ it('can update a profile', function () {
     $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profile->id)]), [
         'nickname' => 'Scott',
         'dateOfBirth' => $date,
-        'breed' => ProfileBreedDog::GOLDEN_RETRIEVER->value,
+        'breed' => 'golden retriver',
         'mainImage' => $mainUrl,
         'secondaryImage' => $secondaryUrl,
         'bio' => 'Scott it is an awesome dog.',
@@ -37,7 +37,7 @@ it('can update a profile', function () {
             ->where('nickname', 'scott')
             ->where('userId', $user->id)
             ->where('dateOfBirth', $date)
-            ->where('breed', ProfileBreedDog::GOLDEN_RETRIEVER->value)
+            ->where('breed', 'golden retriver')
             ->where('mainImage', 'profiles/scott/profile.jpg')
             ->where('secondaryImage', 'profiles/scott/background.jpg')
             ->where('bio', 'Scott it is an awesome dog.')
@@ -52,7 +52,7 @@ it('can update a profile', function () {
         ->user_id->toBe($user->id)
         ->nickname->toBe('scott')
         ->date_of_birth->toBe($date)
-        ->breed->toBe(ProfileBreedDog::GOLDEN_RETRIEVER->value)
+        ->breed->toBe('golden retriver')
         ->main_image->toBe('profiles/scott/profile.jpg')
         ->secondary_image->toBe('profiles/scott/background.jpg')
         ->bio->toBe('Scott it is an awesome dog.')
@@ -93,7 +93,7 @@ it('can not update a profile with the a nickname that already exists', function 
     $response = patchJson(action([ProfileController::class, 'update'], ['user' => $user->id, 'profile' => ($profileB->id)]), [
         'nickname' => $profileA->nickname,
         'dateOfBirth' => $date,
-        'breed' => ProfileBreedDog::GOLDEN_RETRIEVER->value,
+        'breed' => 'golden retriver',
         'mainImage' => $mainUrl,
         'secondaryImage' => $secondaryUrl,
         'bio' => 'Scott it is an awesome dog.',

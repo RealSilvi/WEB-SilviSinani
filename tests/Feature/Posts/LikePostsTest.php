@@ -1,5 +1,6 @@
 <?php
 
+use App\Enum\NewsType;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\CommentLikeController;
 use App\Http\Controllers\Api\PostController;
@@ -116,5 +117,35 @@ it('can delete a post like ', function () {
     $profileB = $profileB->fresh();
     expect($profileB->postLikes()->first())
         ->toBeNull();
+
+});
+
+it('a post like can generate a news', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    $profileA = Profile::factory()->create();
+    $post = Post::factory()->for($profileA)->create();
+
+    $profileB = Profile::factory()->for($user)->create();
+
+    $response = postJson(action([PostLikeController::class, 'store'], [
+        'user' => $user->id,
+        'profile' => $profileB->id,
+        'post' => $post->id,
+    ]));
+
+    $response->assertSuccessful();
+
+    $profileA = $profileA->fresh();
+    expect($profileA)->news->not()->toBeNull();
+
+    $new = $profileA->news()->first();
+
+    expect($new->seen)->toBeFalse()
+        ->and($new->profile_id)->toBe($profileA->id)
+        ->and($new->from_id)->toBe($post->id)
+        ->and($new->from_type)->toBe(Post::class)
+        ->and($new->type)->toBe(NewsType::POST_LIKE->value);
 
 });

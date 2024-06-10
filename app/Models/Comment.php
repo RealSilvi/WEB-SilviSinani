@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 
 /**
@@ -46,5 +47,10 @@ class Comment extends Model
     public function likes(): BelongsToMany
     {
         return $this->belongsToMany(Profile::class, 'comment_likes', 'comment_id', 'profile_id');
+    }
+
+    public function generatedNews(): MorphMany
+    {
+        return $this->morphMany(News::class, 'from');
     }
 }

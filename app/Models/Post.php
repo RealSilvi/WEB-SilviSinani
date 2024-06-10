@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 
 /**
@@ -50,5 +51,10 @@ class Post extends Model
     public function likes(): BelongsToMany
     {
         return $this->belongsToMany(Profile::class, 'post_likes', 'post_id', 'profile_id');
+    }
+
+    public function generatedNews(): MorphMany
+    {
+        return $this->morphMany(News::class, 'from');
     }
 }

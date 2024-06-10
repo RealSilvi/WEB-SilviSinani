@@ -3,18 +3,17 @@
 namespace App\Models;
 
 use App\Enum\ProfileType;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Laravel\Scout\Searchable;
 
 
 /**
- *
  *
  * @property int $id
  * @property string $nickname
@@ -107,6 +106,11 @@ class Profile extends Model
     public function news(): HasMany
     {
         return $this->allNews()->where('seen', false);
+    }
+
+    public function generatedNews(): MorphMany
+    {
+        return $this->morphMany(News::class, 'from');
     }
 
     public function posts(): HasMany

@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\CommentController;
+use App\Enum\NewsType;
 use App\Http\Controllers\Api\CommentLikeController;
-use App\Http\Controllers\Api\PostController;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Profile;
@@ -124,5 +123,38 @@ it('can delete a comment like ', function () {
     $profileC = $profileC->fresh();
     expect($profileC->commentLikes()->first())
         ->toBeNull();
+
+});
+
+it('a comment like can generate a news', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    $profileA = Profile::factory()->create();
+    $post = Post::factory()->for($profileA)->create();
+
+    $profileB = Profile::factory()->create();
+    $comment = Comment::factory()->for($profileB)->for($post)->create();
+
+    $profileC = Profile::factory()->for($user)->create();
+
+    $response = postJson(action([CommentLikeController::class, 'store'], [
+        'user' => $user->id,
+        'profile' => $profileC->id,
+        'post' => $post->id,
+        'comment' => $comment->id,
+    ]));
+    $response->assertSuccessful();
+
+    $profileB = $profileB->fresh();
+    expect($profileB)->news->not()->toBeNull();
+
+    $new = $profileB->news()->first();
+
+    expect($new->seen)->toBeFalse()
+        ->and($new->profile_id)->toBe($profileB->id)
+        ->and($new->from_id)->toBe($comment->id)
+        ->and($new->from_type)->toBe(Comment::class)
+        ->and($new->type)->toBe(NewsType::COMMENT_LIKE->value);
 
 });
