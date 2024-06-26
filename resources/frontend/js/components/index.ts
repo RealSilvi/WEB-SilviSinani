@@ -8,3 +8,5 @@ import './postLike';
 import './postListContext';
 import './postContext';
 import './profile';
+import './newsContext';
+import './profileFollowers';

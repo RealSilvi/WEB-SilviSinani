@@ -1,12 +1,8 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
-import { Decimal, postsToPostPreviews } from '../utils';
-import { Comment, CommentPreview, News, Post, PostPreview, Profile } from '../models';
-import { indexPosts, IndexPostsIncludeKey, showPosts, ShowPostsIncludeKey } from '../api/posts';
-import { ROUTE_DASHBOARD, ROUTE_PROFILE_EDIT } from '../routes';
-import { showDashboard, ShowDashboardIncludeKey } from '../api/dashboard';
-import { indexComment, IndexCommentIncludeKey } from '../api/postComments';
-import { indexNews, IndexNewsIncludeKey, seeAllNews } from '../api/profileNews';
+import { Decimal } from '../utils';
+import { News, NewsType } from '../models';
+import { indexNews, IndexNewsFilterKey, IndexNewsIncludeKey, seeAllNews } from '../api/profileNews';
 
 interface newsContextProps {
     userId: Decimal;
@@ -20,16 +16,20 @@ Alpine.data('newsContext', (props: newsContextProps) => {
     return {
         errors: {},
         saving: false,
-        news: [] as News[],
-        page: 0,
-        lastCommentPage: false,
+        followRequests: [] as News[],
+        followRequestsPage: 1,
+        lastFollowRequestsPage: false,
+        generalNews: [] as News[],
+        generalNewsPage: 1,
+        lastGeneralNewsPage: false,
 
         async init() {
-            await this.fetchNews();
+            await this.fetchFollowRequests();
+            await this.fetchGeneralNews();
             await this.seeAll();
         },
 
-        async fetchNews() {
+        async fetchFollowRequests() {
             if (this.saving) {
                 return;
             }
@@ -37,26 +37,20 @@ Alpine.data('newsContext', (props: newsContextProps) => {
             this.errors = {};
 
             try {
-                const news = await indexNews(props.userId, props.profileId, {
-                    include: [IndexNewsIncludeKey.Profile, IndexNewsIncludeKey.From],
-                    page: this.page,
+                const followRequests = await indexNews(props.userId, props.profileId, {
+                    include: [IndexNewsIncludeKey.From],
+                    filter: { [IndexNewsFilterKey.Type]: NewsType.FollowRequest },
+                    page: this.followRequestsPage,
+                    perPage: 3,
                 });
 
-                if (news.length == 0) {
-                    this.lastCommentPage = true;
-                    return;
+                if (followRequests.length < 3) {
+                    this.lastFollowRequestsPage = true;
                 }
 
-                this.news = [...(this.news ?? []), ...news];
+                this.followRequests = [...(this.followRequests ?? []), ...followRequests];
 
-                if (props.onSuccessMessage) {
-                    this.$dispatch('toast', {
-                        type: 'success',
-                        message: props.onSuccessMessage,
-                    });
-                }
-
-                this.$dispatch('fetch-news', {
+                this.$dispatch('fetch-follow-request-news', {
                     profileId: props.profileId,
                     userId: props.userId,
                 });
@@ -72,14 +66,62 @@ Alpine.data('newsContext', (props: newsContextProps) => {
             }
         },
 
-        async loadMore() {
-            if (this.lastCommentPage) {
+        async loadMoreFollowRequests() {
+            if (this.lastFollowRequestsPage) {
                 return;
             }
 
-            this.page += 1;
+            this.followRequestsPage += 1;
 
-            await this.fetchNews();
+            await this.fetchFollowRequests();
+        },
+
+        async fetchGeneralNews() {
+            if (this.saving) {
+                return;
+            }
+            this.saving = true;
+            this.errors = {};
+
+            try {
+                const generalNews = await indexNews(props.userId, props.profileId, {
+                    include: [IndexNewsIncludeKey.From],
+                    filter: { [IndexNewsFilterKey.NotType]: NewsType.FollowRequest },
+                    page: this.generalNewsPage,
+                });
+
+                if (generalNews.length < 10) {
+                    this.lastGeneralNewsPage = true;
+                }
+
+                console.log(generalNews);
+
+                this.generalNews = [...(this.generalNews ?? []), ...generalNews];
+
+                this.$dispatch('fetch-general-news', {
+                    profileId: props.profileId,
+                    userId: props.userId,
+                });
+            } catch (e) {
+                if (axios.isAxiosError(e) && e?.response?.data) {
+                    this.$dispatch('toast', {
+                        type: 'error',
+                        message: props.onFailMessage ?? 'Error',
+                    });
+                }
+            } finally {
+                this.saving = false;
+            }
+        },
+
+        async loadMoreGeneralNews() {
+            if (this.lastGeneralNewsPage) {
+                return;
+            }
+
+            this.generalNewsPage += 1;
+
+            await this.fetchGeneralNews();
         },
 
         async seeAll() {
@@ -106,6 +148,19 @@ Alpine.data('newsContext', (props: newsContextProps) => {
             } finally {
                 this.saving = false;
             }
+        },
+
+        onFollowerRequestInteracted(event: Event) {
+            // @ts-ignore
+            if (!event.detail.followerId) {
+                console.error('[onFollowerRequestInteracted] followerId is required');
+                return;
+            }
+
+            // @ts-ignore
+            const followerId = event.detail.followerId;
+
+            this.followRequests = this.followRequests.filter((f: News) => f.fromId !== followerId);
         },
     };
 });

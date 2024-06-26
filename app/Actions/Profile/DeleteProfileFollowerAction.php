@@ -31,8 +31,15 @@ class DeleteProfileFollowerAction
 
     public function deleteFollower(Profile $profile, Profile $follower): Profile
     {
+        if (!$profile->followers()->find($follower->id)) {
+            $profile->allNews()
+                ->where('from_type', Profile::class)
+                ->where('from_id', $follower->id)
+                ->delete();
+        }
         $profile->receivedRequests()->detach($follower->id);
-        return $profile->load(['receivedRequests','followers']);
+
+        return $profile->load(['receivedRequests', 'followers']);
     }
 
     /**

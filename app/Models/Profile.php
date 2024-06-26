@@ -93,11 +93,6 @@ class Profile extends Model
         return $this->sentRequests()->wherePivot('accepted', true);
     }
 
-    public function pendingFollowers(): BelongsToMany
-    {
-        return $this->receivedRequests()->wherePivot('accepted', false);
-    }
-
     public function allNews(): HasMany
     {
         return $this->hasMany(News::class);

@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
 import { Decimal, postsToPostPreviews } from '../utils';
-import { Comment, CommentPreview, Post, PostPreview, Profile } from '../models';
-import { indexPosts, IndexPostsIncludeKey, showPosts, ShowPostsIncludeKey } from '../api/posts';
+import { CommentPreview, PostPreview, Profile } from '../models';
+import { showPosts, ShowPostsIncludeKey } from '../api/posts';
 import { ROUTE_DASHBOARD, ROUTE_PROFILE_EDIT } from '../routes';
-import { showDashboard, ShowDashboardIncludeKey } from '../api/dashboard';
 import { indexComment, IndexCommentIncludeKey } from '../api/postComments';
 
 interface postContextProps {
@@ -24,7 +23,7 @@ Alpine.data('postContext', (props: postContextProps) => {
         errors: {},
         saving: false,
         post: {} as PostPreview,
-        page: 0,
+        page: 1,
         lastCommentPage: false,
 
         async init() {
@@ -94,9 +93,8 @@ Alpine.data('postContext', (props: postContextProps) => {
                     page: this.page,
                 });
 
-                if (comments.length == 0) {
+                if (comments.length < 10) {
                     this.lastCommentPage = true;
-                    return;
                 }
 
                 this.post.comments = [...(this.post.comments ?? []), ...comments];

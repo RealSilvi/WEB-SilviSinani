@@ -39,7 +39,11 @@ return [
     ],
     'load_comments' => [
         'on_success' => 'Comment loaded',
-        'on_fail' => 'Si è verificato un errore',
+        'on_fail' => 'Error occurred',
+    ],
+    'load_news' => [
+        'on_success' => 'News loaded',
+        'on_fail' => 'Error occurred',
     ],
     'sidebar' => [
         'on_success' => 'Profiles loaded',

@@ -46,6 +46,9 @@ return [
     ],
     'news' => [
         'title' => 'News',
+        'follow_requests_news'=>'Following requests',
+        'general_news'=>'News',
+        'see_all'=>'See all',
         'no_results' => 'Notifications not found',
     ],
     'posts' => [

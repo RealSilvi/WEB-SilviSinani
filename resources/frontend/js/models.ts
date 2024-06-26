@@ -1,6 +1,3 @@
-import { ProfileType } from './api/profiles';
-import { NewsType } from './api/profileNews';
-
 export interface Profile {
     id: number;
     nickname: string;
@@ -43,6 +40,13 @@ export interface News {
     profileId: number;
     from: Profile | Comment | Post;
     profile?: Profile;
+}
+
+export enum NewsType {
+    FollowRequest = 'Follow request',
+    PostLike = 'Post like',
+    CommentLike = 'Comment like',
+    Comment = 'Comment',
 }
 
 export interface User {

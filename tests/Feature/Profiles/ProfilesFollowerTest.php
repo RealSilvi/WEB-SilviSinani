@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\FollowersController;
+use App\Http\Controllers\Api\FollowingController;
+use App\Models\News;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
@@ -171,4 +173,59 @@ it('can decline a follower request', function () {
     expect($profile->followers()->find($profileB))->toBeNull();
     expect($profile->receivedRequests()->find($profileB))->toBeNull();
 
+});
+
+it('can delete a follow request news when follow request is accepted', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    $profile = Profile::factory()->for($user)->create();
+
+    $userB = User::factory()->create();
+    $profileB = Profile::factory()->for($userB)->create();
+
+    postJson(action([FollowingController::class, 'store'], ['user' => $user->id, 'profile' => $profile->id,]), [
+        'followerId' => $profileB->id,
+    ]);
+
+    $profileB = $profileB->fresh();
+    $news = $profileB->news()->first();
+    expect($news->from_id)->toBe($profile->id);
+
+    Sanctum::actingAs($userB);
+
+    postJson(action([FollowersController::class, 'store'], ['user' => $userB->id, 'profile' => $profileB->id,]), [
+        'followerId' => $profile->id,
+    ]);
+
+    $profileB = $profileB->fresh();
+    expect($profileB->allNews()->get())->toBeEmpty();
+
+});
+
+it('can delete a follow request news when follow request is rejected', function () {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    $profile = Profile::factory()->for($user)->create();
+
+    $userB = User::factory()->create();
+    $profileB = Profile::factory()->for($userB)->create();
+
+    postJson(action([FollowingController::class, 'store'], ['user' => $user->id, 'profile' => $profile->id,]), [
+        'followerId' => $profileB->id,
+    ]);
+
+    $profileB = $profileB->fresh();
+    expect($profileB->news->first->from->id)->toBe($profile->id);
+
+    Sanctum::actingAs($userB);
+    deleteJson(action([FollowersController::class, 'destroy'], [
+        'user' => $userB->id,
+        'profile' => $profileB->id,
+        'follower' => $profile->id,
+    ]));
+
+    $profileB = $profileB->fresh();
+    expect($profileB->allNews)->toBeEmpty();
 });

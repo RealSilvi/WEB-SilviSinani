@@ -7,10 +7,12 @@ namespace App\Actions\Profile;
 use App\Actions\Data\ProfileFollowInput;
 use App\Actions\Data\CreateProfileInput;
 use App\Actions\Data\UpdateProfileInput;
+use App\Enum\NewsType;
 use App\Exceptions\CannotFollowYourselfException;
 use App\Exceptions\FollowerNotFoundException;
 use App\Exceptions\FollowRequestNotFoundException;
 use App\Exceptions\NicknameAlreadyExistsException;
+use App\Models\News;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -35,7 +37,11 @@ class CreateProfileFollowerAction
     {
         $request_id = $profile->receivedRequests()->where('follower_id', $input->followerId)->first()->id;
         $profile->receivedRequests()->updateExistingPivot($request_id, ['accepted' => true]);
-        return $profile->load(['receivedRequests','followers']);
+        $profile->allNews()
+            ->where('from_type', Profile::class)
+            ->where('from_id', $input->followerId)
+            ->delete();
+        return $profile->load(['receivedRequests', 'followers']);
     }
 
     /**

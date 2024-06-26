@@ -21,20 +21,12 @@ class NewsController extends Controller
 
         $profile = $profile ?? $user->getDefaultProfile();
 
-        $pendingFollowers = $profile->pendingFollowers()->get();
-
-        $friendshipType = FriendshipType::FOLLOWER;
-
         $profile->loadCount('news');
-
-        app(SeeAllNewsAction::class)->execute($user, $profile);
 
         return view('pages.news._profile', [
             'user' => $user,
             'profile' => $profile,
             'authProfile' => $profile,
-            'pendingFollowers' => $pendingFollowers,
-            'friendshipType' => $friendshipType
         ]);
     }
 

@@ -24,13 +24,13 @@ class AdminSeeder extends Seeder
             'password' => 'password'
         ]);
 
-        Profile::factory()->realImages()->create([
+        Profile::factory()->create([
             'user_id' => $userAdmin->id,
             'nickname' => 'admin',
             'default' => true,
         ]);
 
-        Profile::factory()->realImages()->create([
+        Profile::factory()->create([
             'user_id' => $userTest->id,
             'nickname' => 'test',
             'default' => true,

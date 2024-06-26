@@ -23,10 +23,10 @@ class ProfileFactory extends Factory
     public function definition(): array
     {
         return [
-            'nickname' => Str::slug(fake()->userName),
+            'nickname' => Str::slug(fake()->userName()),
             'bio' => fake()->realText,
-            'main_image' => 'utilities/profileDefault.jpg',
-            'secondary_image' => 'utilities/backgroundDefault.jpg',
+            'main_image' => '/utilities/profileDefault.jpg',
+            'secondary_image' => '/utilities/backgroundDefault.jpg',
             'date_of_birth' => fake()->date,
             'default' => false,
             'type' => Arr::random(ProfileType::cases()),

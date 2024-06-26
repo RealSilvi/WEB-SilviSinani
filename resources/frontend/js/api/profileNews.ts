@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { News } from '../models';
+import { News, NewsType } from '../models';
 import { ApiAction, Decimal } from '../utils';
 
 /**
@@ -23,9 +23,35 @@ export enum IndexNewsIncludeKey {
     From = 'from',
 }
 
+export enum IndexNewsFilterKey {
+    Type = 'type',
+    NotType = '-type',
+}
+
+export type FilterConditionKey = keyof FilterCondition;
+
+export interface FilterCondition {
+    equalTo?: string | number;
+    greaterThan?: string | number;
+    in?: (string | number)[];
+    inRange?: FilterValueRange;
+    isNull?: boolean;
+    lessThan?: string | number;
+    notEqualTo?: string | number;
+    notIn?: (string | number)[];
+}
+export interface FilterValueRange {
+    max?: number;
+    min?: number;
+}
+
+export type NewsFilters = Partial<Record<IndexNewsFilterKey, string | number | FilterCondition>>;
+
 export interface IndexNewsInput {
     include?: IndexNewsIncludeKey[];
+    filter?: NewsFilters;
     page?: number;
+    perPage?: number;
 }
 
 /**
@@ -55,13 +81,6 @@ export interface CreateNewsInput {
     profileId: Decimal;
     title?: string;
     body?: string;
-}
-
-export enum NewsType {
-    FollowRequest = 'Follow request',
-    PostLike = 'Post like',
-    CommentLike = 'Comment like',
-    Comment = 'Comment',
 }
 
 /**

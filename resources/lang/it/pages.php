@@ -46,6 +46,9 @@ return [
     ],
     'news' => [
         'title' => 'News',
+        'follow_requests_news'=>'Richieste di amicizia',
+        'general_news'=>'Notifiche',
+        'see_all'=>'See all',
         'no_results' => 'Non ci sono notifiche',
     ],
     'posts' => [
