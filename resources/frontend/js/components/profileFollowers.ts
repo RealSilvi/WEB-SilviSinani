@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
 import { Decimal } from '../utils';
-import { createPost, destroyPost } from '../api/posts';
 import { acceptFollowRequest, destroyFollowerOrFollowRequest } from '../api/profileFollowers';
 
 interface ProfileFollowers {
@@ -14,7 +13,6 @@ Alpine.data('profileFollowers', (props: ProfileFollowers) => {
     return {
         errors: {},
         saving: false,
-
         async acceptFollowRequest(onSuccessMessage?: string, onFailMessage?: string) {
             if (this.saving) {
                 return;

@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { Alpine } from '../livewire';
-import { Decimal, postsToPostPreviews } from '../utils';
-import { CommentPreview, PostPreview, Profile } from '../models';
-import { showPosts, ShowPostsIncludeKey } from '../api/posts';
-import { ROUTE_DASHBOARD, ROUTE_PROFILE_EDIT } from '../routes';
-import { indexComment, IndexCommentIncludeKey } from '../api/postComments';
+import { Alpine } from '../../livewire';
+import { Decimal, postsToPostPreviews } from '../../utils';
+import { CommentPreview, PostPreview, Profile } from '../../models';
+import { showPosts, ShowPostsIncludeKey } from '../../api/posts';
+import { ROUTE_DASHBOARD, ROUTE_PROFILE_EDIT } from '../../routes';
+import { indexComment, IndexCommentIncludeKey } from '../../api/postComments';
 
 interface postContextProps {
     userId: Decimal;

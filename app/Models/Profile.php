@@ -136,11 +136,8 @@ class Profile extends Model
     public function toSearchableArray(): array
     {
         return [
-            'id' => $this->id,
-            'nickname' => $this->nickname,
-            'bio' => $this->bio,
             'type' => $this->type,
-            'breed' => $this->breed,
+            'nickname' => $this->nickname,
         ];
     }
 

@@ -53,7 +53,6 @@
                 'authProfile' => $authProfile,
                 'profile' => $profile,
                 'ownership' => $ownership,
-                'friendshipRequestForm' => $friendshipRequestForm,
                 ])
         </section>
 

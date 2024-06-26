@@ -70,7 +70,7 @@ const API_USERS_PROFILES__FOLLOWING_STORE = (
     profileId: Decimal,
     input: sendFollowRequestInput,
 ): ApiAction => ({
-    url: `/api/users/${userId}/profiles/${profileId}//following`,
+    url: `/api/users/${userId}/profiles/${profileId}/following`,
     method: 'POST',
     data: input,
 });

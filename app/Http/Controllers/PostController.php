@@ -22,6 +22,8 @@ class PostController extends Controller
 
         $profile = $post->profile;
 
+        $authProfile->loadCount('news');
+
         return view('pages.posts._post', [
             'user' => $user,
             'profile' => $profile,

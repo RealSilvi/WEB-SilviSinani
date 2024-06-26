@@ -12,7 +12,7 @@
 
 @if($profile)
     <div>
-        <a href="#" class="flex flex-row gap-2 items-center lg:gap-5 lg:text-xl italic">
+        <a href="{{route('profile',['profile'=>$profile->nickname])}}" class="flex flex-row gap-2 items-center lg:gap-5 lg:text-xl italic w-fit">
             <img
                 alt="{{$profile->nickname.'-image'}}"
                 src="{{asset($profile->main_image)}}"

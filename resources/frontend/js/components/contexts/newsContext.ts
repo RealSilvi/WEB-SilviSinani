@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { Alpine } from '../livewire';
-import { Decimal, newsToNewsPreviews } from '../utils';
-import { News, NewsPreview, NewsType } from '../models';
-import { indexNews, IndexNewsFilterKey, IndexNewsIncludeKey, seeAllNews } from '../api/profileNews';
+import { Alpine } from '../../livewire';
+import { Decimal, newsToNewsPreviews } from '../../utils';
+import { News, NewsPreview, NewsType } from '../../models';
+import { indexNews, IndexNewsFilterKey, IndexNewsIncludeKey, seeAllNews } from '../../api/profileNews';
 
 interface newsContextProps {
     userId: Decimal;

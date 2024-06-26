@@ -27,7 +27,7 @@
         <div class="hidden lg:block w-full pt-2 h-22">
             <div class="bg-primary/90 rounded-2xl w-full h-full relative flex items-end justify-end py-1 px-2">
                 <div>
-                    {{$authProfile->news_count}}
+                    {{$authProfile->news_count != 0 ? $authProfile->news_count : ''}}
                 </div>
                 <a href="{{route('news',['profile'=>$authProfile->nickname])}}"
                    class=" absolute inset-0 w-full h-full flex items-center justify-center">

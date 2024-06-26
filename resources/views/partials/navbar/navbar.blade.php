@@ -51,7 +51,7 @@
             </div>
         </div>
     </div>
-    <div x-show="showMenu" class="lg:hidden fixed inset-0 w-full h-full bg-black/50 pb-17 pt-22 px-4 ">
+    <div x-show="showMenu" class="lg:hidden fixed inset-0 w-full h-full bg-black/50 pb-17 pt-22 px-4 z-50">
         <div
             class="w-full h-full flex justify-end overflow-hidden">
             <div
@@ -59,12 +59,16 @@
                 x-transition:enter-start="translate-x-full"
                 x-transition:leave-end="translate-x-full"
                 class="w-14 h-full flex flex-col items-center justify-around transition-all ease-in-out duration-300">
-                <div x-on:click.outside="showMenu=false" class="w-full aspect-[1/1] bg-primary/90 rounded-xl">
+                <div x-on:click.outside="showMenu=false" class="w-full aspect-[1/1] bg-primary/90 rounded-xl relative flex items-end justify-end py-1 px-2">
+                    <div class="text-sm">
+                        {{$authProfile->news_count != 0 ? $authProfile->news_count : ''}}
+                    </div>
                     <a href="{{route('news',['profile'=>$authProfile->nickname])}}"
-                       class="w-full h-full flex items-center justify-center">
+                       class="absolute inset-0 w-full h-full flex items-center justify-center">
                         {{svg('heart','h-6 w-6')}}
                     </a>
                 </div>
+
                 <div x-on:click.outside="showMenu=false" class="w-full aspect-[1/1] bg-primary/90 rounded-xl">
                     <a href="{{route('settings',['profile'=>$authProfile->nickname])}}"
                        class="w-full h-full flex items-center justify-center">
