@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Profile;
 
 use App\Actions\Data\CreateNewsInput;
-use App\Enum\NewsType;
 use App\Exceptions\ProfileNotFoundException;
-use App\Models\Comment;
 use App\Models\News;
 use App\Models\Profile;
 use App\Models\User;
@@ -41,8 +39,7 @@ class CreateNewsAction
             'from_id' => $input->fromId,
             'from_type' => $input->fromType,
             'profile_id' => $input->profileId,
-            'title' => $input->title,
-            'body' => $input->body,
+            'from_nickname' => $input->fromNickname,
             'type' => $input->type,
         ]);
 

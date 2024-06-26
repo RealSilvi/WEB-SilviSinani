@@ -65,11 +65,11 @@ class CommentLikeController
         $comment->load('likes');
 
         app(CreateNewsAction::class)->execute($user, $profile, new CreateNewsInput(
-            fromId: $comment->id,
-            fromType: Comment::class,
+            fromId: $post->id,
+            fromType: Post::class,
             profileId: $comment->profile_id,
             type: NewsType::COMMENT_LIKE,
-            title: $profile->nickname . ' likes your comment.',
+            fromNickname: $profile->nickname,
         ));
 
         return new CommentResource($comment);

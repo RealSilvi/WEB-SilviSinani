@@ -23,8 +23,7 @@ class NewsFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->title,
-            'body' => fake()->realText,
+            'from_nickname' => Profile::query()->inRandomOrder()->first()?->nickname ?? $this->faker->userName(),
             'seen' => false,
             'type' => Arr::random(NewsType::cases()),
         ];

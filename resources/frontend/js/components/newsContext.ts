@@ -1,13 +1,14 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
-import { Decimal } from '../utils';
-import { News, NewsType } from '../models';
+import { Decimal, newsToNewsPreviews } from '../utils';
+import { News, NewsPreview, NewsType } from '../models';
 import { indexNews, IndexNewsFilterKey, IndexNewsIncludeKey, seeAllNews } from '../api/profileNews';
 
 interface newsContextProps {
     userId: Decimal;
     profileId: Decimal;
     authProfileId: Decimal;
+    authProfileNickname: string;
     onSuccessMessage?: string;
     onFailMessage?: string;
 }
@@ -16,10 +17,10 @@ Alpine.data('newsContext', (props: newsContextProps) => {
     return {
         errors: {},
         saving: false,
-        followRequests: [] as News[],
+        followRequests: [] as NewsPreview[],
         followRequestsPage: 1,
         lastFollowRequestsPage: false,
-        generalNews: [] as News[],
+        generalNews: [] as NewsPreview[],
         generalNewsPage: 1,
         lastGeneralNewsPage: false,
 
@@ -48,7 +49,10 @@ Alpine.data('newsContext', (props: newsContextProps) => {
                     this.lastFollowRequestsPage = true;
                 }
 
-                this.followRequests = [...(this.followRequests ?? []), ...followRequests];
+                this.followRequests = [
+                    ...(this.followRequests ?? []),
+                    ...newsToNewsPreviews(followRequests, props.authProfileNickname),
+                ];
 
                 this.$dispatch('fetch-follow-request-news', {
                     profileId: props.profileId,
@@ -74,6 +78,7 @@ Alpine.data('newsContext', (props: newsContextProps) => {
             this.followRequestsPage += 1;
 
             await this.fetchFollowRequests();
+            await this.loadMoreFollowRequests();
         },
 
         async fetchGeneralNews() {
@@ -94,9 +99,12 @@ Alpine.data('newsContext', (props: newsContextProps) => {
                     this.lastGeneralNewsPage = true;
                 }
 
-                console.log(generalNews);
+                this.generalNews = [
+                    ...(this.generalNews ?? []),
+                    ...newsToNewsPreviews(generalNews, props.authProfileNickname),
+                ];
 
-                this.generalNews = [...(this.generalNews ?? []), ...generalNews];
+                console.log(this.generalNews);
 
                 this.$dispatch('fetch-general-news', {
                     profileId: props.profileId,
@@ -122,6 +130,7 @@ Alpine.data('newsContext', (props: newsContextProps) => {
             this.generalNewsPage += 1;
 
             await this.fetchGeneralNews();
+            await this.loadMoreGeneralNews();
         },
 
         async seeAll() {

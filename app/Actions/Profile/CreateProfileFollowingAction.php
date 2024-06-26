@@ -50,7 +50,7 @@ class CreateProfileFollowingAction
             fromType: Profile::class,
             profileId: $input->followerId,
             type: NewsType::FOLLOW_REQUEST,
-            title: $profile->nickname . ' wants to follow you.',
+            fromNickname: $profile->nickname,
         ));
     }
 

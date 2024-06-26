@@ -35,8 +35,7 @@ it('can fetch news', function () {
     $response->assertJson(fn(AssertableJson $json) => $json
         ->has('data', 3, fn(AssertableJson $json) => $json
             ->where('id', $news->id)
-            ->where('title', $news->title)
-            ->where('body', $news->body)
+            ->where('fromNickname', $news->from_nickname)
             ->where('profileId', $profile->id)
             ->etc()
         )
@@ -68,7 +67,6 @@ it('can fetch news full', function () {
             'from',
         ]
     ]));
-
     $response->assertOk();
 
     $response->assertJson(fn(AssertableJson $json) => $json
@@ -106,8 +104,8 @@ it('can store a follow request news ', function () {
         'fromType' => Profile::class,
         'type' => NewsType::FOLLOW_REQUEST,
         'profileId' => $profile->id,
+        'fromNickname' => $profileB->nickname,
     ]);
-
     $response->assertCreated();
 
     $response->assertJson(fn(AssertableJson $json) => $json
@@ -144,6 +142,7 @@ it('can store a post like news ', function () {
     $response = postJson(action([NewsController::class, 'store'], ['user' => $userB->id, 'profile' => $profileB->id,]), [
         'fromId' => $post->id,
         'fromType' => Post::class,
+        'fromNickname' => $profileB->nickname,
         'type' => NewsType::POST_LIKE,
         'profileId' => $profile->id,
     ]);
@@ -183,8 +182,9 @@ it('can store a comment like news ', function () {
     $post = Post::factory()->for($profile)->create();
     $comment = Comment::factory()->for($profileB)->for($post)->create();
     $response = postJson(action([NewsController::class, 'store'], ['user' => $userB->id, 'profile' => $profileB->id,]), [
-        'fromId' => $comment->id,
-        'fromType' => Comment::class,
+        'fromId' => $post->id,
+        'fromType' => Post::class,
+        'fromNickname' => $profileB->nickname,
         'type' => NewsType::COMMENT_LIKE,
         'profileId' => $profile->id,
     ]);
@@ -195,8 +195,9 @@ it('can store a comment like news ', function () {
         ->has('data', fn(AssertableJson $json) => $json
             ->where('profileId', $profile->id)
             ->where('type', NewsType::COMMENT_LIKE->value)
-            ->where('fromType', Comment::class)
-            ->where('fromId', $comment->id)
+            ->where('fromType', Post::class)
+            ->where('fromId', $post->id)
+            ->where('fromNickname', $profileB->nickname)
             ->etc()
         )
     );
@@ -205,8 +206,8 @@ it('can store a comment like news ', function () {
     expect($profile)->news->not()->toBeNull();
     $news = $profile->news->first();
     expect($news)->type->toBe(NewsType::COMMENT_LIKE->value);
-    expect($news)->from_id->toBe($comment->id);
-    expect($news)->from_type->toBe(Comment::class);
+    expect($news)->from_id->toBe($post->id);
+    expect($news)->from_type->toBe(Post::class);
 
 });
 
@@ -224,8 +225,9 @@ it('can store a comment news ', function () {
     $post = Post::factory()->for($profile)->create();
     $comment = Comment::factory()->for($profileB)->for($post)->create();
     $response = postJson(action([NewsController::class, 'store'], ['user' => $userB->id, 'profile' => $profileB->id,]), [
-        'fromId' => $comment->id,
-        'fromType' => Comment::class,
+        'fromId' => $post->id,
+        'fromType' => Post::class,
+        'fromNickname' => $profileB->nickname,
         'type' => NewsType::COMMENT,
         'profileId' => $profile->id,
     ]);
@@ -236,8 +238,9 @@ it('can store a comment news ', function () {
         ->has('data', fn(AssertableJson $json) => $json
             ->where('profileId', $profile->id)
             ->where('type', NewsType::COMMENT->value)
-            ->where('fromType', Comment::class)
-            ->where('fromId', $comment->id)
+            ->where('fromType', Post::class)
+            ->where('fromId', $post->id)
+            ->where('fromNickname', $profileB->nickname)
             ->etc()
         )
     );
@@ -246,8 +249,9 @@ it('can store a comment news ', function () {
     expect($profile)->news->not()->toBeNull();
     $news = $profile->news->first();
     expect($news)->type->toBe(NewsType::COMMENT->value);
-    expect($news)->from_id->toBe($comment->id);
-    expect($news)->from_type->toBe(Comment::class);
+    expect($news)->from_id->toBe($post->id);
+    expect($news)->from_type->toBe(Post::class);
+    expect($news)->from_nickname->toBe($profileB->nickname);
 
 });
 

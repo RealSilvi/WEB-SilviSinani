@@ -44,7 +44,6 @@ class FollowingController
                 'sentRequests',
                 'followers',
                 'following',
-                'pendingFollowers',
                 'comments',
                 'postLikes',
                 'commentLikes',
@@ -62,8 +61,6 @@ class FollowingController
     public function store(User $user, Profile $profile, ProfileFollowInput $input, CreateProfileFollowingAction $action): ProfileResource
     {
         $profile = $action->execute($user,$profile, $input);
-
-
 
         return new ProfileResource($profile);
     }

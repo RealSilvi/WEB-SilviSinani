@@ -69,7 +69,7 @@ class PostLikeController
             fromType: Post::class,
             profileId: $post->profile_id,
             type: NewsType::POST_LIKE,
-            title: $profile->nickname . ' likes your post.',
+            fromNickname: $profile->nickname,
         ));
 
         return new PostResource($post);

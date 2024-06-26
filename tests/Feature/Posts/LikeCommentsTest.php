@@ -153,8 +153,8 @@ it('a comment like can generate a news', function () {
 
     expect($new->seen)->toBeFalse()
         ->and($new->profile_id)->toBe($profileB->id)
-        ->and($new->from_id)->toBe($comment->id)
-        ->and($new->from_type)->toBe(Comment::class)
+        ->and($new->from_id)->toBe($post->id)
+        ->and($new->from_type)->toBe(Post::class)
         ->and($new->type)->toBe(NewsType::COMMENT_LIKE->value);
 
 });

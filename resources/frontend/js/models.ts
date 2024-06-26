@@ -28,8 +28,7 @@ export interface Profile {
 
 export interface News {
     id: number;
-    title?: string;
-    body?: string;
+    fromNickname: string;
     fromId: string;
     fromType: string;
     type: NewsType;
@@ -38,10 +37,14 @@ export interface News {
     createdAt: string;
     updatedAt: string;
     profileId: number;
-    from: Profile | Comment | Post;
+    from?: Profile | Comment | Post;
     profile?: Profile;
 }
-
+export interface NewsPreview extends News {
+    profileLink: string;
+    postLink?: string;
+    message?: string;
+}
 export enum NewsType {
     FollowRequest = 'Follow request',
     PostLike = 'Post like',

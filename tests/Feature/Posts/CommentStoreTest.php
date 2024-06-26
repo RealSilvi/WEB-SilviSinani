@@ -73,7 +73,7 @@ it('a comment can generate a news', function () {
     expect($new->seen)->toBeFalse()
         ->and($new->profile_id)->toBe($profile->id)
         ->and($new->from_id)->toBe($response->json('data.id'))
-        ->and($new->from_type)->toBe(Comment::class)
+        ->and($new->from_type)->toBe(Post::class)
         ->and($new->type)->toBe(NewsType::COMMENT->value);
 
 });

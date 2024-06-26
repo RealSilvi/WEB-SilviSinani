@@ -19,8 +19,7 @@ class NewsResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
-            'title' => $this->resource->title,
-            'body' => $this->resource->body,
+            'fromNickname' => $this->resource->from_nickname,
             'type' => $this->resource->type,
             'seen' => $this->resource->seen,
             'seenAt' => $this->resource->seen_at,
@@ -29,11 +28,9 @@ class NewsResource extends JsonResource
             'profileId' => $this->resource->profile_id,
             'fromId' => $this->resource->from_id,
             'fromType' => $this->resource->from_type,
-            'from' => match ($this->resource->from_type) {
-                Profile::class => new ProfileResource($this->whenLoaded('from')),
-                Comment::class => new CommentResource($this->whenLoaded('from')),
-                Post::class => new PostResource($this->whenLoaded('from')),
-            },
+            'from' => ($this->resource->from_type === Profile::class) ?
+                new ProfileResource($this->whenLoaded('from')) :
+                new PostResource($this->whenLoaded('from')),
             'profile' => new ProfileResource($this->whenLoaded('profile')),
         ];
     }

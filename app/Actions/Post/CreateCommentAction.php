@@ -55,11 +55,11 @@ class CreateCommentAction
         $comment->save();
 
         app(CreateNewsAction::class)->execute($user, $profile, new CreateNewsInput(
-            fromId: $comment->id,
-            fromType: Comment::class,
+            fromId: $post->id,
+            fromType: Post::class,
             profileId: $post->profile_id,
             type: NewsType::COMMENT,
-            title: $profile->nickname . ' commented your post.',
+            fromNickname: $profile->nickname,
         ));
 
         return $comment;

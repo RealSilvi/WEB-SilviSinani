@@ -1,5 +1,15 @@
 import { AxiosRequestConfig } from 'axios';
-import { Comment, CommentPreview, LikePreview, Post, PostPreview, Profile } from './models';
+import {
+    Comment,
+    CommentPreview,
+    LikePreview,
+    News,
+    NewsPreview,
+    NewsType,
+    Post,
+    PostPreview,
+    Profile,
+} from './models';
 import { ROUTE_POST_SHOW, ROUTE_PROFILE_EDIT } from './routes';
 
 export type ApiAction = Pick<AxiosRequestConfig, 'url' | 'method' | 'params' | 'data' | 'headers'>;
@@ -67,6 +77,40 @@ export function postsToPostPreviews(posts: Post[], authProfileId: Decimal, authP
             profileLink: profileLink,
             postLink: postLink,
         } as PostPreview;
+    });
+}
+
+export function newsToNewsPreviews(news: News[], authProfileNickname: string): NewsPreview[] {
+    const location = getCurrentLocale();
+    return news.map((n: News) => {
+        const profileLink = location + ROUTE_PROFILE_EDIT(n.fromNickname, authProfileNickname);
+        const postLink =
+            n.type != NewsType.FollowRequest && n.from
+                ? location + ROUTE_POST_SHOW(n.from.id, authProfileNickname)
+                : '#';
+
+        let message: null | string;
+
+        switch (n.type) {
+            case NewsType.Comment:
+                message = `commented your post`;
+                break;
+            case NewsType.CommentLike:
+                message = `liked your comment`;
+                break;
+            case NewsType.PostLike:
+                message = `liked your post`;
+                break;
+            default:
+                message = null;
+        }
+
+        return {
+            ...n,
+            profileLink: profileLink,
+            postLink: postLink,
+            message: message,
+        } as NewsPreview;
     });
 }
 

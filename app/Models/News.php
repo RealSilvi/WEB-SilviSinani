@@ -13,8 +13,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  *
  * @property int $id
  * @property NewsType $type
- * @property string|null $title
- * @property string|null $body
+ * @property string $from_nickname
  * @property bool $seen
  * @property \Illuminate\Support\Carbon|null $seen_at
  * @property int $profile_id

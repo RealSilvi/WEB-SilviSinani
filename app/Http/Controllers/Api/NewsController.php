@@ -13,6 +13,7 @@ use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\QueryBuilder;
 use Throwable;
 use Illuminate\Http\Request;
@@ -33,7 +34,7 @@ class NewsController
             ])
             ->defaultSort('-created_at')
             ->where('profile_id', $profile->id)
-            ->simplePaginate($request->query('perPage')??10);
+            ->simplePaginate($request->query('perPage') ?? 10);
 
         return NewsResource::collection($news);
     }

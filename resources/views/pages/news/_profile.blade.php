@@ -35,6 +35,7 @@
                  userId: {{$user->id}},
                  profileId: {{$profile->id}},
                  authProfileId: {{$authProfile->id}},
+                 authProfileNickname: '{{$authProfile->nickname}}',
                  onSuccessMessage:'{{__('messages.load_news.on_success')}}',
                  onFailMessage:'{{__('messages.load_news.on_fail')}}'
              })"
@@ -58,7 +59,7 @@
                 </span>
             </div>
 
-            <div class="flex flex-col lg:flex-row w-full justify-center lg:flex-wrap">
+            <div class="flex flex-col lg:flex-row w-full justify-center lg:flex-wrap lg:mt-10">
                 <template x-for="followRequest in followRequests">
                     <div class="lg:w-1/3 lg:p-5">
                         @include('partials.news.follow-request', [
@@ -70,7 +71,8 @@
                 </template>
             </div>
 
-            <div x-show="showAllFollowRequests && !lastFollowRequestsPage" x-intersect="loadMoreFollowRequests()"
+            <div x-show="showAllFollowRequests && !lastFollowRequestsPage"
+                 x-intersect="loadMoreFollowRequests()"
                  class="w-full text-center italic">
                 {{__('pages.profile.loading')}}
             </div>
@@ -93,10 +95,12 @@
                 </span>
             </div>
 
-            <div class="mt-5 flex flex-col gap-5 lg:flex-row w-full justify-center lg:flex-wrap">
+            <div class="mt-8 flex flex-col gap-5 lg:items-center w-full lg:justify-center">
                 <template x-for="news in generalNews">
-                    <div class="w-full cursor-pointer hover:bg-primary/50 p-2 rounded-full">
-                        <span x-text="news.title"></span>
+                    <div class="w-full lg:w-1/2 lg:justify-between lg:border-2  hover:bg-primary/50 p-2 rounded-full flex flex-row gap-1 items-center">
+                        <a class="font-medium" :href="news.profileLink" x-text="`@${news.fromNickname}`"></a>
+                        <span x-text="news.message"></span>
+                        <a :href="news.postLink">{{svg('post','h-6 w-6')}}</a>
                     </div>
                 </template>
             </div>
@@ -117,7 +121,6 @@
                 </div>
             </div>
         </section>
-
     </main>
 
 @endsection

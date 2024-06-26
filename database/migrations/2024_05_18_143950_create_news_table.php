@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
-            $table->string('body')->nullable();
+            $table->string('from_nickname');
             $table->boolean('seen')->default(false);
             $table->string('seen_at')->nullable();
             $table->unsignedBigInteger('profile_id');

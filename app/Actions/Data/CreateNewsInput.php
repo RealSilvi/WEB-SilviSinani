@@ -18,8 +18,7 @@ class CreateNewsInput extends Data
         public string   $fromType,
         public int      $profileId,
         public NewsType $type,
-        public ?string  $title = null,
-        public ?string  $body = null,
+        public string   $fromNickname,
     )
     {
     }
@@ -27,8 +26,7 @@ class CreateNewsInput extends Data
     public static function rules(ValidationContext $context): array
     {
         return [
-            'title' => ['string'],
-            'body' => ['string'],
+            'fromNickname' => ['string'],
             'profileId' => ['required', 'int'],
             'type' => ['required', new Enum(NewsType::class)],
         ];
