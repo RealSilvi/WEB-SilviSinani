@@ -1,19 +1,19 @@
 import axios from 'axios';
-import { Alpine } from '../livewire';
-import { Decimal } from '../utils';
-import { createPostLike, destroyPostLike } from '../api/postLikes';
+import { Alpine } from '../../livewire';
+import { Decimal } from '../../utils';
+import { createCommentLike, destroyCommentLike } from '../../api/postCommentLikes';
 
-interface PostLikeProps {
+interface CommentLikeProps {
     userId: Decimal;
     profileId: Decimal;
 }
 
-Alpine.data('postLike', (props: PostLikeProps) => {
+Alpine.data('commentLike', (props: CommentLikeProps) => {
     return {
         errors: {},
         saving: false,
 
-        async likePost(postId: Decimal, onSuccessMessage?: string, onFailMessage?: string) {
+        async likeComment(postId: Decimal, commentId: Decimal, onSuccessMessage?: string, onFailMessage?: string) {
             if (this.saving) {
                 return;
             }
@@ -21,15 +21,16 @@ Alpine.data('postLike', (props: PostLikeProps) => {
             this.errors = {};
 
             try {
-                const post = await createPostLike(props.userId, props.profileId, postId);
+                const comment = await createCommentLike(props.userId, props.profileId, postId, commentId);
 
                 this.$dispatch('toast', {
                     type: 'success',
                     message: onSuccessMessage ?? 'Success',
                 });
 
-                this.$dispatch('post-liked', {
-                    post: post,
+                this.$dispatch('comment-liked', {
+                    comment: comment,
+                    postId: postId,
                     profileId: props.profileId,
                     userId: props.userId,
                 });
@@ -45,7 +46,7 @@ Alpine.data('postLike', (props: PostLikeProps) => {
             }
         },
 
-        async unlikePost(postId: Decimal, onSuccessMessage?: string, onFailMessage?: string) {
+        async unlikeComment(postId: Decimal, commentId: Decimal, onSuccessMessage?: string, onFailMessage?: string) {
             if (this.saving) {
                 return;
             }
@@ -53,15 +54,16 @@ Alpine.data('postLike', (props: PostLikeProps) => {
             this.errors = {};
 
             try {
-                const post = await destroyPostLike(props.userId, props.profileId, postId);
+                const comment = await destroyCommentLike(props.userId, props.profileId, postId, commentId);
 
                 this.$dispatch('toast', {
                     type: 'success',
                     message: onSuccessMessage ?? 'Success',
                 });
 
-                this.$dispatch('post-liked-removed', {
-                    post: post,
+                this.$dispatch('comment-liked-removed', {
+                    comment: comment,
+                    postId: postId,
                     profileId: props.profileId,
                     userId: props.userId,
                 });

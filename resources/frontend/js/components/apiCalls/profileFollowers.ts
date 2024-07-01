@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { Alpine } from '../livewire';
-import { Decimal } from '../utils';
-import { acceptFollowRequest, destroyFollowerOrFollowRequest } from '../api/profileFollowers';
+import { Alpine } from '../../livewire';
+import { Decimal } from '../../utils';
+import { acceptFollowRequest, destroyFollowerOrFollowRequest } from '../../api/profileFollowers';
 
 interface ProfileFollowers {
     userId: Decimal;

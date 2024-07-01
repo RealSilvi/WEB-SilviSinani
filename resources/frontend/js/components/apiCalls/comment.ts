@@ -1,19 +1,19 @@
 import axios from 'axios';
-import { Alpine } from '../livewire';
-import { Decimal } from '../utils';
-import { createPost, destroyPost } from '../api/posts';
+import { Alpine } from '../../livewire';
+import { Decimal } from '../../utils';
+import { createComment, destroyComment } from '../../api/postComments';
 
-interface PostProps {
+interface CommentProps {
     userId: Decimal;
     profileId: Decimal;
 }
 
-Alpine.data('post', (props: PostProps) => {
+Alpine.data('comment', (props: CommentProps) => {
     return {
         errors: {},
         saving: false,
 
-        async createPost(event: SubmitEvent, onSuccessMessage?: string, onFailMessage?: string) {
+        async createComment(event: SubmitEvent, postId: Decimal, onSuccessMessage?: string, onFailMessage?: string) {
             if (!(event.target instanceof HTMLFormElement)) {
                 return;
             }
@@ -28,27 +28,22 @@ Alpine.data('post', (props: PostProps) => {
             try {
                 const data = new FormData(event.target);
 
-                if (!data.has('description') || !data.has('image')) {
-                    console.error('[createPost] description and image input are required');
+                if (!data.has('body')) {
+                    console.error('[createComment] body is required');
                     return;
                 }
 
-                let description = data.get('description') ?? undefined;
-                let image = data.get('image') ?? undefined;
+                let body = data.get('body') ?? undefined;
 
-                if (!(image instanceof File) || image.name == '') {
-                    image = undefined;
+                if (typeof body != 'string') {
+                    body = undefined;
                 }
-                if (typeof description != 'string' || description == '') {
-                    description = undefined;
-                }
-                if (description == null && image == null) {
+                if (body == null) {
                     return;
                 }
 
-                const post = await createPost(props.userId, props.profileId, {
-                    description: description,
-                    image: image,
+                const comment = await createComment(props.userId, props.profileId, postId, {
+                    body: body,
                 });
 
                 event.target.reset();
@@ -58,8 +53,9 @@ Alpine.data('post', (props: PostProps) => {
                     message: onSuccessMessage ?? 'Success',
                 });
 
-                this.$dispatch('create-post', {
-                    post: post,
+                this.$dispatch('create-comment', {
+                    comment: comment,
+                    postId: postId,
                     profileId: props.profileId,
                     userId: props.userId,
                 });
@@ -75,22 +71,24 @@ Alpine.data('post', (props: PostProps) => {
             }
         },
 
-        async deletePost(postId: Decimal, onSuccessMessage?: string, onFailMessage?: string) {
+        async deleteComment(postId: Decimal, commentId: Decimal, onSuccessMessage?: string, onFailMessage?: string) {
             if (this.saving) {
                 return;
             }
+
             this.saving = true;
             this.errors = {};
 
             try {
-                await destroyPost(props.userId, props.profileId, postId);
+                await destroyComment(props.userId, props.profileId, postId, commentId);
 
                 this.$dispatch('toast', {
                     type: 'success',
                     message: onSuccessMessage ?? 'Success',
                 });
 
-                this.$dispatch('destroy-post', {
+                this.$dispatch('destroy-comment', {
+                    commentId: commentId,
                     postId: postId,
                     profileId: props.profileId,
                     userId: props.userId,

@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { Alpine } from '../livewire';
-import { Decimal, getCurrentLocale } from '../utils';
-import { createProfile, CreateProfileInput, destroyProfile, updateProfile, UpdateProfileInput } from '../api/profiles';
-import { ROUTE_DASHBOARD } from '../routes';
+import { Alpine } from '../../livewire';
+import { Decimal, getCurrentLocale } from '../../utils';
+import { createProfile, CreateProfileInput, destroyProfile, updateProfile, UpdateProfileInput } from '../../api/profiles';
+import { ROUTE_DASHBOARD } from '../../routes';
 
 interface ProfileProps {
     userId: Decimal;

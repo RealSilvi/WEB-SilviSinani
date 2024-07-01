@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { Alpine } from '../livewire';
-import { Decimal } from '../utils';
-import { acceptFollowRequest, destroyFollowerOrFollowRequest } from '../api/profileFollowers';
-import { showProfile, ShowProfileIncludeKey } from '../api/profiles';
-import { destroyFollowingOrFollowingRequest, sendFollowRequest } from '../api/profileFollowing';
+import { Alpine } from '../../livewire';
+import { Decimal } from '../../utils';
+import { acceptFollowRequest, destroyFollowerOrFollowRequest } from '../../api/profileFollowers';
+import { showProfile, ShowProfileIncludeKey } from '../../api/profiles';
+import { destroyFollowingOrFollowingRequest, sendFollowRequest } from '../../api/profileFollowing';
 
 interface ProfileFollowing {
     userId: Decimal;
