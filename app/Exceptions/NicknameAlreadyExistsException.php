@@ -9,6 +9,6 @@ class NicknameAlreadyExistsException extends Exception
 {
     public function render($request): JsonResponse
     {
-        return response()->json(["error" => true, "message" => $this->getMessage()],406);
+        return response()->json(['error' => true, 'message' => $this->getMessage()], 406);
     }
 }

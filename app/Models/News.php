@@ -8,9 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-
 /**
- *
  * @property int $id
  * @property NewsType $type
  * @property string $from_nickname
@@ -21,6 +19,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Profile $profile
+ * @property int $from_id
+ * @property string $from_type
  */
 class News extends Model
 {

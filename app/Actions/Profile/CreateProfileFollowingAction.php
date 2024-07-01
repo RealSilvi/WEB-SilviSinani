@@ -6,18 +6,11 @@ namespace App\Actions\Profile;
 
 use App\Actions\Data\CreateNewsInput;
 use App\Actions\Data\ProfileFollowInput;
-use App\Actions\Data\CreateProfileInput;
-use App\Actions\Data\UpdateProfileInput;
 use App\Enum\NewsType;
 use App\Exceptions\CannotFollowYourselfException;
-use App\Exceptions\FollowRequestNotFoundException;
-use App\Exceptions\NicknameAlreadyExistsException;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use League\Flysystem\FilesystemException;
 use Throwable;
 
 class CreateProfileFollowingAction
@@ -30,6 +23,7 @@ class CreateProfileFollowingAction
         $this->validateInput($profile, $input);
         $profile = $this->sendRequest($profile, $input);
         $this->sendNews($user, $profile, $input);
+
         return $profile;
     }
 
@@ -59,15 +53,14 @@ class CreateProfileFollowingAction
     /**
      * @throws CannotFollowYourselfException
      */
-    protected
-    function validateInput(Profile $profile, ProfileFollowInput $input): void
+    protected function validateInput(Profile $profile, ProfileFollowInput $input): void
     {
         if ($profile->id == $input->followerId) {
             throw new CannotFollowYourselfException('You cannot follow yourself');
         }
 
-        if (!Profile::query()->find($input->followerId)->exists()) {
-            throw new ModelNotFoundException('Profile with id:' . $input->followerId . ' does not exist');
+        if (! Profile::query()->find($input->followerId)->exists()) {
+            throw new ModelNotFoundException('Profile with id:'.$input->followerId.' does not exist');
         }
 
     }

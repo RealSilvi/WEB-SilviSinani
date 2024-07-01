@@ -37,8 +37,8 @@ class ProfileFactory extends Factory
     public function configure(): static
     {
         return $this->afterMaking(function (Profile $profile) {
-            if($profile->user_id == null){
-                $profile->user_id=User::factory()->create()->id;
+            if ($profile->user_id == null) {
+                $profile->user_id = User::factory()->create()->id;
             }
         });
     }
@@ -47,13 +47,13 @@ class ProfileFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             $type = $attributes['type'];
-            $mainImageEndLocation = '/profiles' . '/' . $attributes['nickname'];
-            $secondaryImageEndLocation = '/profiles' . '/' . $attributes['nickname'];
+            $mainImageEndLocation = '/profiles'.'/'.$attributes['nickname'];
+            $secondaryImageEndLocation = '/profiles'.'/'.$attributes['nickname'];
+
             return [
-                'main_image' =>app(ImageGenerator::class)->generate($mainImageEndLocation, 'profile.jpg', [$type->value, 'green']),
+                'main_image' => app(ImageGenerator::class)->generate($mainImageEndLocation, 'profile.jpg', [$type->value, 'green']),
                 'secondary_image' => app(ImageGenerator::class)->generate($secondaryImageEndLocation, 'background.jpg', ['background', 'green']),
             ];
         });
     }
-
 }

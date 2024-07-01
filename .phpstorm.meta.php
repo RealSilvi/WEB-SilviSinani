@@ -110,9 +110,9 @@ namespace PHPSTORM_META {
             'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
             'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' => \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' => \NunoMaduro\Collision\Provider::class,
+            'Spatie\ErrorSolutions\Contracts\SolutionProviderRepository' => \Spatie\ErrorSolutions\SolutionProviderRepository::class,
             'Spatie\Ignition\Config\IgnitionConfig' => \Spatie\Ignition\Config\IgnitionConfig::class,
             'Spatie\Ignition\Contracts\ConfigManager' => \Spatie\Ignition\Config\FileConfigManager::class,
-            'Spatie\Ignition\Contracts\SolutionProviderRepository' => \Spatie\LaravelIgnition\Solutions\SolutionProviders\SolutionProviderRepository::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler::class,
             'Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder' => \Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder::class,
@@ -131,7 +131,6 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
-            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\Illuminate\Container\Container::makeWith(0), map([
@@ -233,9 +232,9 @@ namespace PHPSTORM_META {
             'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
             'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' => \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' => \NunoMaduro\Collision\Provider::class,
+            'Spatie\ErrorSolutions\Contracts\SolutionProviderRepository' => \Spatie\ErrorSolutions\SolutionProviderRepository::class,
             'Spatie\Ignition\Config\IgnitionConfig' => \Spatie\Ignition\Config\IgnitionConfig::class,
             'Spatie\Ignition\Contracts\ConfigManager' => \Spatie\Ignition\Config\FileConfigManager::class,
-            'Spatie\Ignition\Contracts\SolutionProviderRepository' => \Spatie\LaravelIgnition\Solutions\SolutionProviders\SolutionProviderRepository::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler::class,
             'Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder' => \Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder::class,
@@ -254,7 +253,6 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
-            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\Illuminate\Contracts\Container\Container::get(0), map([
@@ -356,9 +354,9 @@ namespace PHPSTORM_META {
             'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
             'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' => \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' => \NunoMaduro\Collision\Provider::class,
+            'Spatie\ErrorSolutions\Contracts\SolutionProviderRepository' => \Spatie\ErrorSolutions\SolutionProviderRepository::class,
             'Spatie\Ignition\Config\IgnitionConfig' => \Spatie\Ignition\Config\IgnitionConfig::class,
             'Spatie\Ignition\Contracts\ConfigManager' => \Spatie\Ignition\Config\FileConfigManager::class,
-            'Spatie\Ignition\Contracts\SolutionProviderRepository' => \Spatie\LaravelIgnition\Solutions\SolutionProviders\SolutionProviderRepository::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler::class,
             'Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder' => \Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder::class,
@@ -377,7 +375,6 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
-            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\Illuminate\Contracts\Container\Container::make(0), map([
@@ -479,9 +476,9 @@ namespace PHPSTORM_META {
             'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
             'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' => \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' => \NunoMaduro\Collision\Provider::class,
+            'Spatie\ErrorSolutions\Contracts\SolutionProviderRepository' => \Spatie\ErrorSolutions\SolutionProviderRepository::class,
             'Spatie\Ignition\Config\IgnitionConfig' => \Spatie\Ignition\Config\IgnitionConfig::class,
             'Spatie\Ignition\Contracts\ConfigManager' => \Spatie\Ignition\Config\FileConfigManager::class,
-            'Spatie\Ignition\Contracts\SolutionProviderRepository' => \Spatie\LaravelIgnition\Solutions\SolutionProviders\SolutionProviderRepository::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler::class,
             'Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder' => \Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder::class,
@@ -500,7 +497,6 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
-            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
@@ -602,9 +598,9 @@ namespace PHPSTORM_META {
             'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
             'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' => \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' => \NunoMaduro\Collision\Provider::class,
+            'Spatie\ErrorSolutions\Contracts\SolutionProviderRepository' => \Spatie\ErrorSolutions\SolutionProviderRepository::class,
             'Spatie\Ignition\Config\IgnitionConfig' => \Spatie\Ignition\Config\IgnitionConfig::class,
             'Spatie\Ignition\Contracts\ConfigManager' => \Spatie\Ignition\Config\FileConfigManager::class,
-            'Spatie\Ignition\Contracts\SolutionProviderRepository' => \Spatie\LaravelIgnition\Solutions\SolutionProviders\SolutionProviderRepository::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler::class,
             'Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder' => \Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder::class,
@@ -623,7 +619,6 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
-            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\App::get(0), map([
@@ -725,9 +720,9 @@ namespace PHPSTORM_META {
             'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
             'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' => \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' => \NunoMaduro\Collision\Provider::class,
+            'Spatie\ErrorSolutions\Contracts\SolutionProviderRepository' => \Spatie\ErrorSolutions\SolutionProviderRepository::class,
             'Spatie\Ignition\Config\IgnitionConfig' => \Spatie\Ignition\Config\IgnitionConfig::class,
             'Spatie\Ignition\Contracts\ConfigManager' => \Spatie\Ignition\Config\FileConfigManager::class,
-            'Spatie\Ignition\Contracts\SolutionProviderRepository' => \Spatie\LaravelIgnition\Solutions\SolutionProviders\SolutionProviderRepository::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler::class,
             'Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder' => \Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder::class,
@@ -746,7 +741,6 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
-            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\App::make(0), map([
@@ -848,9 +842,9 @@ namespace PHPSTORM_META {
             'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
             'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' => \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' => \NunoMaduro\Collision\Provider::class,
+            'Spatie\ErrorSolutions\Contracts\SolutionProviderRepository' => \Spatie\ErrorSolutions\SolutionProviderRepository::class,
             'Spatie\Ignition\Config\IgnitionConfig' => \Spatie\Ignition\Config\IgnitionConfig::class,
             'Spatie\Ignition\Contracts\ConfigManager' => \Spatie\Ignition\Config\FileConfigManager::class,
-            'Spatie\Ignition\Contracts\SolutionProviderRepository' => \Spatie\LaravelIgnition\Solutions\SolutionProviders\SolutionProviderRepository::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler::class,
             'Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder' => \Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder::class,
@@ -869,7 +863,6 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
-            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\App::makeWith(0), map([
@@ -971,9 +964,9 @@ namespace PHPSTORM_META {
             'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
             'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' => \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' => \NunoMaduro\Collision\Provider::class,
+            'Spatie\ErrorSolutions\Contracts\SolutionProviderRepository' => \Spatie\ErrorSolutions\SolutionProviderRepository::class,
             'Spatie\Ignition\Config\IgnitionConfig' => \Spatie\Ignition\Config\IgnitionConfig::class,
             'Spatie\Ignition\Contracts\ConfigManager' => \Spatie\Ignition\Config\FileConfigManager::class,
-            'Spatie\Ignition\Contracts\SolutionProviderRepository' => \Spatie\LaravelIgnition\Solutions\SolutionProviders\SolutionProviderRepository::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler::class,
             'Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder' => \Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder::class,
@@ -992,7 +985,6 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
-            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\app(0), map([
@@ -1094,9 +1086,9 @@ namespace PHPSTORM_META {
             'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
             'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' => \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' => \NunoMaduro\Collision\Provider::class,
+            'Spatie\ErrorSolutions\Contracts\SolutionProviderRepository' => \Spatie\ErrorSolutions\SolutionProviderRepository::class,
             'Spatie\Ignition\Config\IgnitionConfig' => \Spatie\Ignition\Config\IgnitionConfig::class,
             'Spatie\Ignition\Contracts\ConfigManager' => \Spatie\Ignition\Config\FileConfigManager::class,
-            'Spatie\Ignition\Contracts\SolutionProviderRepository' => \Spatie\LaravelIgnition\Solutions\SolutionProviders\SolutionProviderRepository::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler::class,
             'Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder' => \Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder::class,
@@ -1115,7 +1107,6 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
-            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\resolve(0), map([
@@ -1217,9 +1208,9 @@ namespace PHPSTORM_META {
             'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
             'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' => \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' => \NunoMaduro\Collision\Provider::class,
+            'Spatie\ErrorSolutions\Contracts\SolutionProviderRepository' => \Spatie\ErrorSolutions\SolutionProviderRepository::class,
             'Spatie\Ignition\Config\IgnitionConfig' => \Spatie\Ignition\Config\IgnitionConfig::class,
             'Spatie\Ignition\Contracts\ConfigManager' => \Spatie\Ignition\Config\FileConfigManager::class,
-            'Spatie\Ignition\Contracts\SolutionProviderRepository' => \Spatie\LaravelIgnition\Solutions\SolutionProviders\SolutionProviderRepository::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler::class,
             'Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder' => \Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder::class,
@@ -1238,7 +1229,6 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
-            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
     override(\Psr\Container\ContainerInterface::get(0), map([
@@ -1340,9 +1330,9 @@ namespace PHPSTORM_META {
             'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
             'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' => \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' => \NunoMaduro\Collision\Provider::class,
+            'Spatie\ErrorSolutions\Contracts\SolutionProviderRepository' => \Spatie\ErrorSolutions\SolutionProviderRepository::class,
             'Spatie\Ignition\Config\IgnitionConfig' => \Spatie\Ignition\Config\IgnitionConfig::class,
             'Spatie\Ignition\Contracts\ConfigManager' => \Spatie\Ignition\Config\FileConfigManager::class,
-            'Spatie\Ignition\Contracts\SolutionProviderRepository' => \Spatie\LaravelIgnition\Solutions\SolutionProviders\SolutionProviderRepository::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\DumpRecorder::class,
             'Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler' => \Spatie\LaravelIgnition\Recorders\DumpRecorder\MultiDumpHandler::class,
             'Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder' => \Spatie\LaravelIgnition\Recorders\JobRecorder\JobRecorder::class,
@@ -1361,7 +1351,6 @@ namespace PHPSTORM_META {
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
-            'redis' => \Illuminate\Redis\RedisManager::class,
             'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
         ]));
 

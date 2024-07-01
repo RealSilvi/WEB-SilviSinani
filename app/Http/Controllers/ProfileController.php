@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Enum\FriendshipStatus;
 use App\Models\Profile;
-use App\Models\User;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class ProfileController extends Controller
 {
@@ -31,5 +29,4 @@ class ProfileController extends Controller
             'ownership' => $ownership,
         ]);
     }
-
 }

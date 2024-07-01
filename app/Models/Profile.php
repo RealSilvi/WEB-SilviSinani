@@ -12,9 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Laravel\Scout\Searchable;
 
-
 /**
- *
  * @property int $id
  * @property string $nickname
  * @property string|null $bio
@@ -50,6 +48,9 @@ use Laravel\Scout\Searchable;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Profile> $sentRequests
  * @property-read int|null $sent_requests_count
  * @property-read \App\Models\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\News> $generatedNews
+ * @property-read int|null $generated_news_count
+ * @property-read \App\Models\Post|null $lastPost
  */
 class Profile extends Model
 {
@@ -140,5 +141,4 @@ class Profile extends Model
             'nickname' => $this->nickname,
         ];
     }
-
 }

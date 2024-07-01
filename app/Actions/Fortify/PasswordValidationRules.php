@@ -21,7 +21,7 @@ trait PasswordValidationRules
                 ->uncompromised(),
             'required',
             'string',
-            'confirmed'
+            'confirmed',
         ];
     }
 }

@@ -8,6 +8,7 @@ use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
@@ -29,13 +30,13 @@ it('can fetch comment likes', function () {
         'profile' => $profile->id,
         'post' => $post->id,
         'comment' => $comment->id,
-        'include' => []
+        'include' => [],
     ]));
 
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', 10, fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', 10, fn (AssertableJson $json) => $json
             ->etc()
         )
         ->etc()
@@ -70,11 +71,11 @@ it('can create a comment like ', function () {
 
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('profileId', $profileB->id)
             ->where('postId', $post->id)
-            ->has('likes', 1, fn(AssertableJson $json) => $json
+            ->has('likes', 1, fn (AssertableJson $json) => $json
                 ->where('id', $profileC->id)
                 ->etc()
             )
@@ -110,8 +111,8 @@ it('can delete a comment like ', function () {
     ]));
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('profileId', $profileB->id)
             ->where('postId', $post->id)
             ->has('likes', length: 0)

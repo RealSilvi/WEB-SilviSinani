@@ -1,12 +1,12 @@
 <?php
 
 use App\Http\Controllers\Api\PostController;
-use App\Http\Controllers\Api\ProfileController;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Profile;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
+
 use function Pest\Laravel\deleteJson;
 
 it('can delete a post', function () {
@@ -53,7 +53,7 @@ it('can delete a full post', function () {
 
     $response->assertNoContent();
 
-    expect(Comment::query()->where('post_id', $post->id,)->get())->toBeEmpty();
+    expect(Comment::query()->where('post_id', $post->id)->get())->toBeEmpty();
     expect($profileA->postLikes)->toBeEmpty();
     expect($profileB->postLikes)->toBeEmpty();
     expect($profileA->posts()->get())->not()->toBeEmpty();

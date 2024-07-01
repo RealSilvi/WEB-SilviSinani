@@ -32,13 +32,13 @@ return [
 
         'friendships' => [
             'title' => 'Amicizie',
-            'no_result' => 'Ancora nessuno'
+            'no_result' => 'Ancora nessuno',
         ],
         'new' => [
-            'title' => 'Crea profilo'
+            'title' => 'Crea profilo',
         ],
         'edit' => [
-            'title' => 'Modifica profilo'
+            'title' => 'Modifica profilo',
         ],
     ],
     'dashboard' => [
@@ -46,9 +46,9 @@ return [
     ],
     'news' => [
         'title' => 'News',
-        'follow_requests_news'=>'Richieste di amicizia',
-        'general_news'=>'Notifiche',
-        'see_all'=>'See all',
+        'follow_requests_news' => 'Richieste di amicizia',
+        'general_news' => 'Notifiche',
+        'see_all' => 'See all',
         'no_results' => 'Non ci sono notifiche',
     ],
     'posts' => [
@@ -65,6 +65,5 @@ return [
         'delete_message' => 'Attezione eliminerai definitivamente il tuo profilo. Non potrai recuperarlo.',
         'edit_language' => 'Modifica lingua',
     ],
-
 
 ];

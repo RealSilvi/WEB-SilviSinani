@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Post;
 use App\Models\Profile;
-use App\Support\ImageGenerator;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -28,10 +27,9 @@ class PostFactory extends Factory
     public function configure(): static
     {
         return $this->afterMaking(function (Post $post) {
-            if($post->profile_id == null){
-                $post->profile_id=Profile::factory()->create()->id;
+            if ($post->profile_id == null) {
+                $post->profile_id = Profile::factory()->create()->id;
             }
         });
     }
-
 }

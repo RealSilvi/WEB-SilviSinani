@@ -9,8 +9,8 @@ class PreviewProjectSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-           DatabaseSeeder::class,
-           RealImageSeeder::class,
+            DatabaseSeeder::class,
+            RealImageSeeder::class,
         ]);
     }
 }

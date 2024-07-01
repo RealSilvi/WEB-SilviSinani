@@ -1,6 +1,5 @@
 <?php
 
-use App\Enum\ProfileBreedDog;
 use App\Enum\ProfileType;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ProfileController;
@@ -9,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+
 use function Pest\Laravel\postJson;
 
 it('can create a post', function () {
@@ -33,8 +33,8 @@ it('can create a post', function () {
     ]);
     $response->assertCreated();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('profileId', $profile->id)
             ->where('description', 'Post description Test')
             ->has('image')

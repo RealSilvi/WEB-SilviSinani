@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Enum\FriendshipStatus;
 use App\Enum\FriendshipType;
 use App\Models\Profile;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class FriendshipsController extends Controller
 {
-    public function __invoke(Request $request, ?Profile $profile = null, FriendshipType $friendshipType): mixed
+    public function __invoke(Request $request, ?Profile $profile, FriendshipType $friendshipType): mixed
     {
         $user = $request->user();
 
@@ -27,8 +25,7 @@ class FriendshipsController extends Controller
             'profile' => $profile,
             'authProfile' => $authProfile,
             'ownership' => $ownership,
-            'followers' => $friendshipType === FriendshipType::FOLLOWER
+            'followers' => $friendshipType === FriendshipType::FOLLOWER,
         ]);
     }
-
 }

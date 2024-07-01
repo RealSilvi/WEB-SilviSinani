@@ -5,6 +5,7 @@ use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+
 use function Pest\Laravel\getJson;
 
 it('can fetch profiles', function () {
@@ -16,13 +17,13 @@ it('can fetch profiles', function () {
 
     $response = getJson(action([ProfileController::class, 'index'], [
         'user' => $user->id,
-        'include' => []
+        'include' => [],
     ]));
 
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', 2, fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', 2, fn (AssertableJson $json) => $json
             ->where('nickname', $profileA->nickname)
             ->where('default', $profileA->default)
             ->where('userId', $user->id)
@@ -47,13 +48,13 @@ it('can fetch profiles full', function () {
 
     $response = getJson(action([ProfileController::class, 'index'], [
         'user' => $user->id,
-        'include' => ['user']
+        'include' => ['user'],
     ]));
 
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', 2, fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', 2, fn (AssertableJson $json) => $json
             ->where('id', $profileA->id)
             ->where('nickname', $profileA->nickname)
             ->where('default', $profileA->default)
@@ -64,7 +65,7 @@ it('can fetch profiles full', function () {
             ->where('mainImage', $profileA->main_image)
             ->where('secondaryImage', $profileA->secondary_image)
             ->where('bio', $profileA->bio)
-            ->has('user', fn(AssertableJson $json) => $json
+            ->has('user', fn (AssertableJson $json) => $json
                 ->where('id', $user->id)
                 ->where('firstName', $user->first_name)
                 ->where('lastName', $user->last_name)

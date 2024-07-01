@@ -35,10 +35,10 @@ return [
             'no_result' => 'No results found',
         ],
         'new' => [
-            'title' => 'Create profile'
+            'title' => 'Create profile',
         ],
         'edit' => [
-            'title' => 'Edit profile'
+            'title' => 'Edit profile',
         ],
     ],
     'dashboard' => [
@@ -46,9 +46,9 @@ return [
     ],
     'news' => [
         'title' => 'News',
-        'follow_requests_news'=>'Following requests',
-        'general_news'=>'News',
-        'see_all'=>'See all',
+        'follow_requests_news' => 'Following requests',
+        'general_news' => 'News',
+        'see_all' => 'See all',
         'no_results' => 'Notifications not found',
     ],
     'posts' => [
@@ -65,6 +65,5 @@ return [
         'delete_message' => 'Attention you will delete definitely your profile. This action is permanent.',
         'edit_language' => 'Edit language',
     ],
-
 
 ];

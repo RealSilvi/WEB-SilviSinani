@@ -2,9 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Comment;
 use App\Models\News;
-use App\Models\Post;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -14,7 +12,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class NewsResource extends JsonResource
 {
-
     public function toArray(Request $request): array
     {
         return [

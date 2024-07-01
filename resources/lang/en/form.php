@@ -45,7 +45,7 @@ return [
         'onsuccess' => 'New email resented successfully ',
     ],
 
-    'profile_create'=>[
+    'profile_create' => [
         'choose_animal_type' => 'Choose your animal',
         'nickname' => 'Nickname',
         'bio' => 'Bio',

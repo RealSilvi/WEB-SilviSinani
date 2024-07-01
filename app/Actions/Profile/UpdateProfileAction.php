@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\Actions\Profile;
 
-use App\Actions\Data\CreateProfileInput;
 use App\Actions\Data\UpdateProfileInput;
 use App\Exceptions\CannotChangeDefaultProfileException;
 use App\Exceptions\NicknameAlreadyExistsException;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use League\Flysystem\FilesystemException;
 use Nette\FileNotFoundException;
@@ -20,7 +18,6 @@ use Throwable;
 
 class UpdateProfileAction
 {
-
     /**
      * @throws Throwable
      * @throws NicknameAlreadyExistsException
@@ -33,7 +30,6 @@ class UpdateProfileAction
             return $this->updateProfile($user, $profile, $input);
         });
     }
-
 
     /**
      * @throws CannotChangeDefaultProfileException|FilesystemException
@@ -59,7 +55,6 @@ class UpdateProfileAction
         return $profile;
     }
 
-
     /**
      * @throws NicknameAlreadyExistsException
      */
@@ -81,17 +76,17 @@ class UpdateProfileAction
             return;
         }
 
-        if ($user->profiles()->count() === 1 && !$input->default) {
-            throw  new CannotChangeDefaultProfileException('Cannot change the default status of your last profile');
+        if ($user->profiles()->count() === 1 && ! $input->default) {
+            throw new CannotChangeDefaultProfileException('Cannot change the default status of your last profile');
         }
 
-        if (!$profile->default && $input->default) {
+        if (! $profile->default && $input->default) {
             $oldDefaultProfile = $user->profiles()->where('default', true)->first();
             $oldDefaultProfile->default = false;
             $oldDefaultProfile->save();
         }
 
-        if ($profile->default && !$input->default) {
+        if ($profile->default && ! $input->default) {
             $newDefaultProfile = $user->profiles()->firstWhere('id', '!=', $profile->id);
             $newDefaultProfile->default = true;
             $newDefaultProfile->save();
@@ -104,17 +99,17 @@ class UpdateProfileAction
      */
     public function checkNicknamesAndRestoreStoragePaths(Profile $profile, UpdateProfileInput $input): void
     {
-        if ($profile->nickname === $input->nickname || !$input->nickname) {
+        if ($profile->nickname === $input->nickname || ! $input->nickname) {
             return;
         }
 
-        foreach (Storage::disk('public')->allFiles('profiles/' . $profile->nickname) as $file) {
+        foreach (Storage::disk('public')->allFiles('profiles/'.$profile->nickname) as $file) {
             Storage::disk('public')->move(
                 $file,
                 Str::replace($profile->nickname, $input->nickname, $file),
             );
         }
-        Storage::disk('public')->deleteDirectory('profiles/' . $profile->nickname);
+        Storage::disk('public')->deleteDirectory('profiles/'.$profile->nickname);
 
         $profile->main_image = Str::replace($profile->nickname, $input->nickname, $profile->main_image);
         $profile->secondary_image = Str::replace($profile->nickname, $input->nickname, $profile->secondary_image);
@@ -127,7 +122,7 @@ class UpdateProfileAction
                 $mainImage = StoreImageOrStoreDefaultImageAction::execute(
                     $input->mainImage,
                     'profile.jpg',
-                    '/profiles/' . $input->nickname,
+                    '/profiles/'.$input->nickname,
                     '/utilities/profileDefault.jpg'
                 );
             }
@@ -135,7 +130,7 @@ class UpdateProfileAction
                 $secondaryImage = StoreImageOrStoreDefaultImageAction::execute(
                     $input->secondaryImage,
                     'background.jpg',
-                    '/profiles/' . $input->nickname,
+                    '/profiles/'.$input->nickname,
                     '/utilities/backgroundDefault.jpg'
                 );
             }
@@ -147,6 +142,7 @@ class UpdateProfileAction
                 $secondaryImage = asset('/utilities/backgroundDefault.jpg');
             }
         }
+
         return [
             'main_image' => $mainImage ?? $profile->main_image,
             'secondary_image' => $secondaryImage ?? $profile->secondary_image,

@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Models\Profile;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
+
 use function Pest\Laravel\deleteJson;
 
 it('can delete a profile', function () {
@@ -16,7 +17,7 @@ it('can delete a profile', function () {
 
     $response = deleteJson(action([ProfileController::class, 'destroy'], [
         'user' => $user->id,
-        'profile' => $profileA->id
+        'profile' => $profileA->id,
     ]));
 
     $response->assertNoContent();
@@ -41,7 +42,7 @@ it('restore casual default profile when you are deleting a default profile', fun
 
     $response = deleteJson(action([ProfileController::class, 'destroy'], [
         'user' => $user->id,
-        'profile' => $profileA->id
+        'profile' => $profileA->id,
     ]));
 
     $response->assertNoContent();
@@ -60,7 +61,7 @@ it('can not delete last profile', function () {
 
     $response = deleteJson(action([ProfileController::class, 'destroy'], [
         'user' => $user->id,
-        'profile' => $profileA->id
+        'profile' => $profileA->id,
     ]));
 
     $response->assertMethodNotAllowed();
@@ -79,7 +80,7 @@ it('can not delete profile when does not match user profiles', function () {
 
     $response = deleteJson(action([ProfileController::class, 'destroy'], [
         'user' => $userA->id,
-        'profile' => ($profileA->id)
+        'profile' => ($profileA->id),
     ]));
 
     $response->assertNotAcceptable();

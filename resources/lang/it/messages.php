@@ -74,4 +74,3 @@ return [
         'on_fail' => 'Si è verificato un errore',
     ],
 ];
-

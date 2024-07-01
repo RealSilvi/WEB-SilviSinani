@@ -1,18 +1,13 @@
 <?php
 
 use App\Enum\NewsType;
-use App\Enum\ProfileBreedDog;
-use App\Enum\ProfileType;
 use App\Http\Controllers\Api\CommentController;
-use App\Http\Controllers\Api\PostController;
-use App\Http\Controllers\Api\ProfileController;
-use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Profile;
 use App\Models\User;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+
 use function Pest\Laravel\postJson;
 
 it('can create a comment', function () {
@@ -26,12 +21,12 @@ it('can create a comment', function () {
 
     $response = postJson(action(
         [CommentController::class, 'store'],
-        ['user' => $user->id, 'profile' => $profile->id, 'post' => $post->id,'body' => 'Comment Test'],
+        ['user' => $user->id, 'profile' => $profile->id, 'post' => $post->id, 'body' => 'Comment Test'],
     ));
     $response->assertCreated();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('profileId', $profile->id)
             ->where('postId', $post->id)
             ->where('body', 'Comment Test')
@@ -61,7 +56,7 @@ it('a comment can generate a news', function () {
 
     $response = postJson(action(
         [CommentController::class, 'store'],
-        ['user' => $user->id, 'profile' => $profileB->id, 'post' => $post->id,'body' => 'Comment Test'],
+        ['user' => $user->id, 'profile' => $profileB->id, 'post' => $post->id, 'body' => 'Comment Test'],
     ));
     $response->assertCreated();
 

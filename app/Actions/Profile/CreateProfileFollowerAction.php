@@ -5,20 +5,10 @@ declare(strict_types=1);
 namespace App\Actions\Profile;
 
 use App\Actions\Data\ProfileFollowInput;
-use App\Actions\Data\CreateProfileInput;
-use App\Actions\Data\UpdateProfileInput;
-use App\Enum\NewsType;
 use App\Exceptions\CannotFollowYourselfException;
 use App\Exceptions\FollowerNotFoundException;
-use App\Exceptions\FollowRequestNotFoundException;
-use App\Exceptions\NicknameAlreadyExistsException;
-use App\Models\News;
 use App\Models\Profile;
-use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use League\Flysystem\FilesystemException;
 use Throwable;
 
 class CreateProfileFollowerAction
@@ -41,6 +31,7 @@ class CreateProfileFollowerAction
             ->where('from_type', Profile::class)
             ->where('from_id', $input->followerId)
             ->delete();
+
         return $profile->load(['receivedRequests', 'followers']);
     }
 
@@ -54,11 +45,11 @@ class CreateProfileFollowerAction
             throw new CannotFollowYourselfException('You cannot follow yourself');
         }
 
-        if (!Profile::query()->find($input->followerId)->exists()) {
-            throw new ModelNotFoundException('Profile with id:' . $input->followerId . ' does not exist');
+        if (! Profile::query()->find($input->followerId)->exists()) {
+            throw new ModelNotFoundException('Profile with id:'.$input->followerId.' does not exist');
         }
 
-        if (!$profile->receivedRequests()->find($input->followerId)->exists()) {
+        if (! $profile->receivedRequests()->find($input->followerId)->exists()) {
             throw new FollowerNotFoundException('Follow request not found');
         }
     }

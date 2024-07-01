@@ -29,14 +29,8 @@ class CreatePostAction
         });
     }
 
-
     /**
      * Validate and create a newly registered profile.
-     *
-     * @param User $user
-     * @param Profile $profile
-     * @param CreatePostInput $input
-     * @return Post
      */
     public function createPost(User $user, Profile $profile, CreatePostInput $input): Post
     {
@@ -62,7 +56,7 @@ class CreatePostAction
      */
     protected function validateInput(CreatePostInput $input): void
     {
-        if (!$input->image && !$input->description) {
+        if (! $input->image && ! $input->description) {
             throw new CannotCreateAnEmptyPostException('Cannot create an empty post');
         }
 
@@ -75,22 +69,21 @@ class CreatePostAction
     public function checkAndSaveImageOnStorage(Profile $profile, CreatePostInput $input): ?string
     {
 
-        if (!$input->image) {
+        if (! $input->image) {
             return null;
         }
 
-        $profilePathDirectory = '/profiles/' . $profile->nickname;
-        $postPathDirectory = $profilePathDirectory . '/posts';
+        $profilePathDirectory = '/profiles/'.$profile->nickname;
+        $postPathDirectory = $profilePathDirectory.'/posts';
 
-        if (!Storage::disk('public')->exists($profilePathDirectory)) {
-            throw new FileNotFoundException('Profile storage not found' . ' ' . $profilePathDirectory);
+        if (! Storage::disk('public')->exists($profilePathDirectory)) {
+            throw new FileNotFoundException('Profile storage not found'.' '.$profilePathDirectory);
         }
 
-        if (!Storage::disk('public')->directoryExists($postPathDirectory)) {
+        if (! Storage::disk('public')->directoryExists($postPathDirectory)) {
             Storage::disk('public')->createDirectory($postPathDirectory);
         }
 
         return '/'.Storage::disk('public')->put($postPathDirectory, $input->image);
     }
-
 }

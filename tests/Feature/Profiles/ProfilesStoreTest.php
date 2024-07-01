@@ -1,6 +1,5 @@
 <?php
 
-use App\Enum\ProfileBreedDog;
 use App\Enum\ProfileType;
 use App\Http\Controllers\Api\ProfileController;
 use App\Models\Profile;
@@ -8,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+
 use function Pest\Laravel\postJson;
 
 it('can create a basic profile', function () {
@@ -20,8 +20,8 @@ it('can create a basic profile', function () {
     ]);
     $response->assertCreated();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('userId', $user->id)
             ->where('default', true)
             ->where('nickname', 'scott')
@@ -68,9 +68,8 @@ it('can create a full profile', function () {
 
     $response->assertCreated();
 
-
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('nickname', 'scott')
             ->where('default', true)
             ->where('userId', $user->id)
@@ -117,7 +116,6 @@ it('can not create a profile when already 4 existing', function () {
         'type' => ProfileType::DOG,
     ]);
 
-
     $response->assertMethodNotAllowed();
 
     expect($response->json())
@@ -142,17 +140,16 @@ it('first profile is default', function () {
         'type' => ProfileType::DOG,
     ]);
 
-
     $response->assertCreated();
 
     $user = $user->fresh();
     expect($user->profiles()->where('default', true)->count())->toBe(1);
     expect($user->profiles()->where('default', true)->first()->nickname)->toBe($profileA->nickname);
 
-    Storage::disk('public')->deleteDirectory('profiles/' . $profileA->nickname);
-    Storage::disk('public')->deleteDirectory('profiles/' . $profileB->nickname);
-    Storage::disk('public')->deleteDirectory('profiles/' . $profileC->nickname);
-    Storage::disk('public')->deleteDirectory('profiles/' . $response->json('data.nickname'));
+    Storage::disk('public')->deleteDirectory('profiles/'.$profileA->nickname);
+    Storage::disk('public')->deleteDirectory('profiles/'.$profileB->nickname);
+    Storage::disk('public')->deleteDirectory('profiles/'.$profileC->nickname);
+    Storage::disk('public')->deleteDirectory('profiles/'.$response->json('data.nickname'));
 });
 
 it('changes default correctly', function () {
@@ -173,13 +170,11 @@ it('changes default correctly', function () {
     ]);
     $response->assertCreated();
 
-
     $user = $user->fresh();
     expect($user->profiles()->where('default', true)->count())->toBe(1);
     expect($user->profiles()->where('default', true)->first()->nickname)->toBe($profileC->nickname);
-    Storage::disk('public')->deleteDirectory('profiles/' . $profileA->nickname);
-    Storage::disk('public')->deleteDirectory('profiles/' . $profileB->nickname);
-    Storage::disk('public')->deleteDirectory('profiles/' . $profileC->nickname);
-    Storage::disk('public')->deleteDirectory('profiles/' . $response->json('data.nickname'));
+    Storage::disk('public')->deleteDirectory('profiles/'.$profileA->nickname);
+    Storage::disk('public')->deleteDirectory('profiles/'.$profileB->nickname);
+    Storage::disk('public')->deleteDirectory('profiles/'.$profileC->nickname);
+    Storage::disk('public')->deleteDirectory('profiles/'.$response->json('data.nickname'));
 });
-

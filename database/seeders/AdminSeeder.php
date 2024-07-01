@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Enum\ProfileType;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -15,13 +14,13 @@ class AdminSeeder extends Seeder
             'first_name' => 'admin',
             'last_name' => 'admin',
             'email' => 'admin@example.com',
-            'password' => 'password'
+            'password' => 'password',
         ]);
         $userTest = User::factory()->create([
             'first_name' => 'test',
             'last_name' => 'test',
             'email' => 'test@example.com',
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         Profile::factory()->create([

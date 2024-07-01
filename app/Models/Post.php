@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Http\Resources\PostResource;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,10 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-
 /**
- *
- *
  * @property int $id
  * @property string|null $image
  * @property string|null $description
@@ -26,6 +22,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Profile> $likes
  * @property-read int|null $likes_count
  * @property-read \App\Models\Profile $profile
+ * @property-read Collection<int, \App\Models\News> $generatedNews
+ * @property-read int|null $generated_news_count
  */
 class Post extends Model
 {

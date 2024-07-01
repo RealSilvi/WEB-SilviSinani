@@ -16,8 +16,8 @@ class RealImageSeeder extends Seeder
 
         foreach (Profile::all() as $profile) {
             $type = $profile->type;
-            $mainImageEndLocation = '/profiles' . '/' . $profile->nickname;
-            $secondaryImageEndLocation = '/profiles' . '/' . $profile->nickname;
+            $mainImageEndLocation = '/profiles'.'/'.$profile->nickname;
+            $secondaryImageEndLocation = '/profiles'.'/'.$profile->nickname;
             $profile->update([
                 'main_image' => app(ImageGenerator::class)
                     ->generate(
@@ -38,12 +38,12 @@ class RealImageSeeder extends Seeder
                     return;
                 }
 
-                $postEndLocation = '/profiles' . '/' . $profile->nickname . '/posts';
+                $postEndLocation = '/profiles'.'/'.$profile->nickname.'/posts';
                 $post->update([
                     'image' => app(ImageGenerator::class)
                         ->generate(
                             endLocation: $postEndLocation,
-                            filters: ['post', $profile->type->value,]
+                            filters: ['post', $profile->type->value]
                         ),
                 ]);
                 $post->save();

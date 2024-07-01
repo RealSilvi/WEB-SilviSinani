@@ -4,20 +4,13 @@ declare(strict_types=1);
 
 namespace App\Actions\Profile;
 
-use App\Actions\Data\CreateProfileInput;
 use App\Exceptions\CannotUnfollowYourselfException;
 use App\Exceptions\FollowerNotFoundException;
-use App\Exceptions\NicknameAlreadyExistsException;
 use App\Models\Profile;
-use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Throwable;
 
 class DeleteProfileFollowerAction
 {
-
     /**
      * @throws CannotUnfollowYourselfException
      * @throws FollowerNotFoundException
@@ -31,7 +24,7 @@ class DeleteProfileFollowerAction
 
     public function deleteFollower(Profile $profile, Profile $follower): Profile
     {
-        if (!$profile->followers()->find($follower->id)) {
+        if (! $profile->followers()->find($follower->id)) {
             $profile->allNews()
                 ->where('from_type', Profile::class)
                 ->where('from_id', $follower->id)
@@ -52,11 +45,11 @@ class DeleteProfileFollowerAction
             throw new CannotUnfollowYourselfException('You cannot unfollow yourself');
         }
 
-        if (!Profile::query()->find($follower->id)->exists()) {
-            throw new ModelNotFoundException('Profile with id:' . $follower->id . ' does not exist');
+        if (! Profile::query()->find($follower->id)->exists()) {
+            throw new ModelNotFoundException('Profile with id:'.$follower->id.' does not exist');
         }
 
-        if (!$profile->receivedRequests()->find($follower->id)) {
+        if (! $profile->receivedRequests()->find($follower->id)) {
             throw new FollowerNotFoundException('Follower not found');
         }
     }

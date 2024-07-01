@@ -4,23 +4,19 @@ declare(strict_types=1);
 
 namespace App\Actions\Profile;
 
-use App\Actions\Data\CreateProfileInput;
-use App\Exceptions\NicknameAlreadyExistsException;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Throwable;
 
 class DeleteProfileAction
 {
-
     public function execute(User $user, Profile $profile): void
     {
         DB::transaction(function () use ($user, $profile): void {
             $this->checkAndRestoreDefaults($user, $profile);
             $profile->user()->dissociate();
-            Storage::disk('public')->delete('/profiles/' . $profile->nickname);
+            Storage::disk('public')->delete('/profiles/'.$profile->nickname);
 
             $profile->delete();
         });
@@ -28,7 +24,7 @@ class DeleteProfileAction
 
     protected function checkAndRestoreDefaults(User $user, Profile $profile): void
     {
-        if (!$profile->default) {
+        if (! $profile->default) {
             return;
         }
         $newDefaultProfile = $user->profiles()->firstWhere('id', '!=', $profile->id);

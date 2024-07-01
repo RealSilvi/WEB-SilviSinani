@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Post;
 use App\Models\Profile;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class PostController extends Controller
 {
@@ -14,7 +13,7 @@ class PostController extends Controller
     {
         $authProfile = Profile::query()->where('nickname', $request->query('authProfile'))->first();
 
-        if(!$authProfile){
+        if (! $authProfile) {
             abort(404);
         }
 
@@ -31,5 +30,4 @@ class PostController extends Controller
             'post' => $post,
         ]);
     }
-
 }

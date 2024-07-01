@@ -1,8 +1,6 @@
 <?php
 
 use App\Enum\NewsType;
-use App\Http\Controllers\Api\FollowersController;
-use App\Http\Controllers\Api\FollowingController;
 use App\Http\Controllers\Api\NewsController;
 use App\Models\Comment;
 use App\Models\News;
@@ -11,7 +9,7 @@ use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
-use function Pest\Laravel\deleteJson;
+
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
 
@@ -28,12 +26,12 @@ it('can fetch news', function () {
     $response = getJson(action([NewsController::class, 'index'], [
         'user' => $user->id,
         'profile' => $profile->id,
-        'include' => []
+        'include' => [],
     ]));
 
     $response->assertOk();
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', 3, fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', 3, fn (AssertableJson $json) => $json
             ->where('id', $news->id)
             ->where('fromNickname', $news->from_nickname)
             ->where('profileId', $profile->id)
@@ -56,7 +54,7 @@ it('can fetch news full', function () {
         'created_at' => now()->addDay(),
         'from_id' => $profileB->id,
         'from_type' => Profile::class,
-        'type' => NewsType::FOLLOW_REQUEST
+        'type' => NewsType::FOLLOW_REQUEST,
     ]);
 
     $response = getJson(action([NewsController::class, 'index'], [
@@ -65,21 +63,21 @@ it('can fetch news full', function () {
         'include' => [
             'profile',
             'from',
-        ]
+        ],
     ]));
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', 3, fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', 3, fn (AssertableJson $json) => $json
             ->where('id', $news->id)
             ->where('fromId', $profileB->id)
             ->where('fromType', Profile::class)
             ->where('type', NewsType::FOLLOW_REQUEST->value)
             ->where('id', $news->id)
-            ->has('profile', fn(AssertableJson $json) => $json
+            ->has('profile', fn (AssertableJson $json) => $json
                 ->where('id', $profile->id)
                 ->etc())
-            ->has('from', fn(AssertableJson $json) => $json
+            ->has('from', fn (AssertableJson $json) => $json
                 ->where('id', $profileB->id)
                 ->etc())
             ->etc()
@@ -99,7 +97,7 @@ it('can store a follow request news ', function () {
     $profileC = Profile::factory()->for($userB)->create();
     $profileD = Profile::factory()->for($userB)->create();
 
-    $response = postJson(action([NewsController::class, 'store'], ['user' => $userB->id, 'profile' => $profileB->id,]), [
+    $response = postJson(action([NewsController::class, 'store'], ['user' => $userB->id, 'profile' => $profileB->id]), [
         'fromId' => $profileB->id,
         'fromType' => Profile::class,
         'type' => NewsType::FOLLOW_REQUEST,
@@ -108,8 +106,8 @@ it('can store a follow request news ', function () {
     ]);
     $response->assertCreated();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('profileId', $profile->id)
             ->where('type', NewsType::FOLLOW_REQUEST->value)
             ->where('fromType', Profile::class)
@@ -139,7 +137,7 @@ it('can store a post like news ', function () {
     $profileC = Profile::factory()->for($userB)->create();
     $profileD = Profile::factory()->for($userB)->create();
 
-    $response = postJson(action([NewsController::class, 'store'], ['user' => $userB->id, 'profile' => $profileB->id,]), [
+    $response = postJson(action([NewsController::class, 'store'], ['user' => $userB->id, 'profile' => $profileB->id]), [
         'fromId' => $post->id,
         'fromType' => Post::class,
         'fromNickname' => $profileB->nickname,
@@ -149,8 +147,8 @@ it('can store a post like news ', function () {
 
     $response->assertCreated();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('profileId', $profile->id)
             ->where('type', NewsType::POST_LIKE->value)
             ->where('fromType', Post::class)
@@ -181,7 +179,7 @@ it('can store a comment like news ', function () {
 
     $post = Post::factory()->for($profile)->create();
     $comment = Comment::factory()->for($profileB)->for($post)->create();
-    $response = postJson(action([NewsController::class, 'store'], ['user' => $userB->id, 'profile' => $profileB->id,]), [
+    $response = postJson(action([NewsController::class, 'store'], ['user' => $userB->id, 'profile' => $profileB->id]), [
         'fromId' => $post->id,
         'fromType' => Post::class,
         'fromNickname' => $profileB->nickname,
@@ -191,8 +189,8 @@ it('can store a comment like news ', function () {
 
     $response->assertCreated();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('profileId', $profile->id)
             ->where('type', NewsType::COMMENT_LIKE->value)
             ->where('fromType', Post::class)
@@ -224,7 +222,7 @@ it('can store a comment news ', function () {
 
     $post = Post::factory()->for($profile)->create();
     $comment = Comment::factory()->for($profileB)->for($post)->create();
-    $response = postJson(action([NewsController::class, 'store'], ['user' => $userB->id, 'profile' => $profileB->id,]), [
+    $response = postJson(action([NewsController::class, 'store'], ['user' => $userB->id, 'profile' => $profileB->id]), [
         'fromId' => $post->id,
         'fromType' => Post::class,
         'fromNickname' => $profileB->nickname,
@@ -234,8 +232,8 @@ it('can store a comment news ', function () {
 
     $response->assertCreated();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('profileId', $profile->id)
             ->where('type', NewsType::COMMENT->value)
             ->where('fromType', Post::class)
@@ -265,10 +263,10 @@ it('can seen correctly ', function () {
     News::factory()->for($profile)->create();
     News::factory()->for($profile)->create();
 
-    $response = postJson(action([NewsController::class, 'seeAll'], ['user' => $user->id, 'profile' => $profile->id,]));
+    $response = postJson(action([NewsController::class, 'seeAll'], ['user' => $user->id, 'profile' => $profile->id]));
     $response->assertNoContent();
 
     $profile = $profile->fresh();
 
-    $profile->news()->get()->each(fn(News $new) => expect($new->seen)->toBeTrue());
+    $profile->news()->get()->each(fn (News $new) => expect($new->seen)->toBeTrue());
 });

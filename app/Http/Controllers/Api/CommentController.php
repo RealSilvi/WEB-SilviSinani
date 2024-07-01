@@ -16,10 +16,8 @@ use Illuminate\Http\Response;
 use Spatie\QueryBuilder\QueryBuilder;
 use Throwable;
 
-
 class CommentController
 {
-
     public function index(Request $request, User $user, Profile $profile, Post $post): AnonymousResourceCollection
     {
 
@@ -74,6 +72,4 @@ class CommentController
 
         return response()->noContent();
     }
-
-
 }

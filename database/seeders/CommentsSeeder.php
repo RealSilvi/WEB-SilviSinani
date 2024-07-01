@@ -2,13 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Enum\ProfileType;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Profile;
-use App\Models\User;
 use Illuminate\Database\Seeder;
-use Ramsey\Collection\Collection;
 
 class CommentsSeeder extends Seeder
 {

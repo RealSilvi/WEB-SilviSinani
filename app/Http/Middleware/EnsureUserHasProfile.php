@@ -12,15 +12,15 @@ class EnsureUserHasProfile
     /**
      * Handle an incoming request.
      *
-     * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Profile::query()->firstWhere('user_id', auth()->id())) {
+        if (! Profile::query()->firstWhere('user_id', auth()->id())) {
             return redirect(
                 route('createFirstProfile'),
                 headers: [
-                    'redirectUrl' => $request->url()
+                    'redirectUrl' => $request->url(),
                 ]
             );
         }

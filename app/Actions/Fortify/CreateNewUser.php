@@ -18,8 +18,8 @@ class CreateNewUser implements CreatesNewUsers
     /**
      * Validate and create a newly registered user.
      *
-     * @param array<string, string> $input
-     * @return User
+     * @param  array<string, string>  $input
+     *
      * @throws Throwable
      */
     public function create(array $input): User
@@ -35,6 +35,7 @@ class CreateNewUser implements CreatesNewUsers
                 'password' => Hash::make($input['password']),
                 'date_of_birth' => Date::make($input['date_of_birth']),
             ]);
+
             return $user;
         });
     }
@@ -58,5 +59,4 @@ class CreateNewUser implements CreatesNewUsers
 
         Validator::make($input, $rules)->validate();
     }
-
 }

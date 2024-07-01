@@ -20,11 +20,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('users.profiles', ProfileController::class)->except(['edit', 'create']);
-    Route::get('/users/{user}/profiles/{profile}/dashboard', [DashboardController::class,'show'])->name('users.profiles.dashboard.show');
+    Route::get('/users/{user}/profiles/{profile}/dashboard', [DashboardController::class, 'show'])->name('users.profiles.dashboard.show');
     Route::resource('users.profiles.followers', FollowersController::class)->only(['index', 'store', 'destroy']);
     Route::resource('users.profiles.following', FollowingController::class)->only(['index', 'store', 'destroy']);
     Route::post('/users/{user}/profiles/{profile}/news/seeAll', [NewsController::class, 'seeAll'])->name('users.profiles.news.seeAll');
-    Route::resource('users.profiles.news', NewsController::class)->only(['index','store']);
+    Route::resource('users.profiles.news', NewsController::class)->only(['index', 'store']);
     Route::resource('users.profiles.posts', PostController::class)->only(['index', 'show', 'store', 'destroy']);
     Route::delete('/users/{user}/profiles/{profile}/posts/{post}/likes', [PostLikeController::class, 'destroy'])->name('users.profiles.posts.likes.destroy');
     Route::resource('users.profiles.posts.likes', PostLikeController::class)->only(['index', 'store']);

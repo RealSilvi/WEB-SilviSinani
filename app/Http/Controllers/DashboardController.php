@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Profile;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class DashboardController extends Controller
 {
@@ -26,5 +25,4 @@ class DashboardController extends Controller
             'authProfile' => $profile,
         ]);
     }
-
 }

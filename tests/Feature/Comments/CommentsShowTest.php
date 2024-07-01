@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\Api\CommentController;
-use App\Http\Controllers\Api\PostController;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+
 use function Pest\Laravel\getJson;
 
 it('can fetch a single comment', function () {
@@ -26,13 +26,13 @@ it('can fetch a single comment', function () {
         'user' => $user->id,
         'profile' => $profile->id,
         'post' => $post->id,
-        'include' => []
+        'include' => [],
     ]));
 
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', 3, fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', 3, fn (AssertableJson $json) => $json
             ->where('profileId', $profile->id)
             ->where('postId', $post->id)
             ->where('body', 'commentA')
@@ -76,21 +76,21 @@ it('can fetch a single comment full', function () {
             'profile',
             'post',
             'likes',
-        ]
+        ],
     ]));
 
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', 3, fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', 3, fn (AssertableJson $json) => $json
             ->where('id', $comment->id)
-            ->has('profile', fn(AssertableJson $json) => $json
+            ->has('profile', fn (AssertableJson $json) => $json
                 ->where('id', $profile->id)
                 ->etc())
-            ->has('post', fn(AssertableJson $json) => $json
+            ->has('post', fn (AssertableJson $json) => $json
                 ->where('id', $post->id)
                 ->etc())
-            ->has('likes', 2, fn(AssertableJson $json) => $json
+            ->has('likes', 2, fn (AssertableJson $json) => $json
                 ->where('id', $profileA->id)
                 ->etc())
             ->etc()

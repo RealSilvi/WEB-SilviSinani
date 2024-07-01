@@ -29,5 +29,3 @@ Route::middleware(['auth', 'verified', 'userHasProfile'])->group(function () {
     Route::get('/locales/{locale}', \App\Http\Controllers\LocaleController::class)->name('locales');
     Route::get('/posts/{post}', \App\Http\Controllers\PostController::class)->name('posts');
 });
-
-

@@ -20,19 +20,12 @@ class CreateNewsAction
     public function execute(User $user, Profile $profile, CreateNewsInput $input): News
     {
         $this->validateProfile($input);
+
         return DB::transaction(function () use ($user, $profile, $input): News {
             return $this->createNews($user, $profile, $input);
         });
     }
 
-
-    /**
-     *
-     * @param User $user
-     * @param CreateNewsInput $input
-     * @param Profile $profile
-     * @return News
-     */
     public function createNews(User $user, Profile $profile, CreateNewsInput $input): News
     {
         $news = new News([
@@ -53,7 +46,7 @@ class CreateNewsAction
      */
     protected function validateProfile(CreateNewsInput $input): void
     {
-        if (!Profile::query()->find($input->profileId)) {
+        if (! Profile::query()->find($input->profileId)) {
             throw new ProfileNotFoundException('Profile not found');
         }
 

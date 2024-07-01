@@ -60,8 +60,4 @@ class FollowersController
 
         return new ProfileResource($profile);
     }
-
-
-
-
 }

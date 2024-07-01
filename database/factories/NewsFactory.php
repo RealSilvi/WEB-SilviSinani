@@ -44,7 +44,7 @@ class NewsFactory extends Factory
                 };
 
                 $news->from_id = $from->id;
-                $news->from_type = get_class($from) ;
+                $news->from_type = get_class($from);
             }
         });
     }

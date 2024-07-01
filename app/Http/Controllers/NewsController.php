@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Actions\Profile\SeeAllNewsAction;
-use App\Enum\FriendshipType;
 use App\Models\Profile;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Throwable;
 
 class NewsController extends Controller
@@ -29,5 +26,4 @@ class NewsController extends Controller
             'authProfile' => $profile,
         ]);
     }
-
 }

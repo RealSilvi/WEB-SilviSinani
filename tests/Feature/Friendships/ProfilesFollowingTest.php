@@ -6,6 +6,7 @@ use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
@@ -31,8 +32,8 @@ it('can fetch followings', function () {
 
     $response->assertSuccessful();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', 2, fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', 2, fn (AssertableJson $json) => $json
             ->where('id', $profileB->id)
             ->where('userId', $profileB->user_id)
             ->where('nickname', $profileB->nickname)
@@ -62,16 +63,16 @@ it('can sent a follow request', function () {
     $profileC = Profile::factory()->for($userB)->create();
     $profileD = Profile::factory()->for($userB)->create();
 
-    $response = postJson(action([FollowingController::class, 'store'], ['user' => $user->id, 'profile' => $profile->id,]), [
+    $response = postJson(action([FollowingController::class, 'store'], ['user' => $user->id, 'profile' => $profile->id]), [
         'followerId' => $profileB->id,
     ]);
     $response->assertSuccessful();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('id', $profile->id)
             ->has('following', length: 0)
-            ->has('sentRequests', 1, fn(AssertableJson $json) => $json
+            ->has('sentRequests', 1, fn (AssertableJson $json) => $json
                 ->where('id', $profileB->id)
                 ->where('userId', $profileB->user_id)
                 ->where('nickname', $profileB->nickname)
@@ -114,11 +115,11 @@ it('can delete a following', function () {
 
     $response->assertSuccessful();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('id', $profile->id)
             ->has('sentRequests', length: 2)
-            ->has('following', 1, fn(AssertableJson $json) => $json
+            ->has('following', 1, fn (AssertableJson $json) => $json
                 ->where('id', $profileC->id)
                 ->where('userId', $profileC->user_id)
                 ->where('nickname', $profileC->nickname)
@@ -160,8 +161,8 @@ it('can delete a follow request', function () {
     ]));
     $response->assertSuccessful();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('id', $profile->id)
             ->has('sentRequests', length: 2)
             ->etc()
@@ -183,7 +184,7 @@ it('a follow request generate a news', function () {
     $userB = User::factory()->create();
     $profileB = Profile::factory()->for($userB)->create();
 
-    $response = postJson(action([FollowingController::class, 'store'], ['user' => $user->id, 'profile' => $profile->id,]), [
+    $response = postJson(action([FollowingController::class, 'store'], ['user' => $user->id, 'profile' => $profile->id]), [
         'followerId' => $profileB->id,
     ]);
     $response->assertSuccessful();

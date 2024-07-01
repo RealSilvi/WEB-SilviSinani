@@ -13,17 +13,15 @@ use Spatie\LaravelData\Support\Validation\ValidationContext;
 class CreateProfileInput extends Data
 {
     public function __construct(
-        public string      $nickname,
+        public string $nickname,
         public ProfileType $type,
-        public ?bool       $default = false,
-        public ?string     $dateOfBirth = null,
-        public ?string     $breed = null,
-        public ?UploadedFile  $mainImage = null,
-        public ?UploadedFile  $secondaryImage = null,
-        public ?string     $bio = null,
-    )
-    {
-    }
+        public ?bool $default = false,
+        public ?string $dateOfBirth = null,
+        public ?string $breed = null,
+        public ?UploadedFile $mainImage = null,
+        public ?UploadedFile $secondaryImage = null,
+        public ?string $bio = null,
+    ) {}
 
     public static function rules(ValidationContext $context): array
     {

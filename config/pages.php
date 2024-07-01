@@ -53,14 +53,14 @@ return [
      * Route-level middleware configuration, useful for protecting routes with authentication
      */
     'middleware' => [
-//        'auth.login' => ['guest'],
-//        'auth.register' => ['guest'],
-//        'auth.forgot-password' => ['guest'],
-//        'auth.reset-password._token' => ['guest'],
-//        'cart.checkout' => ['auth'],
-//        'profile.index' => ['auth'],
-//        'profile.details' => ['auth'],
-//        'profile.orders.index' => ['auth'],
-//        'profile.orders._order' => ['auth'],
+        //        'auth.login' => ['guest'],
+        //        'auth.register' => ['guest'],
+        //        'auth.forgot-password' => ['guest'],
+        //        'auth.reset-password._token' => ['guest'],
+        //        'cart.checkout' => ['auth'],
+        //        'profile.index' => ['auth'],
+        //        'profile.details' => ['auth'],
+        //        'profile.orders.index' => ['auth'],
+        //        'profile.orders._order' => ['auth'],
     ],
 ];

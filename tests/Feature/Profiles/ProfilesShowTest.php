@@ -5,6 +5,7 @@ use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+
 use function Pest\Laravel\getJson;
 
 it('can fetch a single profile', function () {
@@ -17,13 +18,13 @@ it('can fetch a single profile', function () {
     $response = getJson(action([ProfileController::class, 'show'], [
         'user' => $user->id,
         'profile' => ($profileB->id),
-        'include' => []
+        'include' => [],
     ]));
 
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('nickname', $profileB->nickname)
             ->where('default', $profileB->default)
             ->where('userId', $user->id)
@@ -49,13 +50,13 @@ it('can fetch a single profile full', function () {
     $response = getJson(action([ProfileController::class, 'show'], [
         'user' => $user->id,
         'profile' => ($profileB->id),
-        'include' => ['user']
+        'include' => ['user'],
     ]));
 
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('id', $profileB->id)
             ->where('nickname', $profileB->nickname)
             ->where('default', $profileB->default)
@@ -66,7 +67,7 @@ it('can fetch a single profile full', function () {
             ->where('mainImage', $profileB->main_image)
             ->where('secondaryImage', $profileB->secondary_image)
             ->where('bio', $profileB->bio)
-            ->has('user', fn(AssertableJson $json) => $json
+            ->has('user', fn (AssertableJson $json) => $json
                 ->where('id', $user->id)
                 ->where('firstName', $user->first_name)
                 ->where('lastName', $user->last_name)

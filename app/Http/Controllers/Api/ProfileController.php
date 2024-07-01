@@ -55,7 +55,6 @@ class ProfileController
         return ProfileResource::collection($profiles);
     }
 
-
     /**
      * @throws Throwable
      */
@@ -131,6 +130,4 @@ class ProfileController
 
         return response()->noContent();
     }
-
-
 }

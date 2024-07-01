@@ -4,26 +4,22 @@ declare(strict_types=1);
 
 namespace App\Actions\Post;
 
-use App\Actions\Data\CreateProfileInput;
 use App\Exceptions\CannotDeleteDefaultOthersCommentsException;
-use App\Exceptions\NicknameAlreadyExistsException;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Throwable;
 
 class DeleteCommentAction
 {
-
     /**
      * @throws Throwable
      */
     public function execute(User $user, Profile $profile, Post $post, Comment $comment): void
     {
-        DB::transaction(function () use ($user, $profile, $post, $comment): void {
+        DB::transaction(function () use ($profile, $post, $comment): void {
 
             if ($comment->profile_id != $profile->id && $post->profile_id != $profile->id) {
                 throw new CannotDeleteDefaultOthersCommentsException('Cannot delete the comment if the comment or the post is not your own.');
@@ -31,9 +27,8 @@ class DeleteCommentAction
 
             $comment->post()->dissociate();
             $comment->profile()->dissociate();
-            $comment->likes()->each(fn(Profile $profile) => $profile->commentLikes()->detach($post));
+            $comment->likes()->each(fn (Profile $profile) => $profile->commentLikes()->detach($post));
             $comment->delete();
         });
     }
-
 }

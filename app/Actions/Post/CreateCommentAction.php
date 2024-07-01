@@ -6,19 +6,13 @@ namespace App\Actions\Post;
 
 use App\Actions\Data\CreateCommentInput;
 use App\Actions\Data\CreateNewsInput;
-use App\Actions\Data\CreatePostInput;
-use App\Actions\Data\ProfileFollowInput;
 use App\Actions\Profile\CreateNewsAction;
 use App\Enum\NewsType;
-use App\Exceptions\CannotCreateAnEmptyPostException;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Profile;
 use App\Models\User;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use League\Flysystem\FilesystemException;
 use Throwable;
 
 class CreateCommentAction
@@ -34,15 +28,9 @@ class CreateCommentAction
         });
     }
 
-
     /**
      * Validate and create a newly registered profile.
      *
-     * @param User $user
-     * @param Profile $profile
-     * @param Post $post
-     * @param CreateCommentInput $input
-     * @return Comment
      * @throws Throwable
      */
     public function createComment(User $user, Profile $profile, Post $post, CreateCommentInput $input): Comment

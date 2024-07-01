@@ -12,15 +12,13 @@ class UpdateProfileInput extends Data
 {
     public function __construct(
         public ?string $nickname = null,
-        public ?bool   $default = null,
+        public ?bool $default = null,
         public ?string $dateOfBirth = null,
         public ?string $breed = null,
         public ?UploadedFile $mainImage = null,
         public ?UploadedFile $secondaryImage = null,
         public ?string $bio = null,
-    )
-    {
-    }
+    ) {}
 
     public static function rules(ValidationContext $context): array
     {

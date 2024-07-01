@@ -1,16 +1,13 @@
 <?php
 
 use App\Enum\NewsType;
-use App\Http\Controllers\Api\CommentController;
-use App\Http\Controllers\Api\CommentLikeController;
-use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\PostLikeController;
-use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
@@ -30,13 +27,13 @@ it('can fetch post likes', function () {
         'user' => $user->id,
         'profile' => $profile->id,
         'post' => $post->id,
-        'include' => []
+        'include' => [],
     ]));
 
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', 10, fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', 10, fn (AssertableJson $json) => $json
             ->etc()
         )
         ->etc()
@@ -67,11 +64,11 @@ it('can create a post like ', function () {
 
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('id', $post->id)
             ->where('profileId', $profileA->id)
-            ->has('likes', 1, fn(AssertableJson $json) => $json
+            ->has('likes', 1, fn (AssertableJson $json) => $json
                 ->where('id', $profileB->id)
                 ->etc()
             )
@@ -94,7 +91,6 @@ it('can delete a post like ', function () {
     $profileA = Profile::factory()->create();
     $post = Post::factory()->for($profileA)->create();
 
-
     $profileB = Profile::factory()->for($user)->create();
     $profileB->postLikes()->attach($post);
     $response = deleteJson(action([PostLikeController::class, 'destroy'], [
@@ -104,8 +100,8 @@ it('can delete a post like ', function () {
     ]));
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', fn (AssertableJson $json) => $json
             ->where('profileId', $profileA->id)
             ->where('id', $post->id)
             ->has('likes', length: 0)

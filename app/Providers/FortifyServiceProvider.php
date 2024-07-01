@@ -6,10 +6,8 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
-use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -41,7 +39,7 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
         RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 
             return Limit::perMinute(5)->by($throttleKey);
         });
@@ -50,7 +48,7 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
-        Fortify::authenticateThrough(function(Request $request){
+        Fortify::authenticateThrough(function (Request $request) {
             return array_filter([
                 config('fortify.limiters.login') ? null : EnsureLoginIsNotThrottled::class,
                 Features::enabled(Features::twoFactorAuthentication()) ? RedirectIfTwoFactorAuthenticatable::class : null,
@@ -59,23 +57,23 @@ class FortifyServiceProvider extends ServiceProvider
             ]);
         });
 
-        Fortify::loginView(function(){
+        Fortify::loginView(function () {
             return view('pages.auth.login');
         });
 
-        Fortify::registerView(function(){
+        Fortify::registerView(function () {
             return view('pages.auth.register');
         });
 
-        Fortify::requestPasswordResetLinkView(function(){
+        Fortify::requestPasswordResetLinkView(function () {
             return view('pages.auth.forgot-password');
         });
 
-        Fortify::resetPasswordView(function(Request $request){
-            return view('pages.auth.reset-password._token',['token' => $request->token]);
+        Fortify::resetPasswordView(function (Request $request) {
+            return view('pages.auth.reset-password._token', ['token' => $request->token]);
         });
 
-        Fortify::verifyEmailView( function(){
+        Fortify::verifyEmailView(function () {
             return view('pages.auth.verify-email');
         });
     }

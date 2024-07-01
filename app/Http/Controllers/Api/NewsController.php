@@ -4,23 +4,20 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Data\CreateNewsInput;
 use App\Actions\Profile\CreateNewsAction;
-use App\Actions\Profile\CreateProfileFollowerAction;
 use App\Actions\Profile\SeeAllNewsAction;
 use App\Http\QueryBuilder\NewsTypeFilter;
 use App\Http\Resources\NewsResource;
 use App\Models\News;
 use App\Models\Profile;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\QueryBuilder;
 use Throwable;
-use Illuminate\Http\Request;
 
 class NewsController
 {
-
     public function index(Request $request, User $user, Profile $profile): AnonymousResourceCollection
     {
         $news = QueryBuilder::for(News::class, $request)
@@ -58,5 +55,4 @@ class NewsController
 
         return response()->noContent();
     }
-
 }

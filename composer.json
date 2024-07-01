@@ -17,6 +17,7 @@
         "spatie/laravel-query-builder": "^5.8"
     },
     "require-dev": {
+        "driftingly/rector-laravel": "^1.0",
         "barryvdh/laravel-ide-helper": "^3.0",
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.14",
@@ -24,6 +25,9 @@
         "laravel/telescope": "^5.0",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0",
         "pestphp/pest": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.0",
         "spatie/laravel-ignition": "^2.4"
@@ -52,6 +56,17 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta"
         ],
+        "lint": [
+            "vendor/bin/pint",
+            "vendor/bin/rector process --dry-run",
+            "vendor/bin/phpstan analyse"
+        ],
+        "lint:fix": [
+            "vendor/bin/pint",
+            "vendor/bin/rector process",
+            "vendor/bin/phpstan analyse"
+        ],
+
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
@@ -71,7 +86,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
         }
     },
     "minimum-stability": "dev",

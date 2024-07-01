@@ -8,10 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-
 /**
- *
- *
  * @property int $id
  * @property string $body
  * @property int $post_id
@@ -22,6 +19,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property-read int|null $likes_count
  * @property-read \App\Models\Post $post
  * @property-read \App\Models\Profile $profile
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\News> $generatedNews
+ * @property-read int|null $generated_news_count
  */
 class Comment extends Model
 {

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Actions\Profile;
 
 use App\Actions\Data\CreateProfileInput;
-use App\Actions\Data\UpdateProfileInput;
 use App\Exceptions\NicknameAlreadyExistsException;
 use App\Models\Profile;
 use App\Models\User;
@@ -28,20 +27,14 @@ class CreateProfileAction
         });
     }
 
-
     /**
      * Validate and create a newly registered profile.
-     *
-     * @param User $user
-     * @param CreateProfileInput $input
-     * @return Profile
      */
     public function createProfile(User $user, CreateProfileInput $input): Profile
     {
         $input->nickname = Str::slug($input->nickname);
         $this->checkAndRestoreDefaults($user, $input);
         $images = $this->checkAndRestoreImages($input);
-
 
         $profile = new Profile([
             'nickname' => $input->nickname,
@@ -76,6 +69,7 @@ class CreateProfileAction
         /** First profile */
         if ($user->profiles()->count() == 0) {
             $input->default = true;
+
             return;
         }
         /** New default profile */
@@ -92,24 +86,24 @@ class CreateProfileAction
             $mainImage = StoreImageOrStoreDefaultImageAction::execute(
                 $input->mainImage,
                 'profile.jpg',
-                '/profiles/' . $input->nickname,
+                '/profiles/'.$input->nickname,
                 '/utilities/profileDefault.jpg'
             );
 
             $secondaryImage = StoreImageOrStoreDefaultImageAction::execute(
                 $input->secondaryImage,
                 'background.jpg',
-                '/profiles/' . $input->nickname,
+                '/profiles/'.$input->nickname,
                 '/utilities/backgroundDefault.jpg'
             );
         } catch (FilesystemException) {
             $mainImage = '/utilities/profileDefault.jpg';
             $secondaryImage = '/utilities/backgroundDefault.jpg';
         }
+
         return [
             'main_image' => $mainImage,
             'secondary_image' => $secondaryImage,
         ];
     }
-
 }

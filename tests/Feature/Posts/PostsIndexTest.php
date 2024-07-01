@@ -7,6 +7,7 @@ use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
+
 use function Pest\Laravel\getJson;
 
 it('can fetch posts', function () {
@@ -21,12 +22,12 @@ it('can fetch posts', function () {
     $response = getJson(action([PostController::class, 'index'], [
         'user' => $user->id,
         'profile' => $profile->id,
-        'include' => []
+        'include' => [],
     ]));
 
     $response->assertOk();
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', 5, fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', 5, fn (AssertableJson $json) => $json
             ->where('id', $post->id)
             ->where('image', $post->image)
             ->where('description', $post->description)
@@ -57,22 +58,22 @@ it('can fetch posts full', function () {
         'include' => [
             'profile',
             'comments',
-            'likes'
-        ]
+            'likes',
+        ],
     ]));
 
     $response->assertOk();
 
-    $response->assertJson(fn(AssertableJson $json) => $json
-        ->has('data', 5, fn(AssertableJson $json) => $json
+    $response->assertJson(fn (AssertableJson $json) => $json
+        ->has('data', 5, fn (AssertableJson $json) => $json
             ->where('id', $post->id)
-            ->has('profile', fn(AssertableJson $json) => $json
+            ->has('profile', fn (AssertableJson $json) => $json
                 ->where('id', $profileA->id)
                 ->etc())
-            ->has('comments', 5, fn(AssertableJson $json) => $json
+            ->has('comments', 5, fn (AssertableJson $json) => $json
                 ->where('profileId', $profileB->id)
                 ->etc())
-            ->has('likes', 2, fn(AssertableJson $json) => $json
+            ->has('likes', 2, fn (AssertableJson $json) => $json
                 ->where('id', $profileA->id)
                 ->etc())
             ->etc()
