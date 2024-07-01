@@ -7,6 +7,7 @@ import './post';
 import './postLike';
 import './contexts/postListContext';
 import './contexts/postContext';
+import './contexts/profileImagesContext';
 import './profile';
 import './contexts/newsContext';
 import './contexts/friendshipsContext';

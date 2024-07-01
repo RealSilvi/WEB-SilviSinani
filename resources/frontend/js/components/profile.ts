@@ -9,6 +9,7 @@ import {
     updateProfile,
     UpdateProfileInput,
 } from '../api/profiles';
+import { ROUTE_DASHBOARD } from '../routes';
 
 interface ProfileProps {
     userId: Decimal;
@@ -103,6 +104,7 @@ Alpine.data('profile', (props: ProfileProps) => {
                     profileId: profileId,
                     userId: props.userId,
                 });
+                window.location.replace('/');
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.$dispatch('toast', {
@@ -157,10 +159,21 @@ Alpine.data('profile', (props: ProfileProps) => {
                     message: onSuccessMessage ?? 'Success',
                 });
 
+                if (mainImage instanceof File) {
+                    this.$dispatch('image-updated', {
+                        context: 'profile',
+                        image: `${profile.mainImage}?${new Date().getTime()}`,
+                        profile: profile,
+                        userId: props.userId,
+                    });
+                }
+
                 this.$dispatch('update-profile', {
                     profile: profile,
                     userId: props.userId,
                 });
+
+                window.location.replace(ROUTE_DASHBOARD(profile.nickname));
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.$dispatch('toast', {

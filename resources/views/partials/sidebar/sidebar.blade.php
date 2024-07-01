@@ -21,7 +21,10 @@
 <aside class="fixed z-40 w-full bottom-0 right-0 lg:top-0 lg:h-full lg:w-20 h-15 p-2 lg:py-0"
        x-data="sidebar({
             userId: {{$user->id}},
-       })">
+            authProfileNickname: '{{$authProfile->nickname}}',
+       })"
+       @image-updated.window="onImageUpdated"
+>
     <div class="w-full h-full bg-white rounded-full lg:flex lg:flex-col">
 
         <div class="hidden lg:block w-full pt-2 h-22">
@@ -39,12 +42,12 @@
         <div class="h-full w-full lg:bg-white  lg:py-2 rounded-full">
             <div
                 class="w-full h-full rounded-full bg-primary/90 flex flex-row lg:flex-col items-center justify-around px-5 lg:px-0 lg:py-20">
-                <template x-for="profileLink in profileLinks">
-                    <a :href="profileLink.href"
-                       :class="profileLink.currentActive ? 'p-1 border-2 border-white rounded-full': 'border-0 p-0'">
+                <template x-for="profile in profiles">
+                    <a :href="profile.profileLink"
+                       :class="profile.currentActive ? 'p-1 border-2 border-white rounded-full': 'border-0 p-0'">
                         <img class="h-7 w-7 lg:h-10 lg:w-10 rounded-full object-cover"
-                             :src="profileLink.src"
-                             :alt="profileLink.alt" />
+                             :src="profile.mainImage"
+                             :alt="`${profile.nickname} main image`" />
                     </a>
                 </template>
                 <template x-if="canAddProfile">

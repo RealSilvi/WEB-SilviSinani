@@ -127,24 +127,24 @@ class UpdateProfileAction
                 $mainImage = StoreImageOrStoreDefaultImageAction::execute(
                     $input->mainImage,
                     'profile.jpg',
-                    'profiles/' . $input->nickname,
-                    'utilities/profileDefault.jpg'
+                    '/profiles/' . $input->nickname,
+                    '/utilities/profileDefault.jpg'
                 );
             }
             if ($input->secondaryImage) {
                 $secondaryImage = StoreImageOrStoreDefaultImageAction::execute(
                     $input->secondaryImage,
                     'background.jpg',
-                    'profiles/' . $input->nickname,
-                    'utilities/backgroundDefault.jpg'
+                    '/profiles/' . $input->nickname,
+                    '/utilities/backgroundDefault.jpg'
                 );
             }
         } catch (FilesystemException|FileNotFoundException) {
             if ($input->mainImage) {
-                $mainImage = asset('utilities/profileDefault.jpg');
+                $mainImage = asset('/utilities/profileDefault.jpg');
             }
             if ($input->secondaryImage) {
-                $secondaryImage = asset('utilities/backgroundDefault.jpg');
+                $secondaryImage = asset('/utilities/backgroundDefault.jpg');
             }
         }
         return [

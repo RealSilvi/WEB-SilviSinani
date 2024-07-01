@@ -15,7 +15,7 @@
         <a href="{{route('profile',['profile'=>$profile->nickname])}}" class="flex flex-row gap-2 items-center lg:gap-5 lg:text-xl italic w-fit">
             <img
                 alt="{{$profile->nickname.'-image'}}"
-                src="{{asset($profile->main_image)}}"
+                src="{{asset($profile->main_image.'?'.now())}}"
                 class="h-7 w-7 lg:h-14 lg:w-14 rounded-full object-cover" />
             <div>{{'@'.$profile->nickname}}</div>
         </a>

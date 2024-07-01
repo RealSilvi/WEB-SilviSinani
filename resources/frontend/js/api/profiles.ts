@@ -137,8 +137,6 @@ export async function updateProfile(
     const response = await (instance ?? axios).request<{ data: Profile }>({
         ...API_USERS__PROFILES_UPDATE(userId, profileId, input),
     });
-    console.log(API_USERS__PROFILES_UPDATE(userId, profileId, input));
-
     return response.data.data;
 }
 

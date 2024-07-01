@@ -115,13 +115,14 @@ export function newsToNewsPreviews(news: News[], authProfileNickname: string): N
     });
 }
 
-export function profileToProfilePreviews(profiles: Profile[], authProfileNickname: string): ProfilePreview[] {
+export function profileToProfilePreviews(profiles: Profile[], authProfileNickname?: string): ProfilePreview[] {
     const location = getCurrentLocale();
     return profiles.map((profile: Profile) => {
         const profileLink = location + ROUTE_PROFILE_EDIT(profile.nickname, authProfileNickname);
-
         return {
             ...profile,
+            mainImage: `${profile.mainImage}?${new Date().getTime()}`,
+            secondaryImage: `${profile.secondaryImage}?${new Date().getTime()}`,
             profileLink: profileLink,
         } as ProfilePreview;
     });

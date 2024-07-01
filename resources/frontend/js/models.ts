@@ -28,6 +28,7 @@ export interface Profile {
 
 export interface ProfilePreview extends Profile {
     profileLink: string;
+    currentActive?: boolean;
 }
 
 export interface News {
@@ -65,15 +66,6 @@ export interface User {
     profiles?: Profile[];
     createdAt: string;
     updatedAt: string;
-}
-
-export interface ProfileLink {
-    profileId: number;
-    src: string;
-    alt: string;
-    href: string;
-    nickname: string;
-    currentActive: boolean;
 }
 
 export interface Post {

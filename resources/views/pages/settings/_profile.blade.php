@@ -41,7 +41,6 @@
 
             <form class="lg:col-span-2"
                   @submit.prevent="updateProfile($event,{{$profile->id}})"
-                  @update-profile="window.location.replace('/')"
             >
                 @csrf
                 <div class="flex flex-col gap-8 lg:grid lg:grid-cols-2 lg:gap-y-14 lg:gap-x-32">
@@ -144,7 +143,6 @@
             </div>
             <form class="flex items-end"
                   @submit.prevent="destroyProfile({{$profile->id}})"
-                  @destroy-profile="window.location.replace('/')"
             >
                 @csrf
 

@@ -1,26 +1,26 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
-import { Profile, ProfileLink } from '../models';
-import { ROUTE_PROFILE_EDIT } from '../routes';
 import { indexProfile } from '../api/profiles';
-import { getCurrentLocale } from '../utils';
+import { profileToProfilePreviews } from '../utils';
+import { ProfilePreview } from '../models';
 
-interface NavbarProps {
+interface SidebarProps {
     userId: number;
+    authProfileNickname: string;
     onSuccessMessage?: string;
     onFailMessage?: string;
 }
 
-Alpine.data('sidebar', (props: NavbarProps) => {
+Alpine.data('sidebar', (props: SidebarProps) => {
     return {
         saving: false,
         canAddProfile: false,
-        profiles: [] as Profile[],
-        profileLinks: [] as ProfileLink[],
+        profiles: [] as ProfilePreview[],
         errors: {},
 
         async init() {
             await this.fetchProfiles();
+            this.setCurrentProfile();
         },
 
         async fetchProfiles() {
@@ -37,7 +37,11 @@ Alpine.data('sidebar', (props: NavbarProps) => {
             this.errors = {};
 
             try {
-                this.profiles = (await indexProfile(props.userId)) ?? ([] as Profile[]);
+                const profiles = await indexProfile(props.userId);
+
+                this.profiles = [...this.profiles, ...profileToProfilePreviews(profiles)];
+
+                this.canAddProfile = this.profiles.length < 4;
 
                 if (props.onSuccessMessage) {
                     this.$dispatch('toast', {
@@ -45,7 +49,6 @@ Alpine.data('sidebar', (props: NavbarProps) => {
                         message: props.onSuccessMessage,
                     });
                 }
-                this.buildLinks();
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.$dispatch('toast', {
@@ -58,35 +61,35 @@ Alpine.data('sidebar', (props: NavbarProps) => {
             }
         },
 
-        buildLinks() {
-            const locale = getCurrentLocale();
+        setCurrentProfile() {
             let currentProfileFound = false;
 
-            this.profileLinks = this.profiles.map((profile: Profile) => {
+            this.profiles = this.profiles.map((profile: ProfilePreview) => {
                 const explicitActive = window.location.pathname.includes(`/${profile.nickname}`);
                 if (explicitActive) {
                     currentProfileFound = true;
                 }
 
                 return {
-                    profileId: profile.id,
-                    src: `${window.location.origin}/${profile.mainImage}`,
-                    alt: `Profile image ${profile.nickname}`,
-                    href: locale + ROUTE_PROFILE_EDIT(profile.nickname),
-                    nickname: profile.nickname,
+                    ...profile,
                     currentActive: explicitActive,
-                } as ProfileLink;
+                } as ProfilePreview;
             });
 
             if (!currentProfileFound) {
-                const defaultProfileId = this.profiles.find((profile: Profile) => profile.default)?.id ?? '-1';
-                const defaultLink = this.profileLinks.find((link: ProfileLink) => link.profileId === defaultProfileId);
-                if (defaultLink) {
-                    defaultLink.currentActive = true;
+                const defaultProfile = this.profiles.find((profile: ProfilePreview) => profile.default);
+                if (defaultProfile) {
+                    defaultProfile.currentActive = true;
                 }
             }
-
-            this.canAddProfile = this.profileLinks.length < 4;
+        },
+        onImageUpdated() {
+            this.profiles = this.profiles.map((profile: ProfilePreview) => {
+                return {
+                    ...profile,
+                    mainImage: `${profile.mainImage}?${new Date().getTime()}`,
+                } as ProfilePreview;
+            });
         },
     };
 });

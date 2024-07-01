@@ -4,7 +4,6 @@
      * @var \App\Models\Profile $profile
      * @var \App\Models\Profile $authProfile
      * @var boolean $ownership
-     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $quickEditImagesForm
      */
 
     $user = $user ?? auth()->user();
@@ -42,7 +41,6 @@
                 'profile' => $profile,
                 'authProfile' => $authProfile,
                 'ownership' => $ownership,
-                'quickEditImagesForm' => $quickEditImagesForm,
                 ])
         </section>
 
