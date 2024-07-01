@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Alpine } from '../../livewire';
-import { Decimal, postsToPostPreviews } from '../../utils';
+import { Decimal, getCurrentLocale, postsToPostPreviews } from '../../utils';
 import { CommentPreview, Post, PostPreview, Profile } from '../../models';
 import { indexPosts, IndexPostsIncludeKey } from '../../api/posts';
 import { ROUTE_POST_SHOW, ROUTE_PROFILE_EDIT } from '../../routes';
@@ -165,12 +165,14 @@ Alpine.data('postListContext', (props: postListContextProps) => {
             // @ts-ignore
             const post = event.detail.post;
 
+            const location = getCurrentLocale();
             const profileLink = post.profile ? ROUTE_PROFILE_EDIT(post.profile.nickname) : null;
             const postLink = location + ROUTE_POST_SHOW(post.id, props.authProfileNickname);
 
             const postPreview = {
                 ...post,
                 likesCount: 0,
+                likePreviews: [],
                 likes: [],
                 commentsCount: 0,
                 doYouLike: false,
@@ -259,6 +261,8 @@ Alpine.data('postListContext', (props: postListContextProps) => {
             // @ts-ignore
             const postId = event.detail.postId;
 
+            const location = getCurrentLocale();
+
             const profileLink = comment.profile
                 ? location + ROUTE_PROFILE_EDIT(comment.profile.nickname, props.authProfileNickname)
                 : '#';
@@ -270,6 +274,7 @@ Alpine.data('postListContext', (props: postListContextProps) => {
                 profileLink: profileLink,
                 likesCount: 0,
                 likes: [],
+                likePreviews: [],
             } as CommentPreview;
 
             const post = this.posts.find((post: Post) => post.id == postId);

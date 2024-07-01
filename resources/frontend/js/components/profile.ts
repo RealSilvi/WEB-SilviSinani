@@ -1,13 +1,12 @@
 import axios from 'axios';
 import { Alpine } from '../livewire';
-import { Decimal } from '../utils';
+import { Decimal, getCurrentLocale } from '../utils';
 import {
     createProfile,
     CreateProfileInput,
     destroyProfile,
-    ProfileType,
     updateProfile,
-    UpdateProfileInput,
+    UpdateProfileInput
 } from '../api/profiles';
 import { ROUTE_DASHBOARD } from '../routes';
 
@@ -57,7 +56,7 @@ Alpine.data('profile', (props: ProfileProps) => {
                     breed: typeof breed === 'string' ? breed : undefined,
                     mainImage: mainImage instanceof File ? mainImage : undefined,
                     secondaryImage: secondaryImage instanceof File ? secondaryImage : undefined,
-                    bio: typeof bio === 'string' ? bio : undefined,
+                    bio: typeof bio === 'string' ? bio : undefined
                 } as CreateProfileInput;
 
                 const profile = await createProfile(props.userId, input);
@@ -66,18 +65,18 @@ Alpine.data('profile', (props: ProfileProps) => {
 
                 this.$dispatch('toast', {
                     type: 'success',
-                    message: onSuccessMessage ?? 'Success',
+                    message: onSuccessMessage ?? 'Success'
                 });
 
                 this.$dispatch('create-profile', {
                     profile: profile,
-                    userId: props.userId,
+                    userId: props.userId
                 });
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: onFailMessage ?? 'Error',
+                        message: onFailMessage ?? 'Error'
                     });
                 }
             } finally {
@@ -97,19 +96,19 @@ Alpine.data('profile', (props: ProfileProps) => {
 
                 this.$dispatch('toast', {
                     type: 'success',
-                    message: onSuccessMessage ?? 'Success',
+                    message: onSuccessMessage ?? 'Success'
                 });
 
                 this.$dispatch('destroy-profile', {
                     profileId: profileId,
-                    userId: props.userId,
+                    userId: props.userId
                 });
-                window.location.replace('/');
+                window.location.replace(getCurrentLocale() + ROUTE_DASHBOARD());
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: onFailMessage ?? 'Error',
+                        message: onFailMessage ?? 'Error'
                     });
                 }
             } finally {
@@ -147,7 +146,7 @@ Alpine.data('profile', (props: ProfileProps) => {
                     breed: typeof breed === 'string' ? breed : undefined,
                     mainImage: mainImage instanceof File ? mainImage : undefined,
                     secondaryImage: secondaryImage instanceof File ? secondaryImage : undefined,
-                    bio: typeof bio === 'string' ? bio : undefined,
+                    bio: typeof bio === 'string' ? bio : undefined
                 } as UpdateProfileInput;
 
                 const profile = await updateProfile(props.userId, profileId, input);
@@ -156,7 +155,7 @@ Alpine.data('profile', (props: ProfileProps) => {
 
                 this.$dispatch('toast', {
                     type: 'success',
-                    message: onSuccessMessage ?? 'Success',
+                    message: onSuccessMessage ?? 'Success'
                 });
 
                 if (mainImage instanceof File) {
@@ -164,26 +163,26 @@ Alpine.data('profile', (props: ProfileProps) => {
                         context: 'profile',
                         image: `${profile.mainImage}?${new Date().getTime()}`,
                         profile: profile,
-                        userId: props.userId,
+                        userId: props.userId
                     });
                 }
 
                 this.$dispatch('update-profile', {
                     profile: profile,
-                    userId: props.userId,
+                    userId: props.userId
                 });
 
-                window.location.replace(ROUTE_DASHBOARD(profile.nickname));
+                window.location.replace(getCurrentLocale() + ROUTE_DASHBOARD(profile.nickname));
             } catch (e) {
                 if (axios.isAxiosError(e) && e?.response?.data) {
                     this.$dispatch('toast', {
                         type: 'error',
-                        message: onFailMessage ?? 'Error',
+                        message: onFailMessage ?? 'Error'
                     });
                 }
             } finally {
                 this.saving = false;
             }
-        },
+        }
     };
 });

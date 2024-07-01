@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Alpine } from '../../livewire';
-import { Decimal, postsToPostPreviews } from '../../utils';
+import { Decimal, getCurrentLocale, postsToPostPreviews } from '../../utils';
 import { CommentPreview, PostPreview, Profile } from '../../models';
 import { showPosts, ShowPostsIncludeKey } from '../../api/posts';
 import { ROUTE_DASHBOARD, ROUTE_PROFILE_EDIT } from '../../routes';
@@ -144,7 +144,7 @@ Alpine.data('postContext', (props: postContextProps) => {
         },
 
         onDestroyPost() {
-            window.location.replace(ROUTE_DASHBOARD(props.authProfileNickname));
+            window.location.replace(getCurrentLocale() + ROUTE_DASHBOARD(props.authProfileNickname));
         },
 
         onPostLiked(event: Event) {
@@ -208,9 +208,11 @@ Alpine.data('postContext', (props: postContextProps) => {
             // @ts-ignore
             const postId = event.detail.postId;
 
-            const profileLink = comment.profile
-                ? location + ROUTE_PROFILE_EDIT(comment.profile.nickname, props.authProfileNickname)
-                : '#';
+            const location = getCurrentLocale();
+            const profileLink =
+                comment.profile != null
+                    ? location + ROUTE_PROFILE_EDIT(comment.profile.nickname, props.authProfileNickname)
+                    : '#';
 
             const commentPreview = {
                 ...comment,
@@ -219,7 +221,8 @@ Alpine.data('postContext', (props: postContextProps) => {
                 profileLink: profileLink,
                 likesCount: 0,
                 likes: [],
-            };
+                likePreviews: [],
+            } as CommentPreview;
             if (this.post.id != postId || this.post?.commentPreviews == null) {
                 console.error('[onCreateComment] commentPreviews not found');
                 return;

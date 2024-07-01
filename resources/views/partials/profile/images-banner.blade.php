@@ -12,7 +12,7 @@
 
 <div x-cloak
      x-data="profileImagesContext({
-         userId: {{$user->id}},
+         userId: {{$profile->user_id}},
          profileId: {{$profile->id}},
      })"
 
