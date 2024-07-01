@@ -18,13 +18,15 @@
     <section class="w-full mx-auto max-w-screen-2xl flex flex-1 items-center justify-center">
         <div class="p-10 lg:px-20 xl:pb-20 w-full">
             <div class="flex items-center justify-center">
-                <x-image class="h-12 w-12 lg:h-20 lg:w-20 object-cover rounded-full" filter="logo green" />
+                {{svg('other-logo','h-12 w-12 lg:h-20 lg:w-20 rounded-full')}}
             </div>
 
             <div
-                    class="mt-10 lg:mt-15 xl:mt-20 flex flex-col lg:grid lg:grid-cols-2 lg:items-center lg:justify-center lg:gap-10 xl:gap-0">
+                class="mt-10 lg:mt-15 xl:mt-20 flex flex-col lg:grid lg:grid-cols-2 lg:items-center lg:justify-center lg:gap-10 xl:gap-0">
                 <div class="hidden lg:block px-10 xl:px-24">
-                    <x-image class="aspect-[4/5] object-cover rounded-xl" filter="pet green" />
+                    <img
+                        src="https://masterbundles.com/wp-content/uploads/edd/2023/02/ai-generated-beautiful-dog-306.png"
+                        class="aspect-[4/5] object-cover rounded-xl" />
                 </div>
                 <form class="lg:px-10 xl:px-20"
                       action="{{$loginForm['action']}}"
