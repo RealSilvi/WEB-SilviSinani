@@ -8,8 +8,8 @@ test('new users can register', function () {
         'last_name' => 'Surname',
         'date_of_birth' => '2001/03/12',
         'email' => 'test@example.com',
-        'password' => 'password',
-        'password_confirmation' => 'password',
+        'password' => 'SuperScott12$',
+        'password_confirmation' => 'SuperScott12$',
     ]);
 
     $this->assertAuthenticated();
@@ -20,7 +20,7 @@ test('new users can register', function () {
 
     expect($user)->not->toBeNull();
     expect($user->hasVerifiedEmail())->toBeFalse();
-    expect(Hash::check('password', $user->password))->toBeTrue();
+    expect(Hash::check('SuperScott12$', $user->password))->toBeTrue();
 
     expect($user)->toMatchArray([
         'first_name' => 'Name',
