@@ -38,8 +38,8 @@ it('can update a profile', function () {
             ->where('userId', $user->id)
             ->where('dateOfBirth', $date)
             ->where('breed', 'golden retriver')
-            ->where('mainImage', 'profiles/scott/profile.jpg')
-            ->where('secondaryImage', 'profiles/scott/background.jpg')
+            ->where('mainImage', '/profiles/scott/profile.jpg')
+            ->where('secondaryImage', '/profiles/scott/background.jpg')
             ->where('bio', 'Scott it is an awesome dog.')
             ->etc()
         )
@@ -53,8 +53,8 @@ it('can update a profile', function () {
         ->nickname->toBe('scott')
         ->date_of_birth->toBe($date)
         ->breed->toBe('golden retriver')
-        ->main_image->toBe('profiles/scott/profile.jpg')
-        ->secondary_image->toBe('profiles/scott/background.jpg')
+        ->main_image->toBe('/profiles/scott/profile.jpg')
+        ->secondary_image->toBe('/profiles/scott/background.jpg')
         ->bio->toBe('Scott it is an awesome dog.')
         ->type->not()->toBeNull();
 

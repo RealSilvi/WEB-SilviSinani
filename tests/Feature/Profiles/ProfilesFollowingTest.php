@@ -42,6 +42,7 @@ it('can fetch followings', function () {
             ->where('secondaryImage', $profileB->secondary_image)
             ->etc()
         )
+        ->etc()
     );
 
     $profile = $profile->fresh();

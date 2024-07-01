@@ -28,7 +28,6 @@ Route::middleware(['auth', 'verified', 'userHasProfile'])->group(function () {
     Route::get('/settings/{profile:nickname?}', \App\Http\Controllers\SettingsController::class)->name('settings');
     Route::get('/locales/{locale}', \App\Http\Controllers\LocaleController::class)->name('locales');
     Route::get('/posts/{post}', \App\Http\Controllers\PostController::class)->name('posts');
-//    Route::get('/chats/{profile:nickname?}', \App\Http\Controllers\DashboardController::class);
 });
 
 

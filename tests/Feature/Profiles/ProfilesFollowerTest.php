@@ -43,6 +43,7 @@ it('can fetch followers', function () {
             ->where('secondaryImage', $profileB->secondary_image)
             ->etc()
         )
+        ->etc()
     );
 
     $profile = $profile->fresh();
