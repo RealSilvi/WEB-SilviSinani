@@ -50,7 +50,7 @@ class FollowingController
                 'lastPost',
                 'posts',
             ])
-            ->get();
+            ->simplePaginate(9);
 
         return ProfileResource::collection($profiles);
     }

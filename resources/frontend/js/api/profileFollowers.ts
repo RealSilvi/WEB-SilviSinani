@@ -47,6 +47,7 @@ export enum IndexFollowersIncludeKey {
 
 export interface IndexFollowersInput {
     include?: IndexFollowersIncludeKey[];
+    page?: number;
 }
 
 /**

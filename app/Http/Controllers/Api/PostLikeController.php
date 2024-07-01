@@ -64,13 +64,15 @@ class PostLikeController
         $post = $post->fresh();
         $post->load('likes');
 
-        app(CreateNewsAction::class)->execute($user, $profile, new CreateNewsInput(
-            fromId: $post->id,
-            fromType: Post::class,
-            profileId: $post->profile_id,
-            type: NewsType::POST_LIKE,
-            fromNickname: $profile->nickname,
-        ));
+        if ($profile->id !== $post->profile_id) {
+            app(CreateNewsAction::class)->execute($user, $profile, new CreateNewsInput(
+                fromId: $post->id,
+                fromType: Post::class,
+                profileId: $post->profile_id,
+                type: NewsType::POST_LIKE,
+                fromNickname: $profile->nickname,
+            ));
+        }
 
         return new PostResource($post);
     }

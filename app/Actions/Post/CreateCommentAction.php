@@ -7,6 +7,7 @@ namespace App\Actions\Post;
 use App\Actions\Data\CreateCommentInput;
 use App\Actions\Data\CreateNewsInput;
 use App\Actions\Data\CreatePostInput;
+use App\Actions\Data\ProfileFollowInput;
 use App\Actions\Profile\CreateNewsAction;
 use App\Enum\NewsType;
 use App\Exceptions\CannotCreateAnEmptyPostException;
@@ -54,14 +55,24 @@ class CreateCommentAction
 
         $comment->save();
 
-        app(CreateNewsAction::class)->execute($user, $profile, new CreateNewsInput(
-            fromId: $post->id,
-            fromType: Post::class,
-            profileId: $post->profile_id,
-            type: NewsType::COMMENT,
-            fromNickname: $profile->nickname,
-        ));
+        $this->sendNews($user, $profile, $post);
 
         return $comment;
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function sendNews(User $user, Profile $profile, Post $post): void
+    {
+        if ($profile->id !== $post->profile_id) {
+            app(CreateNewsAction::class)->execute($user, $profile, new CreateNewsInput(
+                fromId: $post->id,
+                fromType: Post::class,
+                profileId: $post->profile_id,
+                type: NewsType::COMMENT,
+                fromNickname: $profile->nickname,
+            ));
+        }
     }
 }

@@ -32,7 +32,7 @@ return [
 
         'friendships' => [
             'title' => 'Friendships',
-            'no_result' => 'No friends found',
+            'no_result' => 'No results found',
         ],
         'new' => [
             'title' => 'Create profile'

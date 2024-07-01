@@ -45,13 +45,15 @@ class CreateProfileFollowingAction
      */
     public function sendNews(User $user, Profile $profile, ProfileFollowInput $input): void
     {
-        app(CreateNewsAction::class)->execute($user, $profile, new CreateNewsInput(
-            fromId: $profile->id,
-            fromType: Profile::class,
-            profileId: $input->followerId,
-            type: NewsType::FOLLOW_REQUEST,
-            fromNickname: $profile->nickname,
-        ));
+        if ($profile->id !== $input->followerId) {
+            app(CreateNewsAction::class)->execute($user, $profile, new CreateNewsInput(
+                fromId: $profile->id,
+                fromType: Profile::class,
+                profileId: $input->followerId,
+                type: NewsType::FOLLOW_REQUEST,
+                fromNickname: $profile->nickname,
+            ));
+        }
     }
 
     /**

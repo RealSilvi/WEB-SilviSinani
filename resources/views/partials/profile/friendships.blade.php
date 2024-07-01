@@ -22,28 +22,6 @@
         {{__('pages.profile.followers')}} <br class="lg:hidden"> {{ $profile->followers_count }}
     </a>
 
-    {{--    @if(!$ownership)--}}
-    {{--        <form class="w-full h-full"--}}
-    {{--            x-data="formSubmit({--}}
-    {{--                  formId: '{{ $friendshipRequestForm['id'] }}',--}}
-    {{--                  url: '{{ $friendshipRequestForm['action'] }}',--}}
-    {{--                  method: '{{ $friendshipRequestForm['method'] }}',--}}
-    {{--                  onSuccessMessage: '{{ $friendshipRequestForm['onSuccessMessage'] }}',--}}
-    {{--                  onFailMessage: '{{ $friendshipRequestForm['onFailMessage'] }}',--}}
-    {{--                  })"--}}
-    {{--              @submit.prevent="submit">--}}
-    {{--            @csrf--}}
-    {{--            <x-form.group name="followerId">--}}
-    {{--                <x-form.input type="hidden" value="{{ $profile->id }}"></x-form.input>--}}
-    {{--            </x-form.group>--}}
-
-    {{--            <x-form.submit--}}
-    {{--                    class="bg-primary/10 font-normal lg:text-2xl rounded-xl py-2 w-full lg:p-3 h-full lg:h-fit !text-primary">--}}
-    {{--                {{ $friendshipRequestForm['submitLabel'] }}--}}
-    {{--            </x-form.submit>--}}
-    {{--        </form>--}}
-    {{--    @endif--}}
-
     @if(!$ownership)
         <div class="w-full h-full"
              x-data="profileFollowing({

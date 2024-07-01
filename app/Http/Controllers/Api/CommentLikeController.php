@@ -64,13 +64,15 @@ class CommentLikeController
         $comment = $comment->fresh();
         $comment->load('likes');
 
-        app(CreateNewsAction::class)->execute($user, $profile, new CreateNewsInput(
-            fromId: $post->id,
-            fromType: Post::class,
-            profileId: $comment->profile_id,
-            type: NewsType::COMMENT_LIKE,
-            fromNickname: $profile->nickname,
-        ));
+        if ($profile->id !== $comment->profile_id) {
+            app(CreateNewsAction::class)->execute($user, $profile, new CreateNewsInput(
+                fromId: $post->id,
+                fromType: Post::class,
+                profileId: $comment->profile_id,
+                type: NewsType::COMMENT_LIKE,
+                fromNickname: $profile->nickname,
+            ));
+        }
 
         return new CommentResource($comment);
     }

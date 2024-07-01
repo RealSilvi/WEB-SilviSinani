@@ -46,6 +46,7 @@ export enum IndexFollowingIncludeKey {
 
 export interface IndexFollowingInput {
     include?: IndexFollowingIncludeKey[];
+    page?: number;
 }
 
 /**

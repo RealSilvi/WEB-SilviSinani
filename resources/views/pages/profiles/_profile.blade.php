@@ -4,7 +4,6 @@
      * @var \App\Models\Profile $profile
      * @var \App\Models\Profile $authProfile
      * @var boolean $ownership
-     * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $friendshipRequestForm
      * @var array{ id:string, method:string, submitLabel:string, url:string, action:string} $quickEditImagesForm
      */
 

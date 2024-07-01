@@ -20,11 +20,6 @@ class FriendshipsController extends Controller
         $authProfile = Profile::query()->where('nickname', $request->query('authProfile'))->first() ?? $profile;
         $ownership = $authProfile == $profile;
 
-        $friendships = match ($friendshipType) {
-            FriendshipType::FOLLOWER => $profile->followers,
-            FriendshipType::FOLLOWING => $profile->following,
-        };
-
         $authProfile->loadCount('news');
 
         return view('pages.profiles.friendships._friendshipType', [
@@ -32,8 +27,7 @@ class FriendshipsController extends Controller
             'profile' => $profile,
             'authProfile' => $authProfile,
             'ownership' => $ownership,
-            'friendships' => $friendships,
-            'friendshipType' => $friendshipType
+            'followers' => $friendshipType === FriendshipType::FOLLOWER
         ]);
     }
 

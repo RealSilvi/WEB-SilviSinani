@@ -9,6 +9,7 @@ import {
     Post,
     PostPreview,
     Profile,
+    ProfilePreview,
 } from './models';
 import { ROUTE_POST_SHOW, ROUTE_PROFILE_EDIT } from './routes';
 
@@ -111,6 +112,18 @@ export function newsToNewsPreviews(news: News[], authProfileNickname: string): N
             postLink: postLink,
             message: message,
         } as NewsPreview;
+    });
+}
+
+export function profileToProfilePreviews(profiles: Profile[], authProfileNickname: string): ProfilePreview[] {
+    const location = getCurrentLocale();
+    return profiles.map((profile: Profile) => {
+        const profileLink = location + ROUTE_PROFILE_EDIT(profile.nickname, authProfileNickname);
+
+        return {
+            ...profile,
+            profileLink: profileLink,
+        } as ProfilePreview;
     });
 }
 

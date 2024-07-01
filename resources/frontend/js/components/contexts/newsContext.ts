@@ -104,8 +104,6 @@ Alpine.data('newsContext', (props: newsContextProps) => {
                     ...newsToNewsPreviews(generalNews, props.authProfileNickname),
                 ];
 
-                console.log(this.generalNews);
-
                 this.$dispatch('fetch-general-news', {
                     profileId: props.profileId,
                     userId: props.userId,

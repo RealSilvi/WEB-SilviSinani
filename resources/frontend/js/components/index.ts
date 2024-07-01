@@ -9,5 +9,6 @@ import './contexts/postListContext';
 import './contexts/postContext';
 import './profile';
 import './contexts/newsContext';
+import './contexts/friendshipsContext';
 import './profileFollowers';
 import './profileFollowing';

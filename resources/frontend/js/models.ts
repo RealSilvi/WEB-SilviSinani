@@ -26,6 +26,10 @@ export interface Profile {
     following?: Profile[];
 }
 
+export interface ProfilePreview extends Profile {
+    profileLink: string;
+}
+
 export interface News {
     id: number;
     fromNickname: string;

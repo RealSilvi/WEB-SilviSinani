@@ -23,7 +23,7 @@ Alpine.data('postContext', (props: postContextProps) => {
         errors: {},
         saving: false,
         post: {} as PostPreview,
-        page: 1,
+        page: 0,
         lastCommentPage: false,
 
         async init() {

@@ -21,7 +21,7 @@ Alpine.data('postListContext', (props: postListContextProps) => {
         errors: {},
         saving: false,
         posts: [] as PostPreview[],
-        page: 1,
+        page: 0,
         lastPage: false,
 
         async init() {
@@ -58,6 +58,8 @@ Alpine.data('postListContext', (props: postListContextProps) => {
                 if (posts.length < 10) {
                     this.lastPage = true;
                 }
+
+                posts.forEach((post) => (post.comments = post.comments?.slice(0, 2)));
 
                 this.posts = [
                     ...this.posts,
