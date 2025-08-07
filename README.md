@@ -1,4 +1,4 @@
-# Web24-SilviSinani
+# Web-SilviSinani
 
 This repository is a university project.<br>
 Course: Web Technologies <br>
