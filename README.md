@@ -1,20 +1,25 @@
-# Web-SilviSinani
+# 🐾  Social Network Prototype for Pets
 
-This repository is a university project.<br>
-Course: Web Technologies <br>
-University: L'Alma Mater Studiorum - Università di Bologna
+A demo social network inspired by platforms like Instagram and Facebook, built as part of the Web Technologies course at the University of Bologna.
 
-The project represents a demo about a pet's social network .
+## 🚀 Features
 
-## Main languages/frameworks
-- php<br>
-- html<br>
-- typescript<br>
-- tailwind<br>
-- alpine<br>
-- laravel<br>
+- User registration and authentication
+- Create posts with text and images
+- Follow/unfollow users
+- Comment and like posts
+- Explore/search users
 
-## Instructions
+## 🛠 Tech Stack
+
+- PHP / Laravel
+- TypeScript
+- Tailwind CSS
+- Alpine.js
+- Blade / HTML
+
+## 📦 Installation
+
 - Copy the repository on your locale
 - Copy the ``.env.example`` file in ``.env `` file
 - Set ``APP_URL`` in .env to `http://web24-silvisinani.test`
@@ -24,6 +29,7 @@ The project represents a demo about a pet's social network .
 - Run ``pnpm  dev`` in your terminal
 - Visit the demo at `http://web24-silvisinani.test`
 
-## Developers
+## 👨‍💻 Developer
 
-Silvi Sinani - silvi.sinani@studio.unibo.it
+Silvi Sinani – silvi.sinani@studio.unibo.it
+
